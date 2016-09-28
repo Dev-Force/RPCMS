@@ -39,8 +39,7 @@ class OperationController {
         }).catch(this.catchFunction(res));
     }
 
-    destroy = (req, res) => {
-        console.log(req.params.id);
+    destroy = (req, res) => { 
         this.operationDao.destroy(req).then(function(operation) {
             res.json(operation);
         }).catch(this.catchFunction(res));

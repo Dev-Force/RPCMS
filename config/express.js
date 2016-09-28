@@ -41,6 +41,11 @@ module.exports = function (app, config) {
     app.use(methodOverride());
     app.use(methodOverride('_method'));
 
+    app.use(function(req, res, next) {
+        console.info('IP Address: ' + req.IP + ' just connected');
+        next();
+    });
+
     // Enable CORS globally (Not needed since we use JWT)
     // app.use(function(req, res, next) {
     //   res.header("Access-Control-Allow-Origin", "*");
