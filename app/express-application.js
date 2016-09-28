@@ -6,9 +6,11 @@ class ExpressApplication {
     _app;
     _config;
     _db;
+    _server_ip;
 
     constructor(config) {
         this._config = config;
+        this._server_ip = process.env.SERVER_IP || 'localhost'
     }
 
     setupDatabase() {
@@ -26,7 +28,7 @@ class ExpressApplication {
 
         require('../config/express')(this._app, this._config);
 
-        this._app.listen(this._config.port, 'localhost', () => {
+        this._app.listen(this._config.port, this._server_ip, () => {
             console.log('Express server listening on port ' + this._config.port);
         });
     }

@@ -36,3 +36,4 @@ Future Plans:
 - FrontEnd Group
     - Transition to ReactJS or Angular2
     - Tranform Welcome Screen to a Dashboard
+- Give the ability to remote users to add functionality. (With admin verification of course)
