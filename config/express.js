@@ -42,7 +42,7 @@ module.exports = function (app, config) {
     app.use(methodOverride('_method'));
 
     app.use(function(req, res, next) {
-        console.info('IP Address: ' + req.IP + ' just connected');
+        console.info('IP Address: ' + req.ip + ' just connected');
         next();
     });
 
