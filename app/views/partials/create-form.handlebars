@@ -1,0 +1,27 @@
+<form class="form-horizontal col-xs-offset-2" method="POST" action="/api/v1{{resourceURL}}/">
+    {{#each fields}}
+        <div class="form-group">
+            <label class="control-label">{{@key}}</label>
+            <div class="col-xs-10 input-group">
+                <input class="form-control" type="text" name="{{@key}}" placeholder="{{this}}" {{#if @first}}autofocus{{/if}}/>
+            </div>
+        </div>
+    {{/each}}
+    {{#each arrayFields}}
+        <div class="controls form-group">
+            <label class="control-label">{{@key}}</label>
+            <div class="entry input-group col-xs-10">
+                <input class="form-control" name="{{@key}}[]" type="text" placeholder="{{this}}" />
+                <span class="input-group-btn">
+                    <button class="btn btn-success btn-add" type="button">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+    {{/each}}
+    <input type="text" name="token" hidden />
+    <div class="form-group">
+        <button class="btn btn-primary create" type="submit" role="button">{{action}}</button>
+    </div>
+</form>

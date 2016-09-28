@@ -1,0 +1,86 @@
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+            <div class="row toolbar">
+                <div class="col-xs-4">
+                    <div class="input-group"> 
+                        <span class="input-group-addon">Filter</span>
+                        <input id="filter" type="text" class="form-control" placeholder="Type here..."/>
+                    </div>
+                </div>
+                <div class="col-xs-4 panel-title-wrapper">
+                    <h3 class="panel-title">{{title}}</h3>
+                </div>
+                <div class="col-xs-4">
+                    <div class="btn-group pull-right">
+                        <a href="{{resourceURL}}/create" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-plus"></span> Create New</a>
+                        <button class="btn btn-danger mass-delete" role="button"><span class="glyphicon glyphicon-trash"></span> Mass Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <table class="table table-bordered table-hover" data-uri="/api/v1{{resourceURL}}/">
+                    <thead>
+                        <tr>
+                            <th><input id="select-all" type="checkbox"/></th>
+                            <th>Actions </th>
+                            {{#each headings}}
+                                <th>{{this}}</th>
+                            {{/each}}
+                        </tr>
+                    </thead>
+                    <tbody class="searchable">
+                        {{#each documents}}
+                            <tr data-id="{{lookup ../_ids @index}}">
+                                <td>
+                                    <input type="checkbox" class="select-row" data-id="119"/>
+                                </td>
+                                <td>
+                                    <div class="hidden-xs">
+                                        <div class="btn-group btn-rud">
+                                            <a href="{{../resourceURL}}/edit/{{lookup ../_ids @index}}" class="btn btn-default" role="button"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                                            <a href="{{../resourceURL}}/{{lookup ../_ids @index}}" class="btn btn-primary" role="button"><i class="glyphicon glyphicon-eye-open"></i> View</a>
+                                            <button type="button" class="btn btn-danger delete-button" data-uri="/api/v1{{../resourceURL}}/{{lookup ../_ids @index}}?_method=DELETE">
+                                                <span class="glyphicon glyphicon-trash"></span> Delete</button>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="visible-xs">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                Actions <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a href="{{../resourceURL}}/edit/{{lookup ../_ids @index}}">
+                                                        <i class="glyphicon glyphicon-pencil"></i> Edit </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{../resourceURL}}/{{lookup ../_ids @index}}">
+                                                        <i class="glyphicon glyphicon-eye-open"></i> <span class="text-info">View</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <button type="button" class="delete-button" data-uri="/api/v1{{../resourceURL}}/{{lookup ../_ids @index}}?_method=DELETE">
+                                                        <span class="glyphicon glyphicon-trash"></span> <span class="text-danger">Delete</span>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                                {{#each this}}
+                                    <td>{{this}}</td>
+                                {{/each}}
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    
+</div>

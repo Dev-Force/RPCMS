@@ -1,0 +1,74 @@
+body {
+    background-color: #fafafa;
+}
+
+#password {
+    margin-bottom: 10px;
+}
+
+.panel-title-with-button {
+    padding-top: 7.5px;
+}
+
+.panel-title-wrapper {
+
+    margin: 8px 0;
+
+    .panel-title {
+        text-align: center;
+    }
+
+}
+
+.entry:not(:first-of-type) {
+    margin-top: 10px;
+}
+
+.btn-add, .btn-remove{
+    padding-bottom: 7px;
+}
+
+.container-fluid {
+    margin-top: 16px;
+}
+
+.btn-rud form {
+    
+    padding: 0;
+    border: 0;
+
+    button.btn {
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }
+
+}
+
+.toolbar {
+    margin-bottom: 4px;
+}
+
+.table {
+    .btn-group {
+        white-space: nowrap; 
+        font-size: 0; // inline-block will show ALL whitespace between elements, so shrink it!
+        .btn {
+            display: inline-block;
+            font-size: 14px; // restore font-size to whatever you are using for button text.
+            float: none;
+            clear: none;
+        }   
+    }
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.no-border-right {
+    border-right: 0 !important;
+}
+
+.no-border-left {
+    border-left: 0 !important;
+}

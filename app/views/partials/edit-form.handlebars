@@ -1,0 +1,36 @@
+<form class="form-horizontal col-xs-offset-2" method="POST" action="/api/v1{{resourceURL}}/{{id}}?_method=PUT">
+    {{#each fields}}
+        <div class="form-group">
+            <label class="control-label">{{@key}}</label>
+            <div class="col-xs-10 input-group">
+                <input class="form-control" type="text" name="{{@key}}" value="{{this}}"/>
+            </div>
+        </div>
+    {{/each}}
+    {{#each arrayFields}}
+        <div class="controls form-group">
+            <label class="control-label">{{@key}}</label>
+            {{#each this}}
+                <div class="entry input-group col-xs-10">
+                    <input class="form-control" name="{{@../key}}[]" type="text" value="{{this}}" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-remove btn-danger" type="button">
+                            <span class="glyphicon glyphicon-minus"></span>
+                        </button>
+                    </span>
+                </div>
+            {{/each}}
+            <div class="entry input-group col-xs-10">
+                <input class="form-control" name="{{@key}}[]" type="text" />
+                <span class="input-group-btn">
+                    <button class="btn btn-success btn-add" type="button">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+    {{/each}}
+    <div class="form-group">
+        <button class="btn btn-primary edit" type="submit" role="button">{{action}}</button>
+    </div>
+</form>

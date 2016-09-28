@@ -1,0 +1,8 @@
+{{> header }}
+{{#if error}}
+    <h4>{{error.message}}</h4>
+{{/if}}
+{{#unless error}}
+    {{{ body }}}
+{{/unless}}
+{{> footer}}

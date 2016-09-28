@@ -1,0 +1,38 @@
+√   Implement JSON-RPC 2.0 
+    - (Partially done. Error Handling and data send to bussiness left)
+    - DONE PREPARE Operations AND THEN COME BACK TO ADD ONE MORE VALIDATION 
+    - Done
+
+√   Create rest CRUD Operations to store Bussiness available methods.
+    This will be used by the developer of the bussiness to register the methods.
+    - Done
+    
+    - Can be later extended to use metaprogramming in order to pick all the classes and the methods
+    of the system automatically (the problem is that we dont have a way to take the classes from    
+    different programming languages without avoiding writing code for each language separately)
+    ( NOT POSSIBLE !!! )
+
+√ The above MUST be either local or restricted using 
+    an IP address (req.ip either 127.0.0.1 or servers ip or something else specific)
+
+√ Create Users and authentication for both clients(external) and employees(internal)
+        THIS IS CONNECTED WITH THE LAST TODO (EXTERNAL WILL POSSIBLY BE A DESKTOP APP)
+
+√ TODO: Create UI for Employees( UserController add CRUD UI )
+
+
+Optionals:
+
+    X TODO: Create a mock shop and two mock partners of the shop to simulate a real example
+
+    X TODO: Make a setup js file that can be run through npm to setup database user (Admin)
+    
+    X TODO: Create a generic client application that will load resources on UI level dynamically (getFields RPCMS)
+
+
+
+Future Plans:
+- Use LevelDB in order to make token invalidation possible and without transactions on a normal DB (Lower Cost)
+- FrontEnd Group
+    - Transition to ReactJS or Angular2
+    - Tranform Welcome Screen to a Dashboard

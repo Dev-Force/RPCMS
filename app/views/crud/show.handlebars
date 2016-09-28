@@ -1,0 +1,28 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title pull-left panel-title-with-button">{{title}}</h3>
+                    <button type="button" class="btn btn-labeled btn-default pull-right back-button" data-uri="{{resourceURL}}">
+                        <span class="btn-label">
+                            <i class="glyphicon glyphicon-chevron-left"></i> Back
+                        </span>
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        {{#each document}}
+                            {{#if this}}
+                                <li class="list-group-item">
+                                    <h4 class="list-group-item-heading">{{@key}}</h4>
+                                    <p class="list-group-item-text">{{this}}</p>
+                                </li>
+                            {{/if}}
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

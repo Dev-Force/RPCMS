@@ -1,0 +1,50 @@
+- Used express yeoman generator to scaffold a express ready application
+- Used express as my main backend nodejs framework.
+- Customized whole structure and tweaked a bit the project (config.js, app/expres-application.js)
+- Read Json-RPC v2 implementation specifications
+- Implemented JSON-RPC v2 without user check authentication support
+- Created Operation Model and Controller
+- Made a very simple Welcome Page
+- Added Restricted Access Middleware on Operation Router
+- Configured Allowed IPs that can access Operation CRUD RESTful API
+- Created User CRUD API
+- Implementation of Json Web Token authentication (for remote systems)
+- New folder app/Middleware
+- Two new middlewares: ip-limit and token-verification
+- Added user password encryption
+- Now RPCMS sends and receives real data to and from a url that is specified at config
+  in order to do that i switched to javascript Promises which help managing async tasks
+- Setup Testing environment with a sample task
+- Fixed issue where error was not handled by promise
+- Install Handlebars as default template language
+- Setup Handlebars views structure and samples
+- Setup bootstrap-sass and gulp task to compile sass down to css
+- Create a partial that can display a resource with CRUD functionality
+- Create DAOs cause I get data from different places (API, UI)
+- Now handlebars-bootstrap table gets data dynamically using dao's and array.map function
+- Added SweetAlert for creating beautiful confirmation and information modals
+- Mass delete ready
+- Switched to Ajax instead of using normal forms to call API actions
+- Fixed a bug where arrayFields inputs were not appearing
+- Fixed a bug where empty arrayFields inputs were not filtered
+
+
+
+Technologies Used: 
+- Nodejs
+- NPM (Node Package Manager)
+- Bower (Front-end Package Manager)
+- Yeoman (Boilerplate generator - Expressjs generator)
+- Expressjs (Back-end Framework based on Nodejs)
+- Gulp (Task Runner)
+- Babel 6 (ES6 JavaScript) with stage-0 proposals
+- Needle (requests made simple)
+- Json Web Tokens (Remote Authentication)
+- MongoDB (NoSQL database)
+- Mongoose (Mongo ODM - CRUD functionality, validation etc)
+- Bcrypt (Blowfish Encryption for password one way hashing)
+- Handlebars (JavaScript Templating System)
+- Bootstrap (Front-end Framework)
+- Sass (Css Precompiler)
+- ESLint (For stage 0 es6 javascript linting)
+- Bootstrap-SweetAlert (Beatiful information and confirmation modals)
