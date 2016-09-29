@@ -60,7 +60,6 @@ $(document).ready(function () {
             method: form.attr('method'),
             data: data
         }).done((data, textStatus, jqXHR) => {
-            console.log(data);
             if(data.errors != null) {
                 swal({   
                     title: "An Error Has Occured!",   

@@ -29,8 +29,7 @@ module.exports = class JsonRPCFacade {
             });
         // Handle single request
         else response = this._handleJsonRPC(req.body);
-
-        console.log(response);
+        
         return response;
     }
 
@@ -48,7 +47,7 @@ module.exports = class JsonRPCFacade {
                 });
                 resolve(response);
             } else {
-                needle.request(config.central_system.requestMethod, config.central_system.methodInvocationURL, {}, function(err, resp) {
+                needle.request(config.central_system.requestMethod, config.central_system.methodInvocationURL, {"positional_params": req.body}, function(err, resp) {
                     if(err) return reject(Error('Something Went Wrong. Possibly Wrong URL is Provided.'));
                     response = new JsonRPCResponse({
                         "jsonrpc": "2.0",

@@ -60,7 +60,6 @@ module.exports = class UserDao {
     }
 
     destroyMass = (req) => {
-        console.log(req.body);
         return new Promise(function(resolve, reject) {
             User.remove({
                 '_id': { $in: req.body.users.map(function(o){ return mongoose.Types.ObjectId(o); })}

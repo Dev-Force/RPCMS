@@ -1,4 +1,6 @@
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
+
 
 // Access Decoded Data through req.decoded
 
@@ -15,20 +17,40 @@ module.exports = function(app, router) {
 
             // verifies secret and checks exp
             jwt.verify(token, app.get('secret'), function(err, decoded) { 
-            if (err) {
-                return res.json({ success: false, message: 'Failed to authenticate token.' });
-            } else {
-                // if everything is good, save to request for use in other routes
-                req.decoded = decoded; 
-                next();
-            }
+                if (err) {
+                    return res.json({ success: false, message: 'Failed to authenticate token.' });
+                } else {
+                    // if everything is good, save to request for use in other routes
+                    req.decoded = decoded;
+
+                    // Check if username Exists (token invalidation)
+                    // Find user with username decoded.username in DB
+                    // Check if result is null and if it is, return unauthorized
+                    // Else proceed with next router
+                    // TODO: User in-memory key value data in order to invalidate token instead
+                    //      of hitting the DB at every request
+                    let User = mongoose.model('User');
+                    new Promise(function(resolve, reject) {
+                        User.findOne({ username: decoded.username }, function(err, user) {
+                            if(err) return reject(err);
+                            if(user === null) return reject({
+                                status: 'Unauthorized'
+                            });
+                            return resolve();
+                        });
+                    }).then(function(user) {
+                        next();
+                    }).catch(function(err) {
+                        res.status(401).json(err);
+                    });
+                }
             });
 
         } else {
 
             // if there is no token
             // return an error
-            return res.status(403).send({ 
+            return res.status(401).send({ 
                 success: false, 
                 message: 'No token provided.' 
             });

@@ -65,7 +65,6 @@ module.exports = class OperationDao {
         return new Promise(function(resolve, reject) {
             Operation.findByIdAndRemove(req.params.id, function(err, operation) {
                 if(err) return reject(err);
-                console.log('i am in');
                 if(operation === null) return reject({
                     "message": "ObjectID was not found",
                     "name": "NotFoundError",
