@@ -30,6 +30,20 @@
             </div>
         </div>
     {{/each}}
+    {{#each selectFields}}
+        <div class="controls form-group">
+            <label class="control-label">{{@key}}</label>
+            <div class="entry input-group col-xs-10">
+                <select class="selectpicker" name="{{@key}}" multiple>
+                    {{#each documents}}
+                        {{#each this}}
+                            <option {{#indexTrue ../../selected @../index}}selected{{/indexTrue}} value={{this}}>{{@key}}</option>
+                        {{/each}}
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+    {{/each}}
     <div class="form-group">
         <button class="btn btn-primary edit" type="submit" role="button">{{action}}</button>
     </div>

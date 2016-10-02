@@ -55,6 +55,19 @@ $(document).ready(function () {
             }
          });
 
+         let selects = $(form).find('select[multiple]');
+         selects.each((i, select) => {
+             let name = $(select).attr('name');
+             let options = $(select).find('option:selected');
+
+             data[name] = $.map(options, function(option) {
+                 return $(option).val();
+             });
+         });
+
+         console.log(data);
+
+
         $.ajax({
             url: form.attr('action'),
             method: form.attr('method'),

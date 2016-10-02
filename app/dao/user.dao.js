@@ -5,11 +5,14 @@ let User = mongoose.model('User');
 module.exports = class UserDao {
 
     store = (req) => {
+        req.body.operations = req.body.operations.map(o => mongoose.Types.ObjectId(o));
+        console.log(req.body.operations);
         let user = new User(req.body);
         user.password = user.generateHash(req.body.password);
         
         return new Promise(function(resolve, reject) {
             user.save(function (err) {
+                console.log(err);
                 if (err) return reject(err);
                 return resolve(user);
             });
@@ -35,6 +38,9 @@ module.exports = class UserDao {
     }
 
     update = (req) => {
+        if(req.body.operations == null) req.body.operations = [];
+        req.body.operations = req.body.operations.map(o => mongoose.Types.ObjectId(o));
+
         return new Promise(function(resolve, reject) {
             User.findOneAndUpdate({ _id: req.params.id }, req.body, {'new': true}, function(err, user) {// Dont know if it should be req.body._id or req.body.id. Depends on implementation
                 if(err) return reject(err);

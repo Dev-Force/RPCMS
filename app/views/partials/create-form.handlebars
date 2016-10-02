@@ -20,6 +20,20 @@
             </div>
         </div>
     {{/each}}
+    {{#each selectFields}}
+        <div class="controls form-group">
+            <label class="control-label">{{@key}}</label>
+            <div class="entry input-group col-xs-10">
+                <select class="selectpicker" name="{{@key}}" multiple>
+                    {{#each this}}
+                        {{#each this}}
+                            <option value={{this}}>{{@key}}</option>
+                        {{/each}}
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+    {{/each}}
     <input type="text" name="token" hidden />
     <div class="form-group">
         <button class="btn btn-primary create" type="submit" role="button">{{action}}</button>

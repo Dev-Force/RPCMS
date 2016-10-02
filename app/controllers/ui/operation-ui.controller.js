@@ -23,7 +23,7 @@ class OperationUIController {
     index = (req, res) => {
         this.operationDao.index().then(function(operations) {
             let ids = operations.map(operation => operation._id);
-            operations = operations.map(operation => [operation.operationName, operation.positionalNumOfParams, operation.namedParams.join(', ')]);
+            operations = operations.map(operation => [operation.name, operation.positionalNumOfParams, operation.namedParams.join(', ')]);
             res.render('crud/index', {
                 title: 'Operations',
                 resourceURL: '/operations',
@@ -60,7 +60,7 @@ class OperationUIController {
                 title: 'Update Operation',
                 action: 'Update',
                 fields: {
-                    'operationName': operation.operationName,
+                    'name': operation.name,
                     'positionalNumOfParams': operation.positionalNumOfParams
                 },
                 arrayFields: {
@@ -76,7 +76,7 @@ class OperationUIController {
             title: 'Create Operation',
             action: 'Create',
             fields: {
-                'operationName': 'Operation',
+                'name': 'Operation',
                 'positionalNumOfParams': 'Positional Number of Parameters'
             },
             arrayFields: {

@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 let Schema = mongoose.Schema;
 let operationSchema = new Schema({
-    operationName: { // This is the name of the operation
+    name: { // This is the name of the operation
         type: String,
         required: true,
         unique: true

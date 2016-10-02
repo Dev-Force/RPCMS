@@ -14,7 +14,12 @@ let userSchema = new Schema({
     admin: {
         type: Boolean,
         required: true
-    }
+    },
+    operations: [{
+        type: [Schema.Types.ObjectId],
+        ref: 'Operation',
+        default: []
+    }]
 });
 
 // generating a hash
