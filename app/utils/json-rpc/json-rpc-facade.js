@@ -6,19 +6,32 @@ import config from '../../../config/config';
 import needle from 'needle';
 
 
-module.exports = class JsonRPCFacade {
+class JsonRPCFacade {
 
     _request;
 
+    /**
+     * Creates an instance of JsonRPCFacade.
+     * 
+     * @param {any} req
+     */
     constructor(req) {
         this._request = req;
     }
     
+    /**
+     * Request Setter
+     */
     set request(req) {
         this._request = req;
     }
 
-    // Returns Array of promises Or a single Promise
+    /**
+     * Returns Array of promises Or a single Promise
+     * 
+     * @param {any} [req=this._request]
+     * @returns
+     */
     generateResponse(req = this._request) {
         let response = [];
 
@@ -33,6 +46,12 @@ module.exports = class JsonRPCFacade {
         return response;
     }
 
+    /**
+     * Handles all JsonRPC calls
+     * 
+     * @param {any} req
+     * @returns
+     */
     _handleJsonRPC(req) {
         let jsonRPCRequest = new JsonRPCRequest(req);
         let err = jsonRPCRequest.validate();
@@ -64,4 +83,6 @@ module.exports = class JsonRPCFacade {
         
     }
     
-};
+}
+
+module.exports = JsonRPCFacade;

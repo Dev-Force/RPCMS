@@ -12,4 +12,3 @@ expressApp.requireModels(glob.sync(
 ));
 
 expressApp.init();
-

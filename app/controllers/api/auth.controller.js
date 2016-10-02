@@ -3,10 +3,29 @@ import jwt from 'jsonwebtoken';
 
 let User = mongoose.model('User');
 
-module.exports = class AuthController {
+/**
+ * 
+ * 
+ * @class AuthController
+ */
+class AuthController {
 
+    /**
+     * The app secret
+     * 
+     * 
+     * @memberOf AuthController
+     */
     appSecret = null;
 
+    /**
+     * Performs the Authentication
+     * 
+     * @param {Express.Request} req
+     * @param {Express.Response} res
+     * 
+     * @memberOf AuthController
+     */
     auth = (req, res) => {
         // find the user
         User.findOne({ username: req.body.username }, function (err, user) {
@@ -34,5 +53,6 @@ module.exports = class AuthController {
         });
     }
     
-};
+}
 
+module.exports = AuthController;

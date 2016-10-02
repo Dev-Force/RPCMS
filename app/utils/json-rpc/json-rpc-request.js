@@ -1,5 +1,10 @@
 import JsonRPCError from './json-rpc-error';
 
+/**
+ * 
+ * 
+ * @class JsonRPCRequest
+ */
 class JsonRPCRequest {
 
     _jsonrpc;
@@ -8,6 +13,13 @@ class JsonRPCRequest {
     _params;
     _notification = false;
 
+    /**
+     * Creates an instance of JsonRPCRequest.
+     * 
+     * @param {any} args
+     * 
+     * @memberOf JsonRPCRequest
+     */
     constructor(args) {
         this._jsonrpc = args.jsonrpc;
         this._method = args.method;
@@ -16,22 +28,57 @@ class JsonRPCRequest {
         if(this._id === null || this._id === undefined) this._notification = true;
     }
 
+    /**
+     * Notification Getter
+     * 
+     * @readonly
+     * 
+     * @memberOf JsonRPCRequest
+     */
     get notification() {
         return this._notification;
     }
 
+    /**
+     * ID Getter
+     * 
+     * @readonly
+     * 
+     * @memberOf JsonRPCRequest
+     */
     get id() {
         return this._id;
     }
 
+    /**
+     * Method Getter
+     * 
+     * @readonly
+     * 
+     * @memberOf JsonRPCRequest
+     */
     get method() {
         return this._method;
     }
 
+    /**
+     * Params Getter
+     * 
+     * @readonly
+     * 
+     * @memberOf JsonRPCRequest
+     */
     get params() {
         return this._params;
     }
 
+    /**
+     * Validates a JsonRPCRequest
+     * 
+     * @returns {any} Either error or null
+     * 
+     * @memberOf JsonRPCRequest
+     */
     validate() {
         // Validate json format
         if(this._jsonrpc !== '2.0') 

@@ -4,6 +4,13 @@ import mongoose from 'mongoose';
 
 // Access Decoded Data through req.decoded
 
+/**
+ * Restricts Access to requests that contain a valid json web token
+ * 
+ * @param {any} app
+ * @param {any} [router]
+ * @returns
+ */
 module.exports = function(app, router) {
 
     if(router === undefined) router = app;

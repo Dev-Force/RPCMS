@@ -14,15 +14,13 @@ $(document).ready(function () {
         }).done((data, textStatus, jqXHR) => {
             if(data.success) {
                 localStorage.setItem('token', data.token);
-                swal({   
+                swal({
                     title: "Login Successful",
-                    type: "success",
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-                setTimeout(function() {
+                    text: "Your token is: " + data.token,
+                    type: "success"
+                }, function() {
                     window.location.replace('/');
-                }, 2000);
+                });
             } else {
                 swal({   
                     title: "Login Failed",
@@ -173,7 +171,7 @@ $(document).ready(function () {
                         showConfirmButton: false 
                     });
                 }).fail(function(jqXHR, textStatus, errorThrown) {
-                    swal({   
+                    swal({
                         title: "An Error Has Occured!",  
                         text: errorThrown,   
                         type: "error",
@@ -190,7 +188,6 @@ $(document).ready(function () {
     if(tokenInputArr.length > 0) tokenInputArr[0].value = localStorage.getItem('token');
     
     $('.back-button').on('click', function(e) {
-        // window.history.back();
         window.location.replace($(this).data('uri'));
     });
 

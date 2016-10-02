@@ -4,9 +4,19 @@ let User = mongoose.model('User');
 
 module.exports = class UserDao {
 
+    /**
+     * Stores a User
+     * 
+     * @param {Express.Request} req
+     * 
+     * @memberOf UserDao
+     * 
+     * @returns {Promise} 
+     */
     store = (req) => {
+        if(req.body.operations == null) req.body.operations = [];
         req.body.operations = req.body.operations.map(o => mongoose.Types.ObjectId(o));
-        console.log(req.body.operations);
+        
         let user = new User(req.body);
         user.password = user.generateHash(req.body.password);
         
@@ -19,6 +29,14 @@ module.exports = class UserDao {
         });
     }
 
+    /**
+     * Indexes All Users
+     * 
+     * 
+     * @memberOf UserDao
+     * 
+     * @returns {Promise} 
+     */
     index = () => {
         return new Promise(function(resolve, reject) {
             User.find({}, function(err, users) {
@@ -28,6 +46,15 @@ module.exports = class UserDao {
         });
     }
 
+    /**
+     * Shows a single User
+     * 
+     * @param {Express.Request} req
+     * 
+     * @memberOf UserDao
+     * 
+     * @returns {Promise} 
+     */
     show = (req) => {
         return new Promise(function(resolve, reject) {
             User.findOne({ _id: req.params.id }, function(err, user) {
@@ -37,6 +64,15 @@ module.exports = class UserDao {
         });
     }
 
+    /**
+     * Updates a User
+     * 
+     * @param {Express.Request} req
+     * 
+     * @memberOf UserDao
+     * 
+     * @returns {Promise} 
+     */
     update = (req) => {
         if(req.body.operations == null) req.body.operations = [];
         req.body.operations = req.body.operations.map(o => mongoose.Types.ObjectId(o));
@@ -49,6 +85,15 @@ module.exports = class UserDao {
         }); 
     }
 
+    /**
+     * Deletes a User
+     * 
+     * @param {Express.Request} req
+     * 
+     * @memberOf UserDao
+     * 
+     * @returns {Promise} 
+     */
     destroy = (req) => {
         return new Promise(function(resolve, reject) {
             User.findByIdAndRemove(req.params.id, function(err, result) {
@@ -65,6 +110,15 @@ module.exports = class UserDao {
         });
     }
 
+    /**
+     * Deletes multiple Users
+     * 
+     * @param {Express.Request} req
+     * 
+     * @memberOf UserDao
+     * 
+     * @returns {Promise} 
+     */
     destroyMass = (req) => {
         return new Promise(function(resolve, reject) {
             User.remove({

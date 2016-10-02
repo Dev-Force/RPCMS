@@ -3,53 +3,121 @@ import UserDao from '../../dao/user.dao';
 
 let User = mongoose.model('User');
 
-module.exports = class UserController {
+/**
+ * 
+ * 
+ * @class UserController
+ */
+class UserController {
 
+    /**
+     * Creates an instance of UserController.
+     * 
+     * 
+     * @memberOf UserController
+     */
     constructor() {
         this.userDao = new UserDao();
     }
 
+    /**
+     * 
+     * 
+     * @param {Express.Response} res
+     * @returns {Function}
+     * 
+     * @memberOf UserController
+     */
     catchFunction(res) {
         return function(err) {
             res.json(err);
         };
     }
 
+    /**
+     * Stores a User
+     * 
+     * @param {Express.Request} req
+     * @param {Express.Reponse} res
+     * 
+     * @memberOf UserController
+     */
     store = (req, res) => {
         this.userDao.store(req).then(function(result) {
             res.json(result);
         }).catch(this.catchFunction(res))
     }
 
+    /**
+     * Indexes all Users
+     * 
+     * @param {Express.Request} req
+     * @param {Express.Reponse} res
+     * 
+     * @memberOf UserController
+     */
     index = (req, res) => {
         this.userDao.index().then(function(result) {
             res.json(result);
         }).catch(this.catchFunction(res))
     }
 
+    /**
+     * Shows a single User
+     * 
+     * @param {Express.Request} req
+     * @param {Express.Reponse} res
+     * 
+     * @memberOf UserController
+     */
     show = (req, res) => {
         this.userDao.show(req).then(function(result) {
             res.json(result);
         }).catch(this.catchFunction(res))
     }
 
+    /**
+     * Updates a User
+     * 
+     * @param {Express.Request} req
+     * @param {Express.Reponse} res
+     * 
+     * @memberOf UserController
+     */
     update = (req, res) => {
         this.userDao.update(req).then(function(result) {
             res.json(result);
         }).catch(this.catchFunction(res))
     }
 
+    /**
+     * Deletes a User
+     * 
+     * @param {Express.Request} req
+     * @param {Express.Reponse} res
+     * 
+     * @memberOf UserController
+     */
     destroy = (req, res) => {
         this.userDao.destroy(req).then(function(result) {
             res.json(result);
         }).catch(this.catchFunction(res))
     }
 
+    /**
+     * Deletes multiple Users
+     * 
+     * @param {Express.Request} req
+     * @param {Express.Reponse} res
+     * 
+     * @memberOf UserController
+     */
     destroyMass = (req, res) => {
         this.userDao.destroyMass(req).then(function(result) {
             res.json(result);
         }).catch(this.catchFunction(res))
     }
 
+}
 
-};
+module.exports = UserController;
