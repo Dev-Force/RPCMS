@@ -1,11 +1,20 @@
 import mongoose from 'mongoose';
-import {mergeObjects} from '../helpers';
 
-module.exports = function(mdl, mdl_plural, opts = {}) {
+/**
+ * Available opts are <index, show, store, update, destroy, destroyMass>
+ * 
+ * @param {any} mdl
+ * @param {any} mdl_plural
+ * @param {any} [opts=[]]
+ * @returns {Class}
+ */
+module.exports = function(mdl, mdl_plural, opts = []) {
+
+    mdl_plural = mdl_plural.toLowerCase();
 
     let Generic = mongoose.model(mdl);
 
-    let acceptedParams = {
+    let defaultParams = {
         'index': function() {
             return new Promise(function(resolve, reject) {
                 Generic.find({}, function(err, generics) {
@@ -81,11 +90,25 @@ module.exports = function(mdl, mdl_plural, opts = {}) {
         }
     };
 
-    // Combine acceptedParams and opts
-    let params = mergeObjects(acceptedParams, opts);
+    let params = {};
+    // Combine defaultParams and opts into params
+    if(opts.length > 0) {
+        for(let param in defaultParams) { 
+            if(opts.indexOf(param) > -1) {
+                params[param] = defaultParams[param];
+            }
+        }
+    } else {
+        params = defaultParams;
+    }
     
     class GenericDao { }
 
+    for(let param in params) {
+        GenericDao.prototype[param] = params[param];
+    }
+
+    return GenericDao;
 };
 
 

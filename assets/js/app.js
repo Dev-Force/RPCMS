@@ -63,9 +63,6 @@ $(document).ready(function () {
              });
          });
 
-         console.log(data);
-
-
         $.ajax({
             url: form.attr('action'),
             method: form.attr('method'),
@@ -88,7 +85,7 @@ $(document).ready(function () {
                 timer: 2000,
                 showConfirmButton: false
             });
-        }).fail(function(jqXHR, textStatus, errorThrown) {
+        }).fail(function(jqXHR, textStatus, errorThrown) { 
             swal({   
                 title: "An Error Has Occured!",   
                 text: errorThrown,   
