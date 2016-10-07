@@ -3,12 +3,33 @@ import OperationDao from '../../dao/operation.dao';
 
 let Operation = mongoose.model('Operation');
 
+/**
+ * Operation Controller
+ * 
+ * @class OperationUIController
+ */
 class OperationUIController {
 
+    /**
+     * Creates an instance of OperationUIController.
+     * 
+     * 
+     * @memberOf OperationUIController
+     */
     constructor() {
         this.operationDao = new OperationDao();
     }
 
+    /**
+     * High-Order function that returns the error function
+     * 
+     * @param {any} res
+     * @returns
+     * 
+     * @memberOf OperationUIController
+     * 
+     * @returns {Function} the function to be used as callback on promise failure
+     */
     catchFunction(res) {
         return function(err) {
             res.status(500).render('welcome', {
@@ -20,6 +41,12 @@ class OperationUIController {
         };
     }
 
+    /**
+     * Shoes all the operations
+     * 
+     * 
+     * @memberOf OperationUIController
+     */
     index = (req, res) => {
         this.operationDao.index().then(function(operations) {
             let ids = operations.map(operation => operation._id);
@@ -38,6 +65,12 @@ class OperationUIController {
         }).catch(this.catchFunction(res));
     }
 
+    /**
+     * Shows a Single operation
+     * 
+     * 
+     * @memberOf OperationUIController
+     */
     show = (req, res) => {
         this.operationDao.show(req).then(function(operation) {
             res.render('crud/show', {
@@ -52,6 +85,12 @@ class OperationUIController {
         }).catch(this.catchFunction(res));
     }
 
+    /**
+     * Edits an Operation
+     * 
+     * 
+     * @memberOf OperationUIController
+     */
     edit = (req, res) => {
         this.operationDao.show(req).then(function(operation) {
             res.render('crud/edit', {
@@ -70,6 +109,12 @@ class OperationUIController {
         }).catch(this.catchFunction(res));
     }
 
+    /**
+     * Creates an Operation
+     * 
+     * 
+     * @memberOf OperationUIController
+     */
     create = (req, res) => {
         res.render('crud/create', {
             resourceURL: '/operations',

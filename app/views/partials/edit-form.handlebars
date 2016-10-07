@@ -44,6 +44,17 @@
             </div>
         </div>
     {{/each}}
+    {{#each checkboxFields}}
+        <div class="controls form-group">
+            <div class="col-xs-10 input-group">
+                <label>{{@key}}</label>
+                <div class="material-switch pull-right">
+                    <input id="{{@key}}" name="{{@key}}" {{#if this}}checked{{/if}} type="checkbox"/>
+                    <label for="{{@key}}" class="label-default"></label>
+                </div>
+            </div>
+        </div>
+    {{/each}}
     <div class="form-group">
         <button class="btn btn-primary edit" type="submit" role="button">{{action}}</button>
     </div>

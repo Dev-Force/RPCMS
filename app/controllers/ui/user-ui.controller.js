@@ -4,16 +4,37 @@ import OperationDao from '../../dao/operation.dao';
 
 let User = mongoose.model('User');
 
+/**
+ * 
+ * 
+ * @class UserUIController
+ */
 class UserUIController {
 
     _userDao;
     _operationDao;
 
+    /**
+     * Creates an instance of UserUIController.
+     * 
+     * 
+     * @memberOf UserUIController
+     */
     constructor() {
         this._userDao = new UserDao();
         this._operationDao = new OperationDao();
     }
 
+    /**
+     * High-Order function that returns the error function
+     * 
+     * @param {any} res
+     * @returns
+     * 
+     * @memberOf OperationUIController
+     * 
+     * @returns {Function} the function to be used as callback on promise failure
+     */
     catchFunction(res) {
         return function(err) {
             res.status(500).render('welcome', {
@@ -25,6 +46,12 @@ class UserUIController {
         };
     }
 
+    /**
+     * Shows all Users
+     * 
+     * 
+     * @memberOf UserUIController
+     */
     index = (req, res) => {
         let operations = null;
         this._operationDao.index().then(ops => {
@@ -62,6 +89,12 @@ class UserUIController {
         }).catch(this.catchFunction(res));
     }
 
+    /**
+     * Shows a single User
+     * 
+     * 
+     * @memberOf UserUIController
+     */
     show = (req, res) => {
         let operations = null;
         this._operationDao.index().then(ops => {
@@ -89,6 +122,12 @@ class UserUIController {
         }).catch(this.catchFunction(res));
     }
 
+    /**
+     * Edits a User
+     * 
+     * 
+     * @memberOf UserUIController
+     */
     edit = (req, res) => {
         let user = null;
         this._userDao.show(req).then(u => {
@@ -102,8 +141,7 @@ class UserUIController {
                 'action': 'Update',
                 'fields': {
                     'username': user.username,
-                    'password': user.password,
-                    'admin': user.admin
+                    'password': user.password
                 },
                 'arrayFields': {},
                 'selectFields': {
@@ -120,9 +158,11 @@ class UserUIController {
                          })
                     }
                 },
+                'checkboxFields': {
+                    'admin': user.admin
+                },
                 'helpers': {
                     'indexTrue': function(array, index, opts){
-                        console.log(array[index]);
                         if(array[index] === true) return opts.fn(this);
                         return opts.inverse(this);
                     }
@@ -131,6 +171,12 @@ class UserUIController {
         }).catch(this.catchFunction(res));
     }
 
+    /**
+     * Creates a User
+     * 
+     * 
+     * @memberOf UserUIController
+     */
     create = (req, res) => {
         this._operationDao.index().then(function(operations) {
             res.render('crud/create', {
@@ -139,8 +185,7 @@ class UserUIController {
                 'action': 'Create',
                 'fields': {
                     'username': 'Username',
-                    'password': 'Password',
-                    'admin': 'Admin'
+                    'password': 'Password'
                 },
                 'selectFields': {
                     'operations': operations.map(op => {
@@ -149,7 +194,10 @@ class UserUIController {
                         return oper;
                     }),
                 },
-                'arrayFields': { }
+                'arrayFields': { },
+                'checkboxFields': {
+                    'admin': 'Administrator'
+                },
             });
         });
     }

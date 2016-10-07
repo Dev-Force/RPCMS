@@ -10,6 +10,8 @@ class UserDao extends GenericDao {
     /**
      * Stores a User
      * 
+     * @override
+     * 
      * @param {Express.Request} req
      * 
      * @memberOf UserDao
@@ -34,6 +36,8 @@ class UserDao extends GenericDao {
 
     /**
      * Updates a User
+     * 
+     * @override
      * 
      * @param {Express.Request} req
      * 

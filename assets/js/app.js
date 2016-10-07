@@ -40,6 +40,7 @@ $(document).ready(function () {
         let inputs = form.find('input');
         let data = {};
         
+        // Text Inputs
         inputs.each((i, input) => { 
             let name = $(input).attr('name');
             let value = $(input).val();
@@ -53,6 +54,7 @@ $(document).ready(function () {
             }
          });
 
+         // Multiple Select Inputs
          let selects = $(form).find('select[multiple]');
          selects.each((i, select) => {
              let name = $(select).attr('name');
@@ -63,6 +65,13 @@ $(document).ready(function () {
              });
          });
 
+         // CheckBox Inputs
+         let checkboxes = $(form).find('input[type=checkbox]');
+         checkboxes.each((i, checkbox) => {
+             let name = $(checkbox).attr('name');
+             data[name] = $(checkbox).is(':checked');
+         });
+         
         $.ajax({
             url: form.attr('action'),
             method: form.attr('method'),

@@ -24,8 +24,6 @@
 Optionals:
 
     X TODO: Create a mock shop and two mock partners of the shop to simulate a real example
-
-    X TODO: Make a setup js file that can be run through npm to setup database user (Admin)
     
     X TODO: Create a generic client application that will load resources on UI level dynamically (getFields RPCMS)
 

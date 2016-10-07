@@ -65,6 +65,6 @@ class ExpressApplication {
         });
     }
 
-};
+}
 
 module.exports = ExpressApplication;

@@ -9,6 +9,8 @@ class OperationDao extends GenericDao {
     /**
      * Stores an Operation
      * 
+     * @override
+     * 
      * @param {Express.Request} req
      * 
      * @memberOf OperationDao
@@ -22,6 +24,8 @@ class OperationDao extends GenericDao {
 
     /**
      * Updates an Operation
+     * 
+     * @override
      * 
      * @param {Express.Request} req
      * 

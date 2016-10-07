@@ -34,6 +34,17 @@
             </div>
         </div>
     {{/each}}
+    {{#each checkboxFields}}
+        <div class="controls form-group">
+            <div class="col-xs-10 input-group">
+                <label>{{this}}</label>
+                <div class="material-switch pull-right">
+                    <input id="{{@key}}" name="{{@key}}" type="checkbox"/>
+                    <label for="{{@key}}" class="label-default"></label>
+                </div>
+            </div>
+        </div>
+    {{/each}}
     <input type="text" name="token" hidden />
     <div class="form-group">
         <button class="btn btn-primary create" type="submit" role="button">{{action}}</button>

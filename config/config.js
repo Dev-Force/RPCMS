@@ -18,7 +18,7 @@ let config = {
       '::1'
     ],
     central_system: {
-      methodInvocationURL: 'http://localhost:3000/api/v1/users',
+      methodInvocationURL: 'https://jsonplaceholder.typicode.com/posts/1',
       requestMethod: 'GET'
     },
     secret: 'thisisasupersecret'
