@@ -10,7 +10,7 @@ let config = {
     },
     port: process.env.PORT || 3000,
     allowedIPs: [
-      '178.128.245.46', // My IP
+      '46.246.242.10', // My IP
       '83.212.240.66', // Tsadimas IP
       '46.177.45.63', // Gkoulis IP
       '127.0.0.1',
