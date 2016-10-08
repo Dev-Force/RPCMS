@@ -1,8 +1,8 @@
+import Promise from 'bluebird';
 import mongoose from 'mongoose';
 import genericDao from '../utils/dao/generic-dao';
 
 let GenericDao = genericDao('User', 'users');
-
 let User = mongoose.model('User');
 
 class UserDao extends GenericDao {

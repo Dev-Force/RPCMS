@@ -1,3 +1,4 @@
+import Promise from 'bluebird';
 import http from 'http';
 import jwt from 'jsonwebtoken';
 import JsonRPCRequest from './json-rpc-request';
@@ -38,6 +39,7 @@ class JsonRPCFacade {
         // Handle Batch
         if(Array.isArray(req.body)) 
             req.body.forEach((request) => {
+                // TODO: for every jsonrpc check if user is authorized to execute the method (UserModel.operations)
                 response.push(this._handleJsonRPC(request));
             });
         // Handle single request
@@ -57,6 +59,7 @@ class JsonRPCFacade {
         let err = jsonRPCRequest.validate();
         let response = {};
 
+
         return new Promise((resolve, reject) => {
             if(err) {
                 response = new JsonRPCResponse({
@@ -66,7 +69,7 @@ class JsonRPCFacade {
                 });
                 resolve(response);
             } else {
-                needle.request(config.central_system.requestMethod, config.central_system.methodInvocationURL, {"positional_params": req.body}, function(err, resp) {
+                needle.request(config.central_system.methodInvocation.requestMethod, config.central_system.methodInvocation.URL, {"positional_params": req.body}, function(err, resp) {
                     if(err) return reject(Error('Something Went Wrong. Possibly Wrong URL is Provided.'));
                     response = new JsonRPCResponse({
                         "jsonrpc": "2.0",

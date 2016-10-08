@@ -1,3 +1,4 @@
+import Promise from 'bluebird';
 import JsonRPCFacade from '../../utils/json-rpc/json-rpc-facade';
 
 /**
@@ -14,7 +15,7 @@ class JsonRPCController {
      * @param {any} req
      * @param {any} res
      */
-    static handleJsonRPC(req, res) {
+    static handleJsonRPC(req, res) { 
         let jsonRPCFacade = new JsonRPCFacade(req);
         let response = jsonRPCFacade.generateResponse();
 

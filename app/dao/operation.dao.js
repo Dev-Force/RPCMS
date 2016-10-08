@@ -1,3 +1,4 @@
+import Promise from 'bluebird';
 import mongoose from 'mongoose';
 import genericDao from '../utils/dao/generic-dao';
 
@@ -38,6 +39,15 @@ class OperationDao extends GenericDao {
         req.body.namedParams = req.body.namedParams.filter(Boolean);
 
         return super.update(req);
+    }
+
+    batchInsert(req) {
+        return new Promise((resolve, reject) => {
+            Operation.collection.insert(req.body, (err, operations) => {
+                if(err) reject(err); 
+                resolve(operations);
+            });
+        });
     }
 
 }

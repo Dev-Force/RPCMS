@@ -10,6 +10,7 @@ module.exports = function(app) {
     IPLimitMiddleware(app, operationRouter);
 
     operationRouter.get('/', operationController.index);
+    operationRouter.get('/collect', operationController.collect);
     operationRouter.get('/:id', operationController.show);
     operationRouter.post('/', operationController.store);
     operationRouter.put('/:id', operationController.update);

@@ -20,6 +20,11 @@
 
 √ TODO: Create UI for Employees( UserController add CRUD UI )
 
+X TODO: Create Button Get All Remote Operations. (When the button is pressed backend makes a call to the central
+        system API and saves all the operations returned to the database. Then is refreshes the operations page).
+
+X TODO: Unit Testing
+
 
 Optionals:
 

@@ -1,5 +1,8 @@
+import Promise from 'bluebird';
 import mongoose from 'mongoose';
 import OperationDao from '../../dao/operation.dao';
+import config from '../../../config/config';
+import needle from 'needle';
 
 let Operation = mongoose.model('Operation');
 
@@ -10,6 +13,8 @@ let Operation = mongoose.model('Operation');
  */
 class OperationController {
 
+    _operationDao;
+
     /**
      * Creates an instance of OperationController.
      * 
@@ -17,7 +22,7 @@ class OperationController {
      * @memberOf OperationController
      */
     constructor() {
-        this.operationDao = new OperationDao();
+        this._operationDao = new OperationDao();
     }
 
     /**
@@ -45,7 +50,7 @@ class OperationController {
      * @memberOf OperationController
      */
     store = (req, res) => {
-        this.operationDao.store(req).then(function(operation) {
+        this._operationDao.store(req).then(function(operation) {
             res.json(operation);
         }).catch(this.catchFunction(res));
     }
@@ -59,7 +64,7 @@ class OperationController {
      * @memberOf OperationController
      */
     index = (req, res) => {
-        this.operationDao.index().then(function(operations) {
+        this._operationDao.index().then(function(operations) {
             res.json(operations);
         }).catch(this.catchFunction(res));
     }
@@ -73,7 +78,7 @@ class OperationController {
      * @memberOf OperationController
      */
     show = (req, res) => {
-        this.operationDao.show(req).then(function(operation) {
+        this._operationDao.show(req).then(function(operation) {
             res.json(operation);
         }).catch(this.catchFunction(res));
     }
@@ -87,7 +92,7 @@ class OperationController {
      * @memberOf OperationController
      */
     update = (req, res) => {
-        this.operationDao.update(req).then(function(operation) {
+        this._operationDao.update(req).then(function(operation) {
             res.json(operation);
         }).catch(this.catchFunction(res));
     }
@@ -101,7 +106,7 @@ class OperationController {
      * @memberOf OperationController
      */
     destroy = (req, res) => { 
-        this.operationDao.destroy(req).then(function(operation) {
+        this._operationDao.destroy(req).then(function(operation) {
             res.json(operation);
         }).catch(this.catchFunction(res));
     }
@@ -120,6 +125,30 @@ class OperationController {
         })
         .catch(function(err) {
             res.json(err);
+        });
+    }
+
+    collect = (req, res) => {
+        new Promise((resolve, reject) => {
+            needle.request(config.central_system.collectOperations.requestMethod, config.central_system.collectOperations.URL, {}, function(err, resp, body) {
+                if(err) return reject(Error('Something Went Wrong.'));
+                if(body.error) return reject(Error('Something Went Wrong. Possibly Wrong URL is Provided.'))
+                resolve(body);
+            });
+        }).then(body => {
+            // TODO: Insert documents into db
+            let o = { 'body': body };
+            return this._operationDao.batchInsert(o);
+        }).then(docs => {
+            res.json({ 
+                'success': true,
+                'documents': docs
+            });
+        }).catch(err => {
+            res.json({ 
+                'success': false,
+                'message': err
+            });
         });
     }
 

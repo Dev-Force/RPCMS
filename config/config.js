@@ -4,12 +4,12 @@ let rootPath = path.normalize(__dirname + '/..'),
 
 // Use this Object literal to configure the whole project
 let config = {
-    root: rootPath,
-    app: {
-      name: 'rpcms'
+    'root': rootPath,
+    'app': {
+      'name': 'rpcms'
     },
-    port: process.env.PORT || 3000,
-    allowedIPs: [
+    'port': process.env.PORT || 3000,
+    'allowedIPs': [
       '46.246.242.10', // My IP
       '83.212.240.66', // Tsadimas IP
       '46.177.45.63', // Gkoulis IP
@@ -17,11 +17,17 @@ let config = {
       '0.0.0.0',
       '::1'
     ],
-    central_system: {
-      methodInvocationURL: 'https://jsonplaceholder.typicode.com/posts/1',
-      requestMethod: 'GET'
+    'central_system': {
+      'collectOperations': {
+        'URL': 'http://localhost:3000/api/v1/operations',
+        'requestMethod': 'GET'
+      },
+      'methodInvocation': {
+        'URL': 'https://jsonplaceholder.typicode.com/posts/1',
+        'requestMethod': 'GET'
+      }
     },
-    secret: 'thisisasupersecret'
+    'secret': 'thisisasupersecret'
 };
 
 switch(env) {
