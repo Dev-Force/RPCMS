@@ -44,6 +44,12 @@ module.exports = function(app, router) {
                             if(user === null) return reject({
                                 status: 'Unauthorized'
                             });
+                            if((decoded.operations.length == user.operations.length) && decoded.operations.every(function(element, index) {
+                                    return element === user.operations[index]; 
+                                })
+                            ) return reject({
+                                status: 'Unauthorized'
+                            });
                             return resolve();
                         });
                     }).then(function(user) {

@@ -128,16 +128,23 @@ class OperationController {
         });
     }
 
+    /**
+     * Collects all operations from the central system and bulk inserts them into the database
+     * 
+     * 
+     * @memberOf OperationController
+     */
     collect = (req, res) => {
         new Promise((resolve, reject) => {
             needle.request(config.central_system.collectOperations.requestMethod, config.central_system.collectOperations.URL, {}, function(err, resp, body) {
-                if(err) return reject(Error('Something Went Wrong.'));
-                if(body.error) return reject(Error('Something Went Wrong. Possibly Wrong URL is Provided.'))
+                if(err) return reject('Something Went Wrong.');
+                if(!body.success) return reject('Something Went Wrong');
+                // if(body.error) return reject('Something Went Wrong. Possibly Wrong URL is Provided.');
+                if(body.length === 0) return reject('There Are no Operations');
                 resolve(body);
             });
         }).then(body => {
-            // TODO: Insert documents into db
-            let o = { 'body': body };
+            let o = { 'body': body }; // Wrap results in an object with 'body' key cause request can come also from a normal request
             return this._operationDao.batchInsert(o);
         }).then(docs => {
             res.json({ 

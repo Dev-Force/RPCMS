@@ -5,11 +5,13 @@ import JsonRPCRequest from './json-rpc-request';
 import JsonRPCResponse from './json-rpc-response';
 import config from '../../../config/config';
 import needle from 'needle';
+import OperationDao from '../../dao/operation.dao';
 
 
 class JsonRPCFacade {
 
     _request;
+    _operationDao;
 
     /**
      * Creates an instance of JsonRPCFacade.
@@ -18,6 +20,7 @@ class JsonRPCFacade {
      */
     constructor(req) {
         this._request = req;
+        this._operationDao = new OperationDao();
     }
     
     /**
@@ -28,23 +31,27 @@ class JsonRPCFacade {
     }
 
     /**
-     * Returns Array of promises Or a single Promise
+     * Generates a JsonRPC Response
      * 
      * @param {any} [req=this._request]
-     * @returns
+     * @returns {Promise | [Promise]}
      */
     generateResponse(req = this._request) {
         let response = [];
 
         // Handle Batch
-        if(Array.isArray(req.body)) 
-            req.body.forEach((request) => {
+        if(Array.isArray(req.body)) {
+            req.body.forEach((rpc_body) => {
                 // TODO: for every jsonrpc check if user is authorized to execute the method (UserModel.operations)
-                response.push(this._handleJsonRPC(request));
+                response.push(this._handleJsonRPC(req, rpc_body));
             });
+        }
         // Handle single request
-        else response = this._handleJsonRPC(req.body);
+        else { 
+            response = this._handleJsonRPC(req, req.body);
+        }
         
+        // Promise or array of promises
         return response;
     }
 
@@ -52,24 +59,18 @@ class JsonRPCFacade {
      * Handles all JsonRPC calls
      * 
      * @param {any} req
-     * @returns
+     * @returns {Promise}
      */
-    _handleJsonRPC(req) {
-        let jsonRPCRequest = new JsonRPCRequest(req);
-        let err = jsonRPCRequest.validate();
+    _handleJsonRPC(req, rpc_body) {
+        rpc_body['req'] = req;
         let response = {};
-
-
+        let jsonRPCRequest = new JsonRPCRequest(rpc_body);
+        delete rpc_body['req']; // If we dont delete throws RangeError cause req object is too big
         return new Promise((resolve, reject) => {
-            if(err) {
-                response = new JsonRPCResponse({
-                    "jsonrpc": "2.0",
-                    "id": jsonRPCRequest.id,
-                    "error": err.err // Gets the error object literal
-                });
-                resolve(response);
-            } else {
-                needle.request(config.central_system.methodInvocation.requestMethod, config.central_system.methodInvocation.URL, {"positional_params": req.body}, function(err, resp) {
+            resolve(jsonRPCRequest.validate());
+        }).then(function(operation) {
+            return new Promise((resolve, reject) => {
+                needle.request(config.central_system.methodInvocation.requestMethod, config.central_system.methodInvocation.URL, rpc_body, function(err, resp) { 
                     if(err) return reject(Error('Something Went Wrong. Possibly Wrong URL is Provided.'));
                     response = new JsonRPCResponse({
                         "jsonrpc": "2.0",
@@ -78,11 +79,44 @@ class JsonRPCFacade {
                     });
                     // send request using JsonRPCResponse.toJson();
                     // if its notification dont send response
-                    if(!jsonRPCRequest.notification) resolve(response.toJson());
-                    else resolve(undefined);
+                    if(!jsonRPCRequest.notification) return resolve(response.toJson());
+                    else return resolve(undefined);
                 });
-            }
+            });
+        }).catch(function(err) {
+            response = new JsonRPCResponse({
+                "jsonrpc": "2.0",
+                "id": jsonRPCRequest.id,
+                "error": err.err // Gets the error object literal
+            });
+            return Promise.resolve(response.toJson());
         });
+        
+
+
+        // return new Promise((resolve, reject) => {
+        //     if(err) {
+        //         response = new JsonRPCResponse({
+        //             "jsonrpc": "2.0",
+        //             "id": jsonRPCRequest.id,
+        //             "error": err.err // Gets the error object literal
+        //         });
+        //         resolve(response);
+        //     } else {
+        //         needle.request(config.central_system.methodInvocation.requestMethod, config.central_system.methodInvocation.URL, rpc_body, function(err, resp) {
+        //             if(err) return reject(Error('Something Went Wrong. Possibly Wrong URL is Provided.'));
+        //             response = new JsonRPCResponse({
+        //                 "jsonrpc": "2.0",
+        //                 "result": resp.body,
+        //                 "id": jsonRPCRequest.id
+        //             });
+        //             // send request using JsonRPCResponse.toJson();
+        //             // if its notification dont send response
+        //             if(!jsonRPCRequest.notification) resolve(response.toJson());
+        //             else resolve(undefined);
+        //         });
+        //     }
+        // });
         
     }
     

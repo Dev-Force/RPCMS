@@ -1,6 +1,7 @@
 import gulp from 'gulp';
 import babel from 'gulp-babel';
 import sass from 'gulp-sass';
+import gutil from 'gulp-util';
 import child_process from 'child_process';
 
 let spawn = child_process.spawn;
@@ -55,7 +56,7 @@ gulp.task('build', ['sass'], () => {
     return gulp.src(['./app/**/*.js', './config/**/*.js', './app.js', './assets/js/**/*.js'], { "base": "." })
     .pipe(babel({
         presets: ['es2015', 'stage-0']
-    }))
+    }).on('error', gutil.log))
     .pipe(gulp.dest('./dist/'));
 });
 

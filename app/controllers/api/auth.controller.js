@@ -39,7 +39,7 @@ class AuthController {
                 } else {
                     // if user is found and password is right
                     // create a token
-                    var token = jwt.sign({ username: user.username }, AuthController.appSecret, {
+                    var token = jwt.sign({ username: user.username, operations: user.operations }, AuthController.appSecret, {
                         expiresIn: '1440m' // expires in 24 hours
                     });
                     // return the information including token as JSON

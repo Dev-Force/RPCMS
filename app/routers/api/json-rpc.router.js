@@ -8,7 +8,6 @@ module.exports = function(app) {
 
     TokenVerificationMiddleware(app, jsonRPCRouter);
 
-    // jsonRPC.get('/', JsonRPCController.handleJsonRPC);
     jsonRPCRouter.post('/', JsonRPCController.handleJsonRPC);
     
 

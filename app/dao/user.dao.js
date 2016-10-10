@@ -27,7 +27,6 @@ class UserDao extends GenericDao {
         
         return new Promise(function(resolve, reject) {
             user.save(function (err) {
-                console.log(err);
                 if (err) return reject(err);
                 return resolve(user);
             });
@@ -50,6 +49,14 @@ class UserDao extends GenericDao {
         req.body.operations = req.body.operations.map(o => mongoose.Types.ObjectId(o));
 
         return super.update(req); 
+    }
+
+    hasOperation(req) {
+        return new Promise((resolve, reject) => {
+            User.findOne({ 'operations': req.body.method }, function(err, user) {
+                if(user == null) return reject('No user Found'); 
+            });
+        });
     }
 
 }

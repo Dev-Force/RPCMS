@@ -15,6 +15,9 @@
                     <div class="btn-group pull-right">
                         <a href="{{resourceURL}}/create" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-plus"></span> Create New</a>
                         <button class="btn btn-danger mass-delete" role="button"><span class="glyphicon glyphicon-trash"></span> Mass Delete</button>
+                        {{#if_eq title 'Operations'}}
+                            <button class="btn btn-info collect-operations" role="button"><span class="glyphicon glyphicon-download-alt"></span> Collect Operations</button>
+                        {{/if_eq}}
                     </div>
                 </div>
             </div>

@@ -105,6 +105,32 @@ $(document).ready(function () {
         });
     });
 
+    $('.collect-operations').on('click', function(e) {
+        $.ajax({
+            url: '/api/v1/operations/collect',
+            method: 'GET'
+        }).done((data, textStatus, jqXHR) => {
+            if(!data.success) {
+                swal({
+                    title: "An Error Has Occured!",
+                    text: data.message,
+                    type: "error",
+                    timer: 2000,
+                    showConfirmButton: false 
+                });    
+            }
+            else location.reload();
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            swal({   
+                title: "An Error Has Occured!",   
+                text: errorThrown,
+                type: "error",
+                timer: 2000,   
+                showConfirmButton: false 
+            });
+        });
+    });
+
     $('.mass-delete').on('click', function(e) {
         let trArray = $('tbody:first').find('tr').filter(':has(:checkbox:checked)');
         let ids = $.map(trArray, tr => $(tr).data('id'));

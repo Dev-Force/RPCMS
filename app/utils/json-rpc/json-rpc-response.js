@@ -59,10 +59,10 @@ class JsonRPCResponse {
      */
     toJson() {
         return {
-            jsonrpc: this._jsonrpc,
-            result: this._result,
-            error: this._err,
-            id: this._id
+            'jsonrpc': this._jsonrpc,
+            'result': this._result,
+            'error': this._err,
+            'id': this._id
         };
     }
 
