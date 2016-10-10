@@ -93,6 +93,9 @@ class JsonRPCRequest {
             if(this._params != null && (!Array.isArray(this._params) && !(typeof this._params === "object"))) 
                 return reject(new JsonRPCError(JsonRPCError.INVALID_PARAMS));// Validate that Parameters are either array or object literal
             // Validate that parameters match remote procedure's. Error METHOD_NOT_FOUND
+            
+
+
             return resolve(this._operationDao.getByName(this._method));
 
         }).then(operation => {

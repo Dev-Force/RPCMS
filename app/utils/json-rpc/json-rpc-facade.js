@@ -3,6 +3,7 @@ import http from 'http';
 import jwt from 'jsonwebtoken';
 import JsonRPCRequest from './json-rpc-request';
 import JsonRPCResponse from './json-rpc-response';
+import JsonRPCError from './json-rpc-error';
 import config from '../../../config/config';
 import needle from 'needle';
 import OperationDao from '../../dao/operation.dao';
@@ -66,9 +67,7 @@ class JsonRPCFacade {
         let response = {};
         let jsonRPCRequest = new JsonRPCRequest(rpc_body);
         delete rpc_body['req']; // If we dont delete throws RangeError cause req object is too big
-        return new Promise((resolve, reject) => {
-            resolve(jsonRPCRequest.validate());
-        }).then(function(operation) {
+        return Promise.resolve(jsonRPCRequest.validate()).then(function(operation) {
             return new Promise((resolve, reject) => {
                 needle.request(config.central_system.methodInvocation.requestMethod, config.central_system.methodInvocation.URL, rpc_body, function(err, resp) { 
                     if(err) return reject(Error('Something Went Wrong. Possibly Wrong URL is Provided.'));
@@ -84,6 +83,13 @@ class JsonRPCFacade {
                 });
             });
         }).catch(function(err) {
+
+            // operationDao can reject with a request with 'No Documents Found'
+            // we should return a jsonRPCError instead
+            if(err === 'No Documents Found') {
+                err = new JsonRPCError(JsonRPCError.METHOD_NOT_FOUND);
+            }
+            
             response = new JsonRPCResponse({
                 "jsonrpc": "2.0",
                 "id": jsonRPCRequest.id,
@@ -91,32 +97,6 @@ class JsonRPCFacade {
             });
             return Promise.resolve(response.toJson());
         });
-        
-
-
-        // return new Promise((resolve, reject) => {
-        //     if(err) {
-        //         response = new JsonRPCResponse({
-        //             "jsonrpc": "2.0",
-        //             "id": jsonRPCRequest.id,
-        //             "error": err.err // Gets the error object literal
-        //         });
-        //         resolve(response);
-        //     } else {
-        //         needle.request(config.central_system.methodInvocation.requestMethod, config.central_system.methodInvocation.URL, rpc_body, function(err, resp) {
-        //             if(err) return reject(Error('Something Went Wrong. Possibly Wrong URL is Provided.'));
-        //             response = new JsonRPCResponse({
-        //                 "jsonrpc": "2.0",
-        //                 "result": resp.body,
-        //                 "id": jsonRPCRequest.id
-        //             });
-        //             // send request using JsonRPCResponse.toJson();
-        //             // if its notification dont send response
-        //             if(!jsonRPCRequest.notification) resolve(response.toJson());
-        //             else resolve(undefined);
-        //         });
-        //     }
-        // });
         
     }
     
