@@ -20,10 +20,14 @@
 
 √ TODO: Create UI for Employees( UserController add CRUD UI )
 
-X TODO: Create Button Get All Remote Operations. (When the button is pressed backend makes a call to the central
-        system API and saves all the operations returned to the database. Then is refreshes the operations page).
+√ TODO: Create Button Get All Remote Operations. (When the button is pressed backend makes a call to the central
+        system API and saves all the operations returned to the database. Then it refreshes the operations page).
 
 X TODO: Unit Testing
+
+X TODO: Allow External Users to Add their Own functionality
+
+X TODO: Method Chaining
 
 
 Optionals:
@@ -40,4 +44,10 @@ Future Plans:
     - Transition to ReactJS or Angular2
     - Tranform Welcome Screen to a Dashboard
 - Give the ability to remote users to add functionality. (With admin verification of course)
-- User groups Implementation
+- User groups Implementation. Bug in OrMiddleware (Cant set headers after they are sent)
+
+
+
+NEW:
+- Cant save the promise in a function in order to reuse it in every middleware. Or middleware is not tested yet.
+

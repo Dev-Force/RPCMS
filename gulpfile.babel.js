@@ -2,6 +2,7 @@ import gulp from 'gulp';
 import babel from 'gulp-babel';
 import sass from 'gulp-sass';
 import gutil from 'gulp-util';
+import plumber from 'gulp-plumber';
 import del from 'del';
 import runSequence from 'run-sequence';
 import nodemon from 'gulp-nodemon';
@@ -9,6 +10,7 @@ import nodemon from 'gulp-nodemon';
 
 gulp.task('sass', () => {
     return gulp.src('./assets/scss/**/*.scss')
+    .pipe(plumber())
     .pipe(sass())
     .pipe(gulp.dest('./dist/assets/css'));
 });
@@ -26,6 +28,7 @@ gulp.task('build:clean', ['del'], (cb)=> {
 
 gulp.task('js', () => {
     return gulp.src(['./app/**/*.js', './config/**/*.js', './app.js', './assets/js/**/*.js'], { "base": "." })
+    .pipe(plumber())
     .pipe(babel({
         presets: ['es2015', 'stage-0']
     }).on('error', gutil.log))

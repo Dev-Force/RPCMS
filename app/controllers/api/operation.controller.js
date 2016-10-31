@@ -50,7 +50,7 @@ class OperationController {
      * @memberOf OperationController
      */
     store = (req, res) => {
-        this._operationDao.store(req).then(function(operation) {
+        this._operationDao.save(req.body).then(function(operation) {
             res.json(operation);
         }).catch(this.catchFunction(res));
     }
@@ -64,7 +64,7 @@ class OperationController {
      * @memberOf OperationController
      */
     index = (req, res) => {
-        this._operationDao.index().then(function(operations) {
+        this._operationDao.getAll().then(function(operations) {
             res.json(operations);
         }).catch(this.catchFunction(res));
     }
@@ -78,7 +78,7 @@ class OperationController {
      * @memberOf OperationController
      */
     show = (req, res) => {
-        this._operationDao.show(req).then(function(operation) {
+        this._operationDao.getById(req.params.id).then(function(operation) {
             res.json(operation);
         }).catch(this.catchFunction(res));
     }
@@ -92,7 +92,7 @@ class OperationController {
      * @memberOf OperationController
      */
     update = (req, res) => {
-        this._operationDao.update(req).then(function(operation) {
+        this._operationDao.updateById(req.params.id, req.body).then(function(operation) {
             res.json(operation);
         }).catch(this.catchFunction(res));
     }
@@ -106,7 +106,7 @@ class OperationController {
      * @memberOf OperationController
      */
     destroy = (req, res) => { 
-        this._operationDao.destroy(req).then(function(operation) {
+        this._operationDao.deleteById(req.params.id).then(function(operation) {
             res.json(operation);
         }).catch(this.catchFunction(res));
     }
@@ -120,7 +120,9 @@ class OperationController {
      * @memberOf OperationController
      */
     destroyMass = (req, res) => {
-        this.operationDao.destroyMass(req).then(function(result) {
+        let idArray = req.body['operations'].map(function(o){ return mongoose.Types.ObjectId(o); });
+
+        this.operationDao.deleteMultiple(idArray).then(function(result) {
             res.json(result);
         })
         .catch(function(err) {
@@ -144,8 +146,8 @@ class OperationController {
                 resolve(body);
             });
         }).then(body => {
-            let o = { 'body': body }; // Wrap results in an object with 'body' key cause request can come also from a normal request
-            return this._operationDao.batchInsert(o);
+            // let o = { 'body': body }; // Wrap results in an object with 'body' key cause request can come also from a normal request
+            return this._operationDao.batchInsert(body);
         }).then(docs => {
             res.json({ 
                 'success': true,

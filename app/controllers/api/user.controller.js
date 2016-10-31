@@ -17,7 +17,7 @@ class UserController {
      * @memberOf UserController
      */
     constructor() {
-        this.userDao = new UserDao();
+        this._userDao = new UserDao();
     }
 
     /**
@@ -43,7 +43,7 @@ class UserController {
      * @memberOf UserController
      */
     store = (req, res) => {
-        this.userDao.store(req).then(function(result) {
+        this._userDao.save(req.body).then(function(result) {
             res.json(result);
         }).catch(this.catchFunction(res))
     }
@@ -57,7 +57,7 @@ class UserController {
      * @memberOf UserController
      */
     index = (req, res) => {
-        this.userDao.index().then(function(result) {
+        this._userDao.getAll().then(function(result) {
             res.json(result);
         }).catch(this.catchFunction(res))
     }
@@ -71,7 +71,7 @@ class UserController {
      * @memberOf UserController
      */
     show = (req, res) => {
-        this.userDao.show(req).then(function(result) {
+        this._userDao.getById(req.params.id).then(function(result) {
             res.json(result);
         }).catch(this.catchFunction(res))
     }
@@ -85,7 +85,7 @@ class UserController {
      * @memberOf UserController
      */
     update = (req, res) => {
-        this.userDao.update(req).then(function(result) {
+        this._userDao.updateById(req.params.id, req.body).then(function(result) {
             res.json(result);
         }).catch(this.catchFunction(res))
     }
@@ -99,7 +99,7 @@ class UserController {
      * @memberOf UserController
      */
     destroy = (req, res) => {
-        this.userDao.destroy(req).then(function(result) {
+        this._userDao.deleteById(req.params.id).then(function(result) {
             res.json(result);
         }).catch(this.catchFunction(res))
     }
@@ -113,7 +113,9 @@ class UserController {
      * @memberOf UserController
      */
     destroyMass = (req, res) => {
-        this.userDao.destroyMass(req).then(function(result) {
+        let idArray = req.body['users'].map(function(o){ return mongoose.Types.ObjectId(o); });
+
+        this._userDao.destroyMutiple(idArray).then(function(result) {
             res.json(result);
         }).catch(this.catchFunction(res))
     }

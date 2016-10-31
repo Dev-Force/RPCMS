@@ -17,7 +17,7 @@ class OperationUIController {
      * @memberOf OperationUIController
      */
     constructor() {
-        this.operationDao = new OperationDao();
+        this._operationDao = new OperationDao();
     }
 
     /**
@@ -48,7 +48,7 @@ class OperationUIController {
      * @memberOf OperationUIController
      */
     index = (req, res) => {
-        this.operationDao.index().then(function(operations) {
+        this._operationDao.getAll().then(function(operations) {
             let ids = operations.map(operation => operation._id);
             operations = operations.map(operation => [operation.name, operation.positionalNumOfParams, operation.namedParams.join(', ')]);
             res.render('crud/index', {
@@ -80,7 +80,7 @@ class OperationUIController {
      * @memberOf OperationUIController
      */
     show = (req, res) => {
-        this.operationDao.show(req).then(function(operation) {
+        this._operationDao.getById(req.params.id).then(function(operation) {
             res.render('crud/show', {
                 'title': 'Show Operation',
                 'resourceURL': '/operations',
@@ -100,7 +100,7 @@ class OperationUIController {
      * @memberOf OperationUIController
      */
     edit = (req, res) => {
-        this.operationDao.show(req).then(function(operation) {
+        this._operationDao.getById(req.params.id).then(function(operation) {
             res.render('crud/edit', {
                 id: operation._id,
                 resourceURL: '/operations',

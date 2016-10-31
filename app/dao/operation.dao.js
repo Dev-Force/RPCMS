@@ -18,9 +18,9 @@ class OperationDao extends GenericDao {
      * 
      * @returns {Promise} 
      */
-    store(req) {
-        req.body.namedParams = req.body.namedParams.filter(Boolean);
-        return super.store(req);
+    save(data) {
+        data.namedParams = data.namedParams.filter(Boolean);
+        return super.save(data);
     }
 
     getByName(name) {
@@ -44,16 +44,16 @@ class OperationDao extends GenericDao {
      * 
      * @returns {Promise} 
      */
-    update(req) {
+    updateById(id, data) {
         
-        req.body.namedParams = req.body.namedParams.filter(Boolean);
+        data.namedParams = data.namedParams.filter(Boolean);
 
-        return super.update(req);
+        return super.update(id, data);
     }
 
-    batchInsert(req) {
+    batchInsert(data) {
         return new Promise((resolve, reject) => {
-            Operation.collection.insert(req.body, (err, operations) => {
+            Operation.collection.insert(data, (err, operations) => {
                 if(err) reject(err); 
                 resolve(operations);
             });

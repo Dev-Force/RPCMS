@@ -2,6 +2,7 @@ import Promise from 'bluebird';
 import mongoose from 'mongoose';
 
 /**
+ * A function that takes 3 arguments and returns a Class to be used as a base for a dao Class
  * Available opts are <index, show, store, update, destroy, destroyMass>
  * 
  * @param {any} mdl
@@ -16,7 +17,7 @@ module.exports = function(mdl, mdl_plural, opts = []) {
     let Generic = mongoose.model(mdl);
 
     let defaultParams = {
-        'index': function() {
+        'getAll': function() {
             return new Promise(function(resolve, reject) {
                 Generic.find({}, function(err, generics) {
                     if(err) return reject(err);
@@ -24,65 +25,65 @@ module.exports = function(mdl, mdl_plural, opts = []) {
                 });
             });
         },
-        'show': function(req) {
+        'getById': function(id) {
             return new Promise(function(resolve, reject) {
-                Generic.findOne({ _id: req.params.id }, function(err, Generic) {
+                Generic.findOne({ _id: id }, function(err, Generic) {
                     if(err) return reject(err);
                     if(Generic === null) return reject({
                         "message": "ObjectID was not found",
                         "name": "NotFoundError",
                         "kind": "ObjectId",
-                        "value": req.params.id,
+                        "value": id,
                         "path": "_id"
                     });
                     return resolve(Generic);
                 });
             });
         },
-        'store': function(req) {
-            let op = new Generic(req.body);
+        'save': function(data) {
+            let g = new Generic(data);
 
             return new Promise(function(resolve, reject) {
-                op.save(function(err) {
+                g.save(function(err) {
                     if (err) reject(err);
-                    return resolve(op);
+                    return resolve(g);
                 });
             });
         },
-        'update': function(req) {
+        'updateById': function(id, data) {
             return new Promise(function(resolve, reject) {
-                Generic.findOneAndUpdate({ _id: req.params.id }, req.body, {'new': true}, function(err, Generic) {
+                Generic.findOneAndUpdate({ _id: id }, data, {'new': true}, function(err, Generic) {
                     if(err) return reject(err);
                     if(Generic === null) return reject({
                         "message": "ObjectID was not found",
                         "name": "NotFoundError",
                         "kind": "ObjectId",
-                        "value": req.params.id,
+                        "value": id,
                         "path": "_id"
                     });
                     return resolve(Generic);
                 }); 
             });
         },
-        'destroy': function(req) {
+        'deleteById': function(id) {
             return new Promise(function(resolve, reject) {
-                Generic.findByIdAndRemove(req.params.id, function(err, Generic) {
+                Generic.findByIdAndRemove(id, function(err, Generic) {
                     if(err) return reject(err);
                     if(Generic === null) return reject({
                         "message": "ObjectID was not found",
                         "name": "NotFoundError",
                         "kind": "ObjectId",
-                        "value": req.params.id,
+                        "value": id,
                         "path": "_id"
                     });
                     return resolve(Generic);
                 });
             });
         },
-        'destroyMass': function(req) {
+        'destroyMultiple': function(idArray) {
             return new Promise(function(resolve, reject) {
                 Generic.remove({
-                    '_id': { $in: req.body[mdl_plural].map(function(o){ return mongoose.Types.ObjectId(o); })}
+                    '_id': { $in: idArray }
                 }, function(err, generics) {
                     if(err) return reject(err);
                     return resolve(generics);

@@ -54,9 +54,9 @@ class UserUIController {
      */
     index = (req, res) => {
         let operations = null;
-        this._operationDao.index().then(ops => {
+        this._operationDao.getAll().then(ops => {
             operations = ops;
-            return this._userDao.index();
+            return this._userDao.getAll();
         }).then(function(users) {
             let ids = users.map(user => user._id);
             users = users.map(user => {
@@ -105,9 +105,9 @@ class UserUIController {
      */
     show = (req, res) => {
         let operations = null;
-        this._operationDao.index().then(ops => {
+        this._operationDao.getAll().then(ops => {
             operations = ops;
-            return this._userDao.show(req);
+            return this._userDao.getById(req.params.id);
         })
         .then(function(user) {
             let userOpStr = user.operations.map(opId => {
@@ -138,9 +138,9 @@ class UserUIController {
      */
     edit = (req, res) => {
         let user = null;
-        this._userDao.show(req).then(u => {
+        this._userDao.getById(req.params.id).then(u => {
             user = u;
-            return this._operationDao.index();
+            return this._operationDao.getAll();
         }).then(operations => {
             res.render('crud/edit', {
                 'id': user._id,
@@ -186,7 +186,7 @@ class UserUIController {
      * @memberOf UserUIController
      */
     create = (req, res) => {
-        this._operationDao.index().then(function(operations) {
+        this._operationDao.getAll().then(function(operations) {
             res.render('crud/create', {
                 'resourceURL': '/users',
                 'title': 'Create User',

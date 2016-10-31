@@ -13,9 +13,7 @@ let config = {
       '178.128.244.207', // My IP
       '83.212.240.66', // Tsadimas IP
       '46.177.45.63', // Gkoulis IP
-      '127.0.0.1',
-      '0.0.0.0',
-      '::1'
+      '127.0.0.1'
     ],
     'central_system': {
       'collectOperations': {
@@ -47,6 +45,6 @@ switch(env) {
   config.env = 'development';
 }
 
-config.db = `mongodb://localhost/rpcms-${config.env}`;
+config.db = `mongodb://127.0.0.1/rpcms-${config.env}`;
 
 module.exports = config;

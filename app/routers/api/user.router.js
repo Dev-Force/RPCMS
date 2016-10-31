@@ -1,13 +1,14 @@
 import express from 'express';
 import UserController from '../../controllers/api/user.controller';
-import IPLimitMiddleware from '../../middleware/ip-limit.middleware';
+import {IPLimitMiddleware} from '../../middleware/ip-limit.middleware';
 
 module.exports = function(app) {
 
     let userRouter = express.Router();
     let userController = new UserController();
+    let ipLimitMiddleware = new IPLimitMiddleware();
 
-    IPLimitMiddleware(app, userRouter);
+    userRouter.use(ipLimitMiddleware.applyMiddleware(app));
 
     userRouter.get('/', userController.index);
     userRouter.get('/:id', userController.show);

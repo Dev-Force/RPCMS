@@ -72,9 +72,10 @@ module.exports = function (app, config) {
     if (app.get('env') === 'development') {
         app.use(function (err, req, res, next) {
             res.status(err.status || 500);
+            console.log(err.stack);
             res.json({
                 message: err.message,
-                error: err,
+                error: err.stack,
                 title: 'error'
             });
         });
