@@ -18,12 +18,12 @@ class UserDao extends GenericDao {
      * 
      * @returns {Promise} 
      */
-    store(req) {
-        if(req.body.operations == null) req.body.operations = [];
-        req.body.operations = req.body.operations.map(o => mongoose.Types.ObjectId(o));
+    save(data) {
+        if(data.operations == null) data.operations = [];
+        data.operations = data.operations.map(o => mongoose.Types.ObjectId(o));
         
-        let user = new User(req.body);
-        user.password = user.generateHash(req.body.password);
+        let user = new User(data);
+        user.password = user.generateHash(data.password);
         
         return new Promise(function(resolve, reject) {
             user.save(function (err) {
