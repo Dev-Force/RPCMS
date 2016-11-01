@@ -29,13 +29,13 @@ class MiddlewareChainer {
 
     execute = (req, res, next, app, router, errcb) => {
         if(this.root) {
-            return this._strategy.execute.bind(null, req, res, next)(app, router, this._arrayOfMiddlewares, null).then(result => {
+            return this._strategy.execute(req, res, next, app, router, this._arrayOfMiddlewares, null).then(result => {
                 next();
             }).catch(err => {
                 errcb(res);
             });
         }
-        return this._strategy.execute.bind(null, req, res, next)(app, router, this._arrayOfMiddlewares);
+        return this._strategy.execute(req, res, next, app, router, this._arrayOfMiddlewares);
     }
 
 }

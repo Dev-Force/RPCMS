@@ -8,7 +8,7 @@ class AndMiddlewareStrategy {
             if(value instanceof MiddlewareChainer) 
                 return value.execute.bind(null, req, res, next)(app, router, array[index]);
                
-            return value.applyMiddleware(app).bind(null, req, res, next)();
+            return value.applyMiddleware(app)(req, res, next);
         });
 
      }
