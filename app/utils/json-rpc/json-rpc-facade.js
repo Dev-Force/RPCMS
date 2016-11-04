@@ -43,12 +43,9 @@ class JsonRPCFacade {
         // Handle Batch
         if(Array.isArray(req.body)) {
             req.body.forEach((rpc_body) => {
-                // TODO: for every jsonrpc check if user is authorized to execute the method (UserModel.operations)
                 response.push(this._handleJsonRPC(req, rpc_body));
             });
-        }
-        // Handle single request
-        else { 
+        } else { // Handle single request
             response = this._handleJsonRPC(req, req.body);
         }
         
@@ -66,10 +63,12 @@ class JsonRPCFacade {
         rpc_body['req'] = req;
         let response = {};
         let jsonRPCRequest = new JsonRPCRequest(rpc_body);
-        delete rpc_body['req']; // If we dont delete throws RangeError cause req object is too big
+        delete rpc_body['req']; // If we dont delete, it throws RangeError cause req object is too big
+
         return Promise.resolve(jsonRPCRequest.validate()).then(function(operation) {
             return new Promise((resolve, reject) => {
-                needle.request(config.central_system.methodInvocation.requestMethod, config.central_system.methodInvocation.URL, rpc_body, function(err, resp) { 
+                console.log(rpc_body);
+                needle.request(config.central_system.methodInvocation.requestMethod, config.central_system.methodInvocation.URL, rpc_body, config.central_system.methodInvocation.options, function(err, resp) { 
                     if(err) return reject(Error('Something Went Wrong. Possibly Wrong URL is Provided.'));
                     response = new JsonRPCResponse({
                         "jsonrpc": "2.0",

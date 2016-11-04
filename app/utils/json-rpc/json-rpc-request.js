@@ -28,8 +28,8 @@ class JsonRPCRequest {
         this._method = args.method;
         this._params = args.params || [];
         this._id = args.id;
-        this._req= args.req;
-        if(this._id === null || this._id === undefined) this._notification = true;
+        this._req = args.req;
+        if(this._id === undefined || this._id === null) this._notification = true;
     }
 
     /**
@@ -92,16 +92,29 @@ class JsonRPCRequest {
                 return reject(new JsonRPCError(JsonRPCError.INVALID_REQUEST)); // check if there is "method" on request body
             if(this._params != null && (!Array.isArray(this._params) && !(typeof this._params === "object"))) 
                 return reject(new JsonRPCError(JsonRPCError.INVALID_PARAMS));// Validate that Parameters are either array or object literal
-            // Validate that parameters match remote procedure's. Error METHOD_NOT_FOUND
             
-
-
             return resolve(this._operationDao.getByName(this._method));
-
         }).then(operation => {
+            // Check if user is authorized to execute the specific operation
             if(!this._req.decoded.operations.some(function(op) {
                 return operation._id.equals(op);
             })) return Promise.reject(new JsonRPCError(JsonRPCError.INTERNAL_ERROR));
+
+            // Check if parameters match remote procedure's. Error METHOD_NOT_FOUND
+            if(
+                (
+                    Object.prototype.toString.call(this._params) === '[object Object]'
+                    &&
+                    Object.keys(operation.namedParams).length !== Object.keys(this._params).length
+                )
+                ||
+                (
+                    Array.isArray(this._params)
+                    &&
+                    operation.positionalNumOfParams !== this._params.length 
+                )
+            ) return Promise.reject(new JsonRPCError(JsonRPCError.METHOD_NOT_FOUND));
+
             return Promise.resolve();
         }).catch(err => {
             return Promise.reject(err);
