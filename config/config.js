@@ -32,7 +32,7 @@ let config = {
     'secret': 'thisisasupersecret'
 };
 
-switch (env) {
+switch(env) {
     case 'development':
         config.env = 'development';
         break;
