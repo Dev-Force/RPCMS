@@ -10,6 +10,7 @@ let config = {
     },
     'port': process.env.PORT || 3000,
     'allowedIPs': [
+      '83.212.242.33', // Temp University IP
       '178.128.201.2', // My IP
       '83.212.240.66', // Tsadimas IP
       '46.177.45.63', // Gkoulis IP
