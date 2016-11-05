@@ -6,6 +6,7 @@ import plumber from 'gulp-plumber';
 import del from 'del';
 import runSequence from 'run-sequence';
 import nodemon from 'gulp-nodemon';
+import sourcemaps from 'gulp-sourcemaps';
 
 
 gulp.task('sass', () => {
@@ -29,9 +30,11 @@ gulp.task('build:clean', ['del'], (cb)=> {
 gulp.task('js', () => {
     return gulp.src(['./app/**/*.js', './config/**/*.js', './app.js', './assets/js/**/*.js'], { "base": "." })
     .pipe(plumber())
+    .pipe(sourcemaps.init())
     .pipe(babel({
         presets: ['es2015', 'stage-0']
-    }).on('error', gutil.log))
+    }))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('./dist/'));
 });
 
