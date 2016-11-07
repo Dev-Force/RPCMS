@@ -19,7 +19,7 @@ import { LoginComponent } from './login/login.component';
     FormsModule,
     HttpModule,
     RouterModule.forRoot([
-      {path: 'home', component: HomeComponent},
+      {path: '', component: HomeComponent},
       {path: 'login', component: LoginComponent}
     ])
   ],
