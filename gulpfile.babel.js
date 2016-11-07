@@ -48,7 +48,12 @@ gulp.task('assets', () => {
     .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('build', ['assets', 'views', 'js', 'sass']);
+gulp.task('public', () => {
+    return gulp.src('./public/dist/**/*')
+    .pipe(gulp.dest('./dist/public/'));
+});
+
+gulp.task('build', ['assets', 'views', 'js', 'sass', 'public']);
 
 gulp.task('watch', ['build:clean'], () => {
     return nodemon({

@@ -1,5 +1,6 @@
 import express from 'express';
 import glob from 'glob';
+import path from 'path';
 
 import favicon from 'serve-favicon';
 import logger from 'morgan';
@@ -37,6 +38,8 @@ module.exports = function (app, config) {
     app.use(express.static(config.root + '/assets'));
     app.use(express.static(config.root + '/assets/components/bootstrap-sass/assets'));
     
+    // Angular2
+    app.use(express.static(config.root + '/public'));                 // set the static files location /public/img will be /img for users
     
     app.use(methodOverride());
     app.use(methodOverride('_method'));
@@ -56,6 +59,11 @@ module.exports = function (app, config) {
     let routers = glob.sync(config.root + '/app/routers/**/*.js');
     routers.forEach(function (router) {
         require(router)(app);
+    });
+    
+    // Catch all Route (Angular2)
+    app.get('/*', function(req, res) {
+        res.sendFile(path.join(config.root, '/public/index.html'));
     });
 
     // var controllers = glob.sync(config.root + '/app/controllers/*.js');
