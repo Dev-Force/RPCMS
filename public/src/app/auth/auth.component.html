@@ -1,0 +1,47 @@
+<div class="ui modal small error">
+  <i class="close icon"></i>
+  <div class="header">
+    Error
+  </div>
+  <div class="content">
+    <p>The credentials you provided seems to be wrong.</p>
+  </div>
+</div>
+
+<div class="ui modal tiny success">
+  <div class="header">
+    Success
+  </div>
+  <div class="content">
+    <p>Redirecting...</p>
+  </div>
+</div>
+
+<div class="ui middle aligned center aligned grid login">
+  <div class="column">
+    <h2 class="ui teal image header">
+      <img src="http://semantic-ui.com/examples/assets/images/logo.png" class="image">
+      <div class="content">
+        Log-in to your account
+      </div>
+    </h2>
+    <form (ngSubmit)="onSubmit()" class="ui large form">
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input [(ngModel)]="credentials.username" type="text" name="username" placeholder="username">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input [(ngModel)]="credentials.password" type="password" name="password" placeholder="Password">
+          </div>
+        </div>
+        <button class="ui fluid large teal submit button">Login</button>
+      </div>
+      <div class="ui error message"></div>
+    </form>
+  </div>
+</div>

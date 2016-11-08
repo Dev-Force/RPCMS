@@ -27,6 +27,15 @@ module.exports = function (app, config) {
     app.set('allowedIPs', config.allowedIPs);
     app.set('secret', config.secret);
 
+    // Enable CORS globally (Not needed since we use JWT)
+    if (app.get('env') === 'development') {
+        app.use(function(req, res, next) {
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            next();
+        });
+    }
+
     // app.use(favicon(config.root + '/public/img/favicon.ico'));
     app.use(logger('dev'));
     app.use(bodyParser.json());
@@ -48,13 +57,6 @@ module.exports = function (app, config) {
         console.info('IP Address: ' + req.ip + ' just connected');
         next();
     });
-
-    // Enable CORS globally (Not needed since we use JWT)
-    // app.use(function(req, res, next) {
-    //   res.header("Access-Control-Allow-Origin", "*");
-    //   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    //   next();
-    // });
 
     let routers = glob.sync(config.root + '/app/routers/**/*.js');
     routers.forEach(function (router) {

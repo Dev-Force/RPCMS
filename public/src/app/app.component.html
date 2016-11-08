@@ -1,4 +1,18 @@
- <div class="ui container">
-    <h1>Main App Page</h1>
-    <router-outlet></router-outlet>
+<div *ngIf="auth.isLoggedIn()" class="ui inverted segment">
+  <div class="ui inverted secondary pointing menu">
+    <a class="item" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      Home
+    </a>
+    <a class="item" routerLink="/users" routerLinkActive="active">
+      Users
+    </a>
+    <a class="item" routerLink="/operations" routerLinkActive="active">
+      Operations
+    </a>
+    <a class="item right" (click)="logout()">
+      Logout
+    </a>
+  </div>
 </div>
+
+<router-outlet></router-outlet>

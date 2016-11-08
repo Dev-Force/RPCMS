@@ -10,6 +10,9 @@ import sourcemaps from 'gulp-sourcemaps';
 
 
 gulp.task('sass', () => {
+    gulp.src('./assets/scss/themes/**/*')
+    .pipe(gulp.dest('./dist/assets/css/themes'));
+
     return gulp.src('./assets/scss/**/*.scss')
     .pipe(plumber())
     .pipe(sass())
