@@ -10,6 +10,9 @@ import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthService } from './auth/auth.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { UserService } from './user/user.service';
+import { OperationService } from './operation/operation.service';
+import { HttpClient } from './http-client';
 
 import { AlreadyLoggedInGuard } from './auth/already-logged-in.guard';
 import { UserComponent } from './user/user.component';
@@ -37,7 +40,7 @@ import { OperationComponent } from './operation/operation.component';
       { path: '**', redirectTo: '' }
     ])
   ],
-  providers: [AlreadyLoggedInGuard, AuthGuard, AuthService],
+  providers: [HttpClient, OperationService, UserService, AlreadyLoggedInGuard, AuthGuard, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

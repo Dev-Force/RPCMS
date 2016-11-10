@@ -1,3 +1,5 @@
-<p>
-  user works!
-</p>
+<div class="ui container">
+  <p *ngFor="let user of users">
+    {{ user | json }}
+  </p>
+</div>

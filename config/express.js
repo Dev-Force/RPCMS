@@ -28,13 +28,14 @@ module.exports = function (app, config) {
     app.set('secret', config.secret);
 
     // Enable CORS globally (Not needed since we use JWT)
-    if (app.get('env') === 'development') {
-        app.use(function(req, res, next) {
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-            next();
-        });
-    }
+    app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "x-access-token, Origin, X-Requested-With, Content-Type, Accept");
+        if (req.method === 'OPTIONS') {
+            res.status(200);
+            res.end();
+        } else next();
+    });
 
     // app.use(favicon(config.root + '/public/img/favicon.ico'));
     app.use(logger('dev'));

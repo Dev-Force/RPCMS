@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from './user.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-user',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserComponent implements OnInit {
 
-  constructor() { }
+  public users: any = [];
+
+  constructor(private userService: UserService, private authService: AuthService) { }
 
   ngOnInit() {
+    this.userService.getUsers()
+      .map(response => response.json())
+      .toPromise()
+      .then(response => {
+        this.users = response;
+      })
+      // Logs out user if the response returns unauthorized
+      .catch(err => { 
+        this.authService.logout();
+      });
   }
 
 }

@@ -7,6 +7,15 @@ let User = mongoose.model('User');
 
 class UserDao extends GenericDao {
 
+    getAll() {
+        return super.getAll().then(result => {
+            return result.map(doc => {
+                doc['password'] = undefined;
+                return doc;
+            });
+        });
+    }
+
     /**
      * Stores a User
      * 

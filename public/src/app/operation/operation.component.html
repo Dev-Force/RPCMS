@@ -1,3 +1,5 @@
-<p>
-  operation works!
-</p>
+<div class="ui container">
+  <p *ngFor="let operation of operations">
+    {{ operation | json }}
+  </p>
+</div>

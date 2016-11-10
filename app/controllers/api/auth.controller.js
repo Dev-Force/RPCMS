@@ -16,7 +16,8 @@ class AuthController {
      * 
      * @memberOf AuthController
      */
-    appSecret = null;
+    static appSecret = null;
+    static allowedIPs = null;
 
     /**
      * Performs the Authentication
@@ -26,7 +27,7 @@ class AuthController {
      * 
      * @memberOf AuthController
      */
-    auth = (req, res) => {
+    tokenAuth = (req, res) => {
         // find the user
         User.findOne({ username: req.body.username }, function (err, user) {
             if (err) res.json(err);
@@ -45,12 +46,17 @@ class AuthController {
                     // return the information including token as JSON
                     res.json({
                         success: true,
-                        message: 'Enjoy your token!',
                         token: token
                     });
                 }
             }
         });
+    }
+
+    ipAuth = (req, res) => {
+        if(AuthController.allowedIPs.indexOf(req.ip) > -1) {
+            res.json({success: true});
+        } else res.status(401).json({success: false});
     }
     
 }

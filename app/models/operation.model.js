@@ -4,7 +4,9 @@ let Schema = mongoose.Schema;
 let operationSchema = new Schema({
     name: { // This is the name of the operation
         type: String,
-        required: true
+        required: true,
+        unique: true, 
+        index: true
     },
     positionalNumOfParams: { // This is the number of the positional parameters
         type: Number,
