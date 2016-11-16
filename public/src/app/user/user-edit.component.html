@@ -1,0 +1,39 @@
+<div class="ui text container">
+    <div class="ui top attached secondary segment clearing">
+        <h4 class="ui left floated header">Edit User</h4>
+        <div class="ui right floated button back-button" (click)="backButton()"><i class="icon chevron left"></i>Back</div>
+    </div>
+    <div class="ui bottom attached segment">
+        <form (ngSubmit)="onSubmit()" [ngClass]="{'success': success, 'error': error }" class="ui form">
+            <div class="ui success message">
+                <div class="header">User Edited Succesfully</div>
+            </div>
+            <div class="ui error message">
+                <div class="header">There was an error editing the User</div>
+            </div>
+            <div class="field">
+                <label>Username</label>
+                <input [(ngModel)]="user.username" name="username" type="text" placeholder="Username">
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input [(ngModel)]="user.password" name="password" type="password" placeholder="Password">
+            </div>
+            <div class="field">
+                <div class="ui checkbox">
+                    <input [(ngModel)]="user.admin" class="hidden" name="admin" type="checkbox" tabindex="0">
+                    <label>Administrator</label>
+                </div>
+            </div>
+            <div class="field">
+                <label>Operations</label>
+                <select [(ngModel)]="user.operations" name="operations" multiple="" class="ui fluid dropdown">
+                    <option *ngFor="let operation of availableOperations; let i = index" [attr.value]="operation._id">
+                        {{ operation.name }}
+                    </option>
+                </select>
+            </div>
+            <button class="ui button" type="submit">Submit</button>
+        </form>
+    </div>
+</div>

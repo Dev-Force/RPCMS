@@ -1,5 +1,55 @@
 <div class="ui container">
-  <p *ngFor="let user of users">
-    {{ user | json }}
-  </p>
+  <table class="ui compact celled unstackable table">
+    <thead>
+      <tr>
+        <th class="collapsing">
+          <div class="ui fitted checkbox">
+            <input type="checkbox" [(ngModel)]="checkboxAll" (click)="checkboxSelectAll()"> <label></label>
+          </div>
+        </th>
+        <th>Actions</th>
+        <th>Username</th>
+        <th>Admin</th>
+        <th>Operations</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td class="collapsing">
+          <div class="ui fitted checkbox">
+            <input type="checkbox" [ngModel]="user.selected" (change)="checkboxSelect(user)"> <label></label>
+          </div>
+        </td>
+        <td class="collapsing">
+          <div class="ui buttons mini vertical">
+            <button class="ui black button" [routerLink]="['edit', user._id]"><i class="icon edit large"></i>Edit</button>
+            <button class="ui blue button" [routerLink]="['view', user._id]"><i class="icon unhide large"></i>View</button>
+            <button class="ui red button" (click)="deleteUser(user)"><i class="icon trash outline large"></i>Delete</button>
+          </div>
+        </td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.admin }}</td>
+        <td>
+          <span *ngFor="let op of user.operationNames; let last = last">
+            {{ op }}<span *ngIf="!last">, </span>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot class="full-width">
+      <tr>
+        <th></th>
+        <th colspan="4">
+          <button class="ui right floated small primary labeled icon button" (click)="navigateToAddUser()">
+            <i class="plus icon"></i> Add User
+          </button>
+          <button class="ui small red button" (click)="deleteUsers()">
+            Delete Selected
+          </button>
+        </th>
+      </tr>
+    </tfoot>
+  </table>
+
 </div>
+

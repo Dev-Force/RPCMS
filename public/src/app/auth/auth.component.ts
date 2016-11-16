@@ -19,18 +19,21 @@ export class AuthComponent implements OnInit {
   
   private successFunction() {
     let modal = jQuery(this.elRef.nativeElement).find('.ui.modal.success');
-      modal.modal({detachable: false}).modal('show');
-      setTimeout(() => {
-        modal.modal({detachable: false}).modal('hide');
-        this.router.navigate(['/']);
-      }, 2000);
+    modal.modal({detachable: false}).modal('show');
+    setTimeout(() => {
+      modal.modal({detachable: false}).modal('hide');
+      if(this.authService.redirectUrl) this.router.navigateByUrl(this.authService.redirectUrl);
+      else this.router.navigate(['/']);
+    }, 2000);
   }
 
   ngOnInit() {
     this.authService.checkIpAuth()
       .then(response => {
-        if(response.success) this.successFunction();
-      })
+        if(response.success) this.router.navigateByUrl(this.authService.redirectUrl);
+      }).catch(err => {
+        console.log(err);
+      });
     this.credentials = new Credentials();
   }
 

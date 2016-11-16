@@ -1,5 +1,5 @@
-<div *ngIf="auth.isLoggedIn()" class="ui inverted segment">
-  <div class="ui inverted secondary pointing menu">
+<div *ngIf="auth.isLoggedIn()" class="ui segment">
+  <div class="ui secondary pointing menu container">
     <a class="item" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
       Home
     </a>
@@ -9,7 +9,7 @@
     <a class="item" routerLink="/operations" routerLinkActive="active">
       Operations
     </a>
-    <a class="item right" (click)="logout()">
+    <a *ngIf="!auth.isLoggedInIp()" class="item right" (click)="logout()">
       Logout
     </a>
   </div>

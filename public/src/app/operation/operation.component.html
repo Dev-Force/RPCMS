@@ -1,5 +1,57 @@
 <div class="ui container">
-  <p *ngFor="let operation of operations">
-    {{ operation | json }}
-  </p>
+  <table class="ui compact celled table unstackable">
+    <thead>
+      <tr>
+        <th class="collapsing">
+          <div class="ui fitted checkbox">
+            <input type="checkbox" [(ngModel)]="checkboxAll" (click)="checkboxSelectAll()"> <label></label>
+          </div>
+        </th>
+        <th>Actions</th>
+        <th>Name</th>
+        <th>Positional Number of Parameters</th>
+        <th>Named Parameters</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let operation of operations">
+        <td class="collapsing">
+          <div class="ui fitted checkbox">
+            <input type="checkbox" [ngModel]="operation.selected" (change)="checkboxSelect(operation)"> <label></label>
+          </div>
+        </td>
+        <td class="collapsing">
+          <div class="ui buttons mini vertical">
+            <button class="ui black button" [routerLink]="['edit', operation._id]"><i class="icon edit large"></i>Edit</button>
+            <button class="ui blue button" [routerLink]="['view', operation._id]"><i class="icon unhide large"></i>View</button>
+            <button class="ui red button" (click)="deleteOperation(operation)"><i class="icon trash outline large"></i>Delete</button>
+          </div>
+        </td>
+        <td>{{ operation.name }}</td>
+        <td class="collapsing">{{ operation.positionalNumOfParams }}</td>
+        <td>
+          <span *ngFor="let param of operation.namedParams; let last = last">
+            {{ param }}<span *ngIf="!last">, </span>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot class="full-width">
+      <tr>
+        <th></th>
+        <th colspan="4">
+          <div class="ui right floated small primary labeled icon button" [routerLink]="['add']">
+            <i class="plus icon"></i> Add Operation
+          </div>
+          <div class="ui small button">
+            Approve
+          </div>
+          <div class="ui small red button" (click)="deleteOperations()">
+            Delete Selected
+          </div>
+        </th>
+      </tr>
+    </tfoot>
+  </table>
+
 </div>

@@ -11,8 +11,7 @@ export class AlreadyLoggedInGuard implements CanActivate {
     if (this.auth.isLoggedIn()) { 
         this.router.navigate(['/']);
         return false; 
-    }
-    else return true;
+    } else return true;
   }
 
 }

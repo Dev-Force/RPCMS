@@ -16,7 +16,13 @@ import { HttpClient } from './http-client';
 
 import { AlreadyLoggedInGuard } from './auth/already-logged-in.guard';
 import { UserComponent } from './user/user.component';
+import { UserAddComponent } from './user/user-add.component';
+import { UserEditComponent } from './user/user-edit.component';
+import { UserViewComponent } from './user/user-view.component';
 import { OperationComponent } from './operation/operation.component';
+import { OperationAddComponent } from './operation/operation-add.component';
+import { OperationEditComponent } from './operation/operation-edit.component';
+import { OperationViewComponent } from './operation/operation-view.component';
 
 
 @NgModule({
@@ -26,7 +32,13 @@ import { OperationComponent } from './operation/operation.component';
     HomeComponent,
     PageNotFoundComponent,
     UserComponent,
-    OperationComponent
+    UserAddComponent,
+    UserEditComponent,
+    UserViewComponent,
+    OperationComponent,
+    OperationAddComponent,
+    OperationEditComponent,
+    OperationViewComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +47,13 @@ import { OperationComponent } from './operation/operation.component';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, canActivate: [AuthGuard] },
       { path: 'users', component: UserComponent, canActivate: [AuthGuard] },
+      { path: 'users/add', component: UserAddComponent, canActivate: [AuthGuard] },
+      { path: 'users/edit/:id', component: UserEditComponent, canActivate: [AuthGuard] },
+      { path: 'users/view/:id', component: UserViewComponent, canActivate: [AuthGuard] },
       { path: 'operations', component: OperationComponent, canActivate: [AuthGuard] },
+      { path: 'operations/add', component: OperationAddComponent, canActivate: [AuthGuard] },
+      { path: 'operations/edit/:id', component: OperationEditComponent, canActivate: [AuthGuard] },
+      { path: 'operations/view/:id', component: OperationViewComponent, canActivate: [AuthGuard] },
       { path: 'auth', component: AuthComponent , canActivate: [AlreadyLoggedInGuard] },
       { path: '**', redirectTo: '' }
     ])

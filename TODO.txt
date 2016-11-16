@@ -6,7 +6,7 @@
 √   Create rest CRUD Operations to store Bussiness available methods.
     This will be used by the developer of the bussiness to register the methods.
     - Done
-    
+
     - Can be later extended to use metaprogramming in order to pick all the classes and the methods
     of the system automatically (the problem is that we dont have a way to take the classes from    
     different programming languages without avoiding writing code for each language separately)
@@ -22,6 +22,8 @@
 
 √ TODO: Create Button Get All Remote Operations. (When the button is pressed backend makes a call to the central
         system API and saves all the operations returned to the database. Then it refreshes the operations page).
+
+X TODO: Migrate to DataTables for better presentation
 
 X TODO: Unit Testing
 
@@ -49,5 +51,6 @@ Future Plans:
 
 
 NEW:
-- Cant save the promise in a function in order to reuse it in every middleware. Or middleware is not tested yet.
+- Fix imports (rxjs operators)
+- Switch to observables instead of promises
 

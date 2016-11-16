@@ -43,8 +43,10 @@ Technologies Used:
 - MongoDB (NoSQL database)
 - Mongoose (Mongo ODM - CRUD functionality, validation etc)
 - Bcrypt (Blowfish Encryption for password one way hashing)
-- Handlebars (JavaScript Templating System)
-- Bootstrap (Front-end Framework)
+- Handlebars (JavaScript Templating System)                           --Remove
+- Bootstrap (Front-end Framework)                                     --Remove
 - Sass (Css Precompiler)
 - ESLint (For stage 0 es6 javascript linting)
-- Bootstrap-SweetAlert (Beatiful information and confirmation modals)
+- Bootstrap-SweetAlert (Beatiful information and confirmation modals) --Remove
+- Angular2
+- Semantic-UI

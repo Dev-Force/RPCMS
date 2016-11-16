@@ -31,6 +31,7 @@ module.exports = function (app, config) {
     app.use(function(req, res, next) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "x-access-token, Origin, X-Requested-With, Content-Type, Accept");
+        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
         if (req.method === 'OPTIONS') {
             res.status(200);
             res.end();
@@ -49,7 +50,7 @@ module.exports = function (app, config) {
     app.use(express.static(config.root + '/assets/components/bootstrap-sass/assets'));
     
     // Angular2
-    app.use(express.static(config.root + '/public'));                 // set the static files location /public/img will be /img for users
+    app.use(express.static(config.root + '/public')); // set the static files location /public/img will be /img for users
     
     app.use(methodOverride());
     app.use(methodOverride('_method'));
@@ -59,13 +60,14 @@ module.exports = function (app, config) {
         next();
     });
 
-    let routers = glob.sync(config.root + '/app/routers/**/*.js');
+    // Use only API routes.
+    let routers = glob.sync(config.root + '/app/routers/api/**/*.js');
     routers.forEach(function (router) {
         require(router)(app);
     });
     
     // Catch all Route (Angular2)
-    app.get('/*', function(req, res) {
+    app.get('*', function(req, res) {
         res.sendFile(path.join(config.root, '/public/index.html'));
     });
 

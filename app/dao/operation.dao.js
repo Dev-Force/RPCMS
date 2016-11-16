@@ -48,7 +48,7 @@ class OperationDao extends GenericDao {
         
         data.namedParams = data.namedParams.filter(Boolean);
 
-        return super.update(id, data);
+        return super.updateById(id, data);
     }
 
     batchInsert(data) {

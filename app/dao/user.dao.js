@@ -54,10 +54,28 @@ class UserDao extends GenericDao {
      * @returns {Promise} 
      */
     updateById(id, data) {
+        console.log(data);
         if(data.operations == null) data.operations = [];
         data.operations = data.operations.map(o => mongoose.Types.ObjectId(o));
 
-        return super.updateById(id, data); 
+        let user = new User(data);
+        // console.log(data.password);
+        user.password = user.generateHash(data.password);
+        console.log(user.password);
+
+        return new Promise(function(resolve, reject) {
+                User.findOneAndUpdate({ _id: id }, user, {'new': true}, function(err, user) {
+                    if(err) return reject(err);
+                    if(user === null) return reject({
+                        "message": "ObjectID was not found",
+                        "name": "NotFoundError",
+                        "kind": "ObjectId",
+                        "value": id,
+                        "path": "_id"
+                    });
+                    return resolve(user);
+                }); 
+            });
     }
 
     hasOperation(method) {

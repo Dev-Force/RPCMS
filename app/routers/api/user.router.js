@@ -14,7 +14,7 @@ module.exports = function(app) {
     userRouter.get('/:id', userController.show);
     userRouter.post('/', userController.store);
     userRouter.put('/:id', userController.update);
-    userRouter.delete('/', userController.destroyMass);
+    userRouter.post('/destroyMass', userController.destroyMass);
     userRouter.delete('/:id', userController.destroy);
     
     

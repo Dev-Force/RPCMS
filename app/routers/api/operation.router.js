@@ -31,7 +31,7 @@ module.exports = function(app) {
     operationRouter.get('/:id', operationController.show);
     operationRouter.post('/', operationController.store);
     operationRouter.put('/:id', operationController.update);
-    operationRouter.delete('/', operationController.destroyMass);
+    operationRouter.post('/deleteMass', operationController.destroyMass);
     operationRouter.delete('/:id', operationController.destroy);
 
     app.use('/api/v1/operations', operationRouter);

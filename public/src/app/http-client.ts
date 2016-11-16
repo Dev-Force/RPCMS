@@ -14,7 +14,7 @@ export class HttpClient {
       requestOptions.headers = headers;
   }
 
-  setParams(headers, requestOptions?) {
+  setParams(headers, requestOptions) {
       this.appendToken(headers);
       this.setRequestOptions(headers, requestOptions);
   }
@@ -25,19 +25,19 @@ export class HttpClient {
     return this.http.get(url, requestOptions);
   }
 
-  post(url, data, requestOptions?) {
+  post(url, data, requestOptions = new RequestOptions()) {
     let headers = new Headers();
     this.setParams(headers, requestOptions);
     return this.http.post(url, data, requestOptions);
   }
 
-  delete(url, requestOptions?) {
+  delete(url, requestOptions = new RequestOptions() ) {
     let headers = new Headers();
     this.setParams(headers, requestOptions);
     return this.http.delete(url, requestOptions);
   }
 
-  put(url, data, requestOptions?) {
+  put(url, data, requestOptions = new RequestOptions()) {
     let headers = new Headers();
     this.setParams(headers, requestOptions);
     return this.http.put(url, data, requestOptions);

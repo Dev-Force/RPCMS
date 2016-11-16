@@ -1,0 +1,37 @@
+<div class="ui text container">
+    <div class="ui top attached secondary segment clearing">
+        <h4 class="ui left floated header">Edit Operation</h4>
+        <div class="ui right floated button back-button" (click)="backButton()"><i class="icon chevron left"></i>Back</div>
+    </div>
+    <div class="ui bottom attached segment">
+        <form (ngSubmit)="onSubmit()" [ngClass]="{'success': success, 'error': error }" class="ui form">
+            <div class="ui success message">
+                <div class="header">Operation Edited Succesfully</div>
+            </div>
+            <div class="ui error message">
+                <div class="header">There was an error editing the Operation</div>
+            </div>
+            <div class="field">
+                <label>Name</label>
+                <input [(ngModel)]="operation.name" name="name" type="text" placeholder="Name">
+            </div>
+            <div class="field">
+                <label>Positional Number of Parameters</label>
+                <input [(ngModel)]="operation.positionalNumOfParams" name="positionalNumOfParams" type="number" placeholder="Positional Number of Parameters">
+            </div>
+            <div class="field">
+                <label>Named Parameters</label>
+                <div *ngFor="let param of operation.namedParams; let i = index; let last = last; trackBy:customTrackBy"  class="ui action input">
+                    <input [(ngModel)]="operation.namedParams[i]" name="namedParams-{{i}}" type="text" placeholder="Named Params">
+                    <div *ngIf="!last" (click)="removeNamedParam(i)" class="ui red icon button">
+                        <i class="minus icon"></i>
+                    </div>
+                    <div *ngIf="last" (click)="addNamedParam($event)" class="ui green icon button">
+                        <i class="plus icon"></i>
+                    </div>
+                </div>
+            </div>
+            <button class="ui button" type="submit">Submit</button>
+        </form>
+    </div>
+</div>

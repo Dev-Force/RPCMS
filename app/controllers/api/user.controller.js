@@ -115,7 +115,7 @@ class UserController {
     destroyMass = (req, res) => {
         let idArray = req.body['users'].map(function(o){ return mongoose.Types.ObjectId(o); });
 
-        this._userDao.destroyMutiple(idArray).then(function(result) {
+        this._userDao.destroyMultiple(idArray).then(function(result) {
             res.json(result);
         }).catch(this.catchFunction(res))
     }
