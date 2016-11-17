@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { Urls } from '../remote-urls';
 import { Credentials } from './credentials';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/catch';
 
 
 @Injectable()
@@ -33,7 +34,7 @@ export class AuthService {
 
     return this.http.post(this.tokenAuthUrl, {username: credentials.username, password: credentials.password}, options)
       .map(response => response.json())
-      .mergeMap(response => {
+      .map(response => {
         if(response.success) {
           localStorage.setItem('access-token', response.token);
 
@@ -58,6 +59,8 @@ export class AuthService {
           this.loggedInIp = true;
         }
         return response;
+      }).catch(err => {
+        return Observable.of(err);
       });
   }
 

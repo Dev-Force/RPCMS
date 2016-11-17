@@ -39,7 +39,7 @@ export class AuthComponent implements OnInit {
   onSubmit() {
     this.authService.checkTokenAuth(this.credentials)
       .subscribe(response => {
-        // If ipAuth was successful skip this then
+        // If ipAuth was successful skip this then (*** Check if this is needed ***)
         if(!response) return;
         if(response.success) this.successFunction();
         else jQuery(this.elRef.nativeElement).find('.ui.modal.error').modal({detachable: false}).modal('show');
