@@ -38,9 +38,6 @@ export class UserComponent implements OnInit {
           });
           return user;
         });
-      }, err => { // Logs out user if the response returns unauthorized
-        this.authService.logout();
-        this.router.navigate(['/auth']);
       });
   }
 

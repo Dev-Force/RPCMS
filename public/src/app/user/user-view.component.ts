@@ -38,9 +38,6 @@ export class UserViewComponent implements OnInit {
             return op.name;
           });
         this.user = tempUser;
-      }, err => {  // Logs out user if the response returns unauthorized
-        this.authService.logout();
-        this.router.navigate(['/auth']);
       });
   }
 

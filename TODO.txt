@@ -51,4 +51,4 @@ Future Plans:
 
 
 NEW:
-- Move errors from every subscribe to http-client class. (Hint: use catch rxjs operator)
+- Add optional fields (external-URL, header, param, external-token(key: value))

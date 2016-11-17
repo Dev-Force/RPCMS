@@ -5,29 +5,42 @@ import { HttpModule } from '@angular/http';
 import { RouterModule }   from '@angular/router';
 
 import { AppComponent } from './app.component';
+
+// Pages
 import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
-import { AuthGuard } from './auth/auth.guard';
-import { AuthService } from './auth/auth.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { UserService } from './user/user.service';
-import { OperationService } from './operation/operation.service';
-import { HttpClient } from './http-client';
 
-import { AlreadyLoggedInGuard } from './auth/already-logged-in.guard';
+  // Users
 import { UserComponent } from './user/user.component';
 import { UserAddComponent } from './user/user-add.component';
 import { UserEditComponent } from './user/user-edit.component';
 import { UserViewComponent } from './user/user-view.component';
+
+  // Operations
 import { OperationComponent } from './operation/operation.component';
 import { OperationAddComponent } from './operation/operation-add.component';
 import { OperationEditComponent } from './operation/operation-edit.component';
 import { OperationViewComponent } from './operation/operation-view.component';
 
+// Utils
+import { BackButtonComponent } from './utils/back-button/back-button.component';
+
+// Services 
+import { AuthService } from './auth/auth.service';
+import { UserService } from './user/user.service';
+import { OperationService } from './operation/operation.service';
+import { HttpClient } from './http-client';
+
+// Guards
+import { AuthGuard } from './auth/auth.guard';
+import { AlreadyLoggedInGuard } from './auth/already-logged-in.guard';
+
 
 @NgModule({
   declarations: [
     AppComponent,
+    BackButtonComponent,
     AuthComponent,
     HomeComponent,
     PageNotFoundComponent,

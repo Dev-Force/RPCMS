@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { OperationService } from './operation.service';
 import { AuthService } from '../auth/auth.service';
 import { Operation } from './operation';
+import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
 declare var jQuery: any;
@@ -40,15 +41,12 @@ export class OperationAddComponent implements OnInit {
   onSubmit() {
     this.operationService.addOperation(this.operation)
       .map(response => response.json())
+      .map(response => {
+        if(response.errors || response.errmsg) return Observable.throw(response);
+      })
       .subscribe(response => {
-        if(!response.errors && !response.errmsg) {
-          this.error = false; 
-          this.success = true;
-        }
-        else return Promise.reject(true);
-      }, err => {
-        this.success = false;
-        this.error = true;
+        this.error = false;
+        this.success = true;
       });
   }
 

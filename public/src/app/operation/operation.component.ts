@@ -20,9 +20,6 @@ export class OperationComponent implements OnInit {
       .map(response => response.json())
       .subscribe(response => {
         this.operations = response;
-      }, err => {  // Logs out user if the response returns unauthorized
-        this.authService.logout();
-        this.router.navigate(['/auth']);
       });
   }
 

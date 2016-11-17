@@ -46,9 +46,6 @@ export class UserEditComponent implements OnInit {
         // Check already selected operations
         jQuery('.dropdown').dropdown('set selected', user.operations);
 
-      }, err => {  // Logs out user if the response returns unauthorized
-        this.authService.logout();
-        this.router.navigate(['/auth']);
       });
     
     jQuery('.checkbox').checkbox();

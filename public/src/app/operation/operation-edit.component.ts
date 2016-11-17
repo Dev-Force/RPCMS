@@ -34,9 +34,6 @@ export class OperationEditComponent implements OnInit {
         if(op.namedParams.length === 0) op.namedParams.push('');
 
         this.operation = op;
-      }, err => {   // Logs out user if the response returns unauthorized
-        this.authService.logout();
-        this.router.navigate(['/auth']);
       });
   }
 
