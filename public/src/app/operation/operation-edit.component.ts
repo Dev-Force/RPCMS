@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { OperationService } from './operation.service';
 import { AuthService } from '../auth/auth.service';
 import { Operation } from './operation';
+import 'rxjs/add/operator/map';
 
 declare var jQuery: any;
 
@@ -23,8 +24,7 @@ export class OperationEditComponent implements OnInit {
   ngOnInit() {
     this.operationService.getOperation(this.route.snapshot.params['id'])
       .map(response => response.json())
-      .toPromise()
-      .then(response => {
+      .subscribe(response => {
         let op = new Operation();
         op._id = response._id;
         op.name = response.name;
@@ -34,8 +34,7 @@ export class OperationEditComponent implements OnInit {
         if(op.namedParams.length === 0) op.namedParams.push('');
 
         this.operation = op;
-      })// Logs out user if the response returns unauthorized
-      .catch(err => { 
+      }, err => {   // Logs out user if the response returns unauthorized
         this.authService.logout();
         this.router.navigate(['/auth']);
       });
@@ -56,14 +55,13 @@ export class OperationEditComponent implements OnInit {
   onSubmit() {
     this.operationService.editOperation(this.operation)
       .map(response => response.json())
-      .toPromise()
-      .then(response => {
+      .subscribe(response => {
         if(!response.errors && !response.errmsg) {
           this.error = false; 
           this.success = true;
         }
         else return Promise.reject(true);
-      }).catch(err => {
+      }, err => {
         this.success = false;
         this.error = true;
       });

@@ -2,7 +2,6 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Credentials } from './credentials';
 import { AuthService } from './auth.service';
-import 'rxjs/add/operator/map';
 
 declare var jQuery: any;
 
@@ -29,9 +28,9 @@ export class AuthComponent implements OnInit {
 
   ngOnInit() {
     this.authService.checkIpAuth()
-      .then(response => {
+      .subscribe(response => {
         if(response.success) this.router.navigateByUrl(this.authService.redirectUrl);
-      }).catch(err => {
+      }, err => {
         console.log(err);
       });
     this.credentials = new Credentials();
@@ -39,13 +38,12 @@ export class AuthComponent implements OnInit {
 
   onSubmit() {
     this.authService.checkTokenAuth(this.credentials)
-      .then(response => {
+      .subscribe(response => {
         // If ipAuth was successful skip this then
         if(!response) return;
         if(response.success) this.successFunction();
         else jQuery(this.elRef.nativeElement).find('.ui.modal.error').modal({detachable: false}).modal('show');
-      })
-      .catch(err => {
+      }, err => {
         console.log('There was an error processing your request: ' + err);
       });
   }

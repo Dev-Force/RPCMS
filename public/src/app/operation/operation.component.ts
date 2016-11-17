@@ -18,12 +18,9 @@ export class OperationComponent implements OnInit {
   ngOnInit() {
     this.operationService.getOperations()
       .map(response => response.json())
-      .toPromise()
-      .then(response => {
+      .subscribe(response => {
         this.operations = response;
-      })
-      // Logs out user if the response returns unauthorized
-      .catch(err => { 
+      }, err => {  // Logs out user if the response returns unauthorized
         this.authService.logout();
         this.router.navigate(['/auth']);
       });
@@ -46,8 +43,7 @@ export class OperationComponent implements OnInit {
   public deleteOperation(operation) {
     if(!confirm('Are you sure?')) return;
     this.operationService.deleteOperation(operation._id)
-      .toPromise()
-      .then(response => {
+      .subscribe(response => {
         this.operations.splice([this.operations.indexOf(operation)], 1);
       })
   }
@@ -60,8 +56,7 @@ export class OperationComponent implements OnInit {
         .map(el => el._id)
       )
       .map(response => response.json())
-      .toPromise()
-      .then(response => {
+      .subscribe(response => {
         this.operations = this.operations.filter(el => {
           return !el.selected;
         });

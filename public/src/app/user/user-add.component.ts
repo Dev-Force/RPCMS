@@ -5,6 +5,7 @@ import { UserService } from './user.service';
 import { AuthService } from '../auth/auth.service';
 import { OperationService } from '../operation/operation.service';
 import { User } from './user';
+import 'rxjs/add/operator/map';
 
 declare var jQuery: any;
 
@@ -28,11 +29,9 @@ export class UserAddComponent implements OnInit {
     
     this.operationService.getOperations()
       .map(response => response.json())
-      .toPromise()
-      .then(response => {
+      .subscribe(response => {
         this.availableOperations = response;
-      })// Logs out user if the response returns unauthorized
-      .catch(err => { 
+      }, err => {  // Logs out user if the response returns unauthorized
         this.authService.logout();
         this.router.navigate(['/auth']);
       });
@@ -41,14 +40,13 @@ export class UserAddComponent implements OnInit {
   onSubmit() {
     this.userService.addUser(this.user)
       .map(response => response.json())
-      .toPromise()
-      .then(response => {
+      .subscribe(response => {
         if(!response.errors && !response.errmsg) {
           this.error = false; 
           this.success = true;
         }
         else return Promise.reject(true);
-      }).catch(err => {
+      }, err => {
         this.success = false;
         this.error = true;
       });

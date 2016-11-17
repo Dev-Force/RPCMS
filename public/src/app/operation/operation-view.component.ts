@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { OperationService } from './operation.service';
 import { AuthService } from '../auth/auth.service';
 import { Operation } from './operation';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-operation-view',
@@ -19,15 +20,12 @@ export class OperationViewComponent implements OnInit {
   ngOnInit() {
     this.operationService.getOperation(this.route.snapshot.params['id'])
       .map(response => response.json())
-      .toPromise()
-      .then(response => {
+      .subscribe(response => {
         this.operation = response;
-      })
-      // Logs out user if the response returns unauthorized
-      .catch(err => {
+      }, err => {  // Logs out user if the response returns unauthorized
         this.authService.logout();
         this.router.navigate(['/auth']);
-      })
+      });
   }
 
   backButton() {

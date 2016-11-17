@@ -6,6 +6,8 @@ import { UserService } from './user.service';
 import { AuthService } from '../auth/auth.service';
 import { Operation } from '../operation/operation';
 import { User } from './user';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
 
 declare var jQuery: any;
 
@@ -24,23 +26,19 @@ export class UserViewComponent implements OnInit {
     let tempUser = null;
     this.userService.getUser(this.route.snapshot.params['id'])
       .map(response => response.json())
-      .toPromise()
-      .then(response => {
+      .mergeMap(response => {
         tempUser = response;
         return this.operationService.getOperations()
-          .map(response => response.json())
-          .toPromise();
+          .map(response => response.json());
       })
-      .then(operations => {
+      .subscribe(operations => {
         tempUser.operationNames = operations.filter(op => {
             return tempUser.operations.indexOf(op._id) > -1;
           }).map(op => {
             return op.name;
           });
         this.user = tempUser;
-      })
-      // Logs out user if the response returns unauthorized
-      .catch(err => { 
+      }, err => {  // Logs out user if the response returns unauthorized
         this.authService.logout();
         this.router.navigate(['/auth']);
       });

@@ -51,6 +51,4 @@ Future Plans:
 
 
 NEW:
-- Fix imports (rxjs operators)
-- Switch to observables instead of promises
-
+- Move errors from every subscribe to http-client class. (Hint: use catch rxjs operator)

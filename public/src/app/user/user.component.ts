@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from './user.service';
 import { AuthService } from '../auth/auth.service';
 import { OperationService } from '../operation/operation.service';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
 
 @Component({
   selector: 'app-user',
@@ -19,15 +21,15 @@ export class UserComponent implements OnInit {
   ngOnInit() {
     let tempUsers = [];
     this.userService.getUsers()
-      .map(response => response.json())
-      .toPromise()
-      .then(response => {
+      .map(response => {
+        return response.json();
+      })
+      .mergeMap(response => {
         tempUsers = response;
         return this.operationService.getOperations()
           .map(response => response.json())
-          .toPromise();
       })
-      .then(operations => {
+      .subscribe(operations => {
         this.users = tempUsers.map(user => {
           user.operationNames = operations.filter(op => {
             return user.operations.indexOf(op._id) > -1;
@@ -36,9 +38,7 @@ export class UserComponent implements OnInit {
           });
           return user;
         });
-      })
-      // Logs out user if the response returns unauthorized
-      .catch(err => { 
+      }, err => { // Logs out user if the response returns unauthorized
         this.authService.logout();
         this.router.navigate(['/auth']);
       });
@@ -62,8 +62,7 @@ export class UserComponent implements OnInit {
     if(!confirm('Are you sure?')) return;
     this.userService.deleteUser(user)
       .map(response => response.json())
-      .toPromise()
-      .then(response => {
+      .subscribe(response => {
         if(response) {
           this.users.splice([this.users.indexOf(user)], 1);
           console.log('User deleted feedback');
@@ -79,8 +78,7 @@ export class UserComponent implements OnInit {
         .map(el => el._id)
     )
       .map(response => response.json())
-      .toPromise()
-      .then(response => {
+      .subscribe(response => {
         this.users = this.users.filter(el => {
           return !el.selected;
         });    

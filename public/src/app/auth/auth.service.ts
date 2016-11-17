@@ -3,8 +3,8 @@ import { Urls } from '../remote-urls';
 import { Credentials } from './credentials';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
 
 
 @Injectable()
@@ -22,22 +22,22 @@ export class AuthService {
     this.tokenAuthUrl = Urls.tokenAuth
     this.loggedInToken = localStorage.getItem('access-token') ? true : false;
     this.admin = (localStorage.getItem('admin') === 'true') ? true : false;
-    this.checkIpAuth().then(response => {
+    this.checkIpAuth().subscribe(response => {
       if(response.success) this.loggedInIp = true;
     });
   } 
 
-  public checkTokenAuth(credentials: Credentials): Promise<any> {
+  public checkTokenAuth(credentials: Credentials): Observable<any> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.tokenAuthUrl, {username: credentials.username, password: credentials.password}, options)
       .map(response => response.json())
-      .toPromise()
-      .then(response => {
+      .mergeMap(response => {
         if(response.success) {
           localStorage.setItem('access-token', response.token);
 
+          // Decode Json Web Token payload
           let admin = JSON.parse(atob(response.token.split(".")[1]))['admin'];
           localStorage.setItem('admin', admin);
           this.admin = admin;
@@ -48,14 +48,10 @@ export class AuthService {
       });
   }
 
-  public checkIpAuth(): Promise<any> {
+  public checkIpAuth(): Observable<any> {
     return this.http.post(this.ipAuthUrl, {})
-      .catch(err => {
-        console.log('omg');
-      })
       .map(response => response.json())
-      .toPromise()
-      .then(response => {
+      .map(response => {
         if(response.success) {
           localStorage.setItem('admin', 'true');
           this.admin = true;
@@ -75,7 +71,6 @@ export class AuthService {
 
   public isLoggedIn() {
     return localStorage.getItem('access-token') || localStorage.getItem('admin') || this.loggedInToken || this.loggedInIp;
-    // return this.loggedInToken || this.loggedInIp;
   }
 
   public isAdmin() {

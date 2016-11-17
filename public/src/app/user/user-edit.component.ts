@@ -6,6 +6,9 @@ import { AuthService } from '../auth/auth.service';
 import { OperationService } from '../operation/operation.service';
 import { User } from './user';
 import { Operation } from '../operation/operation';
+import { Observable }  from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
 
 declare var jQuery: any;
 
@@ -27,13 +30,11 @@ export class UserEditComponent implements OnInit {
 
     this.operationService.getOperations()
       .map(response => response.json())
-      .toPromise()
-      .then(response => {
+      .mergeMap(response => {
         this.availableOperations = response;
         return this.userService.getUser(this.route.snapshot.params['id'])
-          .map(response => response.json())
-          .toPromise();
-      }).then(response => {
+          .map(response => response.json());
+      }).subscribe(response => {
         let user = new User();
         user._id = response._id;
         user.username = response.username;
@@ -45,8 +46,7 @@ export class UserEditComponent implements OnInit {
         // Check already selected operations
         jQuery('.dropdown').dropdown('set selected', user.operations);
 
-      })// Logs out user if the response returns unauthorized
-      .catch(err => { 
+      }, err => {  // Logs out user if the response returns unauthorized
         this.authService.logout();
         this.router.navigate(['/auth']);
       });
@@ -58,14 +58,13 @@ export class UserEditComponent implements OnInit {
   onSubmit() {
     this.userService.editUser(this.user)
       .map(response => response.json())
-      .toPromise()
-      .then(response => {
+      .subscribe(response => {
         if(!response.errors && !response.errmsg) {
           this.error = false; 
           this.success = true;
         }
-        else return Promise.reject(true);
-      }).catch(err => {
+        else return Observable.throw(true);
+      }, err => {
         this.success = false;
         this.error = true;
       });
