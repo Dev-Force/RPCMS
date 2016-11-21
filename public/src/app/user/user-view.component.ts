@@ -41,8 +41,4 @@ export class UserViewComponent implements OnInit {
       });
   }
 
-  backButton() {
-    this.location.back();
-  }
-
 }

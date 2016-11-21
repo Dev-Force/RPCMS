@@ -65,16 +65,24 @@ class JsonRPCFacade {
         let jsonRPCRequest = new JsonRPCRequest(rpc_body);
         delete rpc_body['req']; // If we dont delete, it throws RangeError cause req object is too big
 
-        return Promise.resolve(jsonRPCRequest.validate()).then(function(operation) {
+        return jsonRPCRequest.validate().then(function(operation) {
             return new Promise((resolve, reject) => {
-                console.log(rpc_body);
-                needle.request(config.central_system.methodInvocation.requestMethod, config.central_system.methodInvocation.URL, rpc_body, config.central_system.methodInvocation.options, function(err, resp) { 
+                let url = config.central_system.methodInvocation.URL;
+                let requestMethod = config.central_system.methodInvocation.requestMethod;
+                
+                if(jsonRPCRequest.externalUrl) url = jsonRPCRequest.externalUrl;
+                if(jsonRPCRequest.requestMethod) requestMethod = jsonRPCRequest.requestMethod;
+
+                needle.request(requestMethod, url, JSON.stringify(rpc_body), config.central_system.methodInvocation.options, function(err, resp) { 
                     if(err) return reject(Error('Something Went Wrong. Possibly Wrong URL is Provided.'));
-                    response = new JsonRPCResponse({
+
+                    if(jsonRPCRequest.externalUrl) response = new JsonRPCResponse(resp.body);
+                    else response = new JsonRPCResponse({
                         "jsonrpc": "2.0",
                         "result": resp.body,
                         "id": jsonRPCRequest.id
                     });
+
                     // send request using JsonRPCResponse.toJson();
                     // if its notification dont send response
                     if(!jsonRPCRequest.notification) return resolve(response.toJson());
@@ -83,7 +91,9 @@ class JsonRPCFacade {
             });
         }).catch(function(err) {
 
-            // operationDao can reject with a request with 'No Documents Found'
+            // console.log(err.stack); // For debugging
+
+            // operationDao can reject with the response 'No Documents Found'
             // we should return a jsonRPCError instead
             if(err === 'No Documents Found') {
                 err = new JsonRPCError(JsonRPCError.METHOD_NOT_FOUND);

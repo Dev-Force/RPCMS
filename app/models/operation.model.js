@@ -19,13 +19,16 @@ let operationSchema = new Schema({
     externalUrl: { // A url that will point to the external JSON-RPC API
         type: String
     },
+    requestMethod: {
+        type: String
+    },
     tokenKey: { // The key of either the header or the parameter
         type: String
     },
     tokenValue: { // The token itself
         type: String
     },
-    tokenInHeader: { // Whether or not the token must be provided in the request headers
+    tokenInHeaders: { // Whether or not the token must be provided in the request headers
         type: Boolean
     },
     tokenInParams: { // Whether or not the token must be provided in the json-rpc parameters

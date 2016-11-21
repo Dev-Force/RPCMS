@@ -16,14 +16,18 @@ export class UserComponent implements OnInit {
   public users: any = [];
   public checkboxAll: boolean;
 
-  constructor(private router: Router, private route: ActivatedRoute, private userService: UserService, private operationService: OperationService, private authService: AuthService) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private operationService: OperationService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
     let tempUsers = [];
     this.userService.getUsers()
-      .map(response => {
-        return response.json();
-      })
+      .map(response => response.json())
       .mergeMap(response => {
         tempUsers = response;
         return this.operationService.getOperations()
@@ -43,6 +47,11 @@ export class UserComponent implements OnInit {
 
   public checkboxSelect(user) {
     user.selected = (user.selected) ? false : true;
+    if(this.users.every(el => {
+      if(el.selected === true) return true;
+      return false;
+    })) this.checkboxAll = true;
+    else this.checkboxAll = false;
   }
 
   public checkboxSelectAll() {
@@ -52,7 +61,7 @@ export class UserComponent implements OnInit {
   }
 
   public navigateToAddUser() {
-    this.router.navigate(['add'],  {relativeTo: this.route});
+    this.router.navigate(['add'], { relativeTo: this.route });
   }
 
   public deleteUser(user) {

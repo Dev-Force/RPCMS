@@ -15,18 +15,20 @@ export class OperationViewComponent implements OnInit {
  
   public operation: Operation = new Operation();
 
-  constructor(private router: Router, private route: ActivatedRoute, private location: Location, private operationService: OperationService, private authService: AuthService) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private location: Location,
+    private operationService: OperationService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
     this.operationService.getOperation(this.route.snapshot.params['id'])
       .map(response => response.json())
       .subscribe(response => {
-        this.operation = response;
+        this.operation = response as Operation;
       });
-  }
-
-  backButton() {
-    this.location.back();
   }
 
 }

@@ -13,7 +13,12 @@ export class OperationComponent implements OnInit {
   public operations: any = [];
   public checkboxAll: boolean;
 
-  constructor(private router: Router, private route: ActivatedRoute, private operationService: OperationService, private authService: AuthService) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private operationService: OperationService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
     this.operationService.getOperations()
@@ -25,6 +30,11 @@ export class OperationComponent implements OnInit {
 
   public checkboxSelect(operation) {
     operation.selected = (operation.selected) ? false : true;
+    if(this.operations.every(el => {
+      if(el.selected === true) return true;
+      return false;
+    })) this.checkboxAll = true;
+    else this.checkboxAll = false;
   }
 
   public checkboxSelectAll() {
@@ -39,10 +49,10 @@ export class OperationComponent implements OnInit {
 
   public deleteOperation(operation) {
     if(!confirm('Are you sure?')) return;
-    this.operationService.deleteOperation(operation._id)
+    this.operationService.deleteOperation(operation)
       .subscribe(response => {
         this.operations.splice([this.operations.indexOf(operation)], 1);
-      })
+      });
   }
 
   public deleteOperations() {

@@ -24,10 +24,16 @@ export class UserEditComponent implements OnInit {
   public success: boolean = false;
   public error: boolean = false;
 
-  constructor(private router: Router, private route: ActivatedRoute, private location: Location, private userService: UserService, private operationService: OperationService, private authService: AuthService) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private location: Location,
+    private userService: UserService,
+    private operationService: OperationService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
-
     this.operationService.getOperations()
       .map(response => response.json())
       .mergeMap(response => {
@@ -49,7 +55,6 @@ export class UserEditComponent implements OnInit {
       });
     
     jQuery('.checkbox').checkbox();
-
   }
 
   onSubmit() {
@@ -65,10 +70,6 @@ export class UserEditComponent implements OnInit {
         this.success = false;
         this.error = true;
       });
-  }
-  
-  backButton() {
-    this.location.back();
   }
 
 }

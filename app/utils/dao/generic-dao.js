@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 /**
  * A function that takes 3 arguments and returns a Class to be used as a base for a dao Class
- * Available opts are <index, show, store, update, destroy, destroyMass>
+ * Available opts are <getAll, getById, save, updateById, deleteById, deleteMultiple>
  * 
  * @param {any} mdl
  * @param {any} mdl_plural
@@ -80,7 +80,7 @@ module.exports = function(mdl, mdl_plural, opts = []) {
                 });
             });
         },
-        'destroyMultiple': function(idArray) {
+        'deleteMultiple': function(idArray) {
             return new Promise(function(resolve, reject) {
                 Generic.remove({
                     '_id': { $in: idArray }

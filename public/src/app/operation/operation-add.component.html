@@ -31,6 +31,46 @@
                     </div>
                 </div>
             </div>
+            <div class="ui accordion field">
+                <div class="title">
+                    <i class="icon dropdown"></i>
+                    Optional Details
+                </div>
+                <div class="content">
+                    <div class="field">
+                        <label>External Url</label>
+                        <input [(ngModel)] = "operation.externalUrl" name="externalUrl" type="text" placeholder="External Url">
+                    </div>
+                    <div class="grouped fields">
+                        <label>Request Method</label>
+                        <div *ngFor="let method of requestMethods; let first = first" class="field">
+                            <div class="ui radio checkbox">
+                                <input [attr.checked]="first ? true : null" [attr.id]="method" (click)="radioRequestMethod.value = method" type="radio" name="requestMethod" [attr.value]="method">
+                                <label [attr.for]="method">{{ method }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grouped fields">
+                        <label>Token Location</label>
+                        <div *ngFor="let location of tokenLocations; let first = first" class="field">
+                            <div class="ui radio checkbox">
+                                <input [attr.checked]="first ? true : null" [attr.id]="location" (click)="radioTokenLocation.value = location" type="radio" name="location" [attr.value]="location">
+                                <label [attr.for]="location">{{ location }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="radioTokenLocation.value != 'None'" class="two fields">
+                        <div class="field">
+                            <label>Token Key</label>
+                            <input [(ngModel)]="operation.tokenKey" name="tokenKey" type="text" placeholder="Token Key">
+                        </div>
+                        <div class="field">
+                            <label>Token Value</label>
+                            <input [(ngModel)]="operation.tokenValue" name="tokenValue" type="text" placeholder="Token Value">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <button class="ui button" type="submit">Submit</button>
         </form>
     </div>

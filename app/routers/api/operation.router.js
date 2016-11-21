@@ -6,25 +6,26 @@ import {AdminMiddlewareNode} from  '../../middleware/admin.middleware'
 import OrMiddlewareStrategy from '../../utils/middleware/or-middleware-strategy';
 import AndMiddlewareStrategy from '../../utils/middleware/and-middleware-strategy';
 import MiddlewareChainer from '../../utils/middleware/middleware-chainer';
+import conditionalMiddleware from '../../utils/middleware/conditional-middleware';
 
 module.exports = function(app) {
 
     let operationRouter = express.Router();
     let operationController = new OperationController();
-    
-    operationRouter.use(function(req, res, next) {
-        let orChainer = new MiddlewareChainer(new OrMiddlewareStrategy());
-        let andChainer = new MiddlewareChainer(new AndMiddlewareStrategy());
 
-        andChainer.add(new TokenVerificationMiddlewareNode());
-        andChainer.add(new AdminMiddlewareNode());
-        orChainer.add(andChainer);
-        orChainer.add(new IPLimitMiddlewareNode());
+    let orChainer = new MiddlewareChainer(new OrMiddlewareStrategy());
+    let andChainer = new MiddlewareChainer(new AndMiddlewareStrategy());
 
-        orChainer.execute(req, res, next, app, operationRouter, function(res) {
+    andChainer.add(new TokenVerificationMiddlewareNode());
+    andChainer.add(new AdminMiddlewareNode());
+    orChainer.add(andChainer);
+    orChainer.add(new IPLimitMiddlewareNode());
+
+    operationRouter.use(
+        conditionalMiddleware(app, operationRouter, orChainer, function(res) {
             res.status(401).json({status: 'Unauthorized'});
-        });
-    });
+        })
+    );
 
     operationRouter.get('/', operationController.index);
     operationRouter.get('/collect', operationController.collect);

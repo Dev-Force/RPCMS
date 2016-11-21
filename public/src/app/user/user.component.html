@@ -1,4 +1,4 @@
-<div class="ui container">
+<div class="ui container table-container">
   <table class="ui compact celled unstackable table">
     <thead>
       <tr>
@@ -21,7 +21,7 @@
           </div>
         </td>
         <td class="collapsing">
-          <div class="ui buttons mini vertical">
+          <div class="ui vertical buttons mini">
             <button class="ui black button" [routerLink]="['edit', user._id]"><i class="icon edit large"></i>Edit</button>
             <button class="ui blue button" [routerLink]="['view', user._id]"><i class="icon unhide large"></i>View</button>
             <button class="ui red button" (click)="deleteUser(user)"><i class="icon trash outline large"></i>Delete</button>
@@ -40,7 +40,7 @@
       <tr>
         <th></th>
         <th colspan="4">
-          <button class="ui right floated small primary labeled icon button" (click)="navigateToAddUser()">
+          <button [routerLink]="['add']" class="ui right floated small primary labeled icon button">
             <i class="plus icon"></i> Add User
           </button>
           <button class="ui small red button" (click)="deleteUsers()">

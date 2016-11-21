@@ -1,4 +1,4 @@
-<div class="ui container">
+<div class="ui container table-container">
   <table class="ui compact celled table unstackable">
     <thead>
       <tr>
@@ -11,6 +11,12 @@
         <th>Name</th>
         <th>Positional Number of Parameters</th>
         <th>Named Parameters</th>
+        <th>Request Method</th>
+        <th>External Url</th>
+        <th>Token in Headers</th>
+        <th>Token in Parameters</th>
+        <th>Token Key</th>
+        <th>Token Value</th>
       </tr>
     </thead>
     <tbody>
@@ -21,7 +27,7 @@
           </div>
         </td>
         <td class="collapsing">
-          <div class="ui buttons mini vertical">
+          <div class="ui vertical buttons mini">
             <button class="ui black button" [routerLink]="['edit', operation._id]"><i class="icon edit large"></i>Edit</button>
             <button class="ui blue button" [routerLink]="['view', operation._id]"><i class="icon unhide large"></i>View</button>
             <button class="ui red button" (click)="deleteOperation(operation)"><i class="icon trash outline large"></i>Delete</button>
@@ -34,17 +40,32 @@
             {{ param }}<span *ngIf="!last">, </span>
           </span>
         </td>
+        <td>
+          {{ operation.requestMethod }}
+        </td>
+        <td *ngIf="operation.externalUrl">
+          {{ operation.externalUrl }}
+        </td>
+        <td *ngIf="operation.externalUrl">
+          {{ operation.tokenInHeaders }}
+        </td>
+        <td *ngIf="operation.externalUrl">
+          {{ operation.tokenInParams }}
+        </td>
+        <td *ngIf="operation.externalUrl">
+          {{ operation.tokenKey }}
+        </td>
+        <td *ngIf="operation.externalUrl">
+          {{ operation.tokenValue }}
+        </td>
       </tr>
     </tbody>
     <tfoot class="full-width">
       <tr>
         <th></th>
-        <th colspan="4">
+        <th colspan="10">
           <div class="ui right floated small primary labeled icon button" [routerLink]="['add']">
             <i class="plus icon"></i> Add Operation
-          </div>
-          <div class="ui small button">
-            Approve
           </div>
           <div class="ui small red button" (click)="deleteOperations()">
             Delete Selected
@@ -53,5 +74,4 @@
       </tr>
     </tfoot>
   </table>
-
 </div>

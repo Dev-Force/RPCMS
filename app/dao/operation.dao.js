@@ -19,7 +19,14 @@ class OperationDao extends GenericDao {
      * @returns {Promise} 
      */
     save(data) {
-        data.namedParams = data.namedParams.filter(Boolean);
+        if(data.namedParams) data.namedParams = data.namedParams.filter(Boolean);
+
+        // If there there is a token, there must be a key value pair too
+        if((data.tokenInHeaders || data.tokenInParams) && (!data.tokenValue || !data.tokenKey))
+            return Promise.reject({
+                errmsg: "If there is a token, there must be a key-value pair"
+            });
+
         return super.save(data);
     }
 
@@ -45,8 +52,12 @@ class OperationDao extends GenericDao {
      * @returns {Promise} 
      */
     updateById(id, data) {
-        
         data.namedParams = data.namedParams.filter(Boolean);
+
+        if((data.tokenInHeaders || data.tokenInParams) && (!data.tokenValue || !data.tokenKey))
+            return Promise.reject({
+                errmsg: "If there is a token, there must be a key-value pair"
+            })
 
         return super.updateById(id, data);
     }

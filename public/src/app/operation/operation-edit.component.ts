@@ -16,24 +16,35 @@ declare var jQuery: any;
 export class OperationEditComponent implements OnInit {
  
   public operation: Operation = new Operation();
+  public tokenLocations: string[] = ['None', 'Headers', 'Parameters'];
+  public requestMethods: string[] = ['GET', 'POST', 'PUT', 'DELETE'];
+  public radioTokenLocation: any = { value: 'None' };
+  public radioRequestMethod: any = { value: 'GET' };
   public success: boolean = false;
   public error: boolean = false;
 
-  constructor(private router: Router, private route: ActivatedRoute, private location: Location, private operationService: OperationService, private authService: AuthService) { }
+  constructor(
+    private router: Router, 
+    private route: ActivatedRoute, 
+    private location: Location, 
+    private operationService: OperationService, 
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
+    jQuery('.ui.accordion').accordion();
+    jQuery('.ui.checkbox').checkbox();
     this.operationService.getOperation(this.route.snapshot.params['id'])
       .map(response => response.json())
       .subscribe(response => {
-        let op = new Operation();
-        op._id = response._id;
-        op.name = response.name;
-        op.namedParams = response.namedParams;
-        op.positionalNumOfParams = response.positionalNumOfParams;
+        this.operation = response as Operation;
 
-        if(op.namedParams.length === 0) op.namedParams.push('');
+        if(this.operation.tokenInHeaders) this.radioTokenLocation.value = 'Headers';
+        else if(this.operation.tokenInParams) this.radioTokenLocation.value = 'Parameters';
 
-        this.operation = op;
+        this.radioRequestMethod.value = this.operation.requestMethod;
+
+        if(this.operation.namedParams.length === 0) this.operation.namedParams.push('');
       });
   }
 
@@ -63,11 +74,5 @@ export class OperationEditComponent implements OnInit {
         this.error = true;
       });
   }
-
-  backButton() {
-    this.location.back();
-  }
-
-  
 
 }

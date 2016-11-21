@@ -122,7 +122,7 @@ class OperationController {
     destroyMass = (req, res) => {
         let idArray = req.body['operations'].map(function(o){ return mongoose.Types.ObjectId(o); });
 
-        this._operationDao.destroyMultiple(idArray).then(function(result) {
+        this._operationDao.deleteMultiple(idArray).then(function(result) {
             res.json(result);
         })
         .catch(function(err) {

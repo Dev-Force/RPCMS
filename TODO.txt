@@ -23,11 +23,9 @@
 √ TODO: Create Button Get All Remote Operations. (When the button is pressed backend makes a call to the central
         system API and saves all the operations returned to the database. Then it refreshes the operations page).
 
-X TODO: Migrate to DataTables for better presentation
-
 X TODO: Unit Testing
 
-X TODO: Allow External Users to Add their Own functionality
+√ TODO: Allow External Users to Add their Own functionality (ADMIN VERIFICATION ?!)
 
 X TODO: Method Chaining
 
@@ -36,19 +34,18 @@ Optionals:
 
     X TODO: Create a mock shop and two mock partners of the shop to simulate a real example
     
-    X TODO: Create a generic client application that will load resources on UI level dynamically (getFields RPCMS)
-
-
 
 Future Plans:
-- Use LevelDB in order to make token invalidation possible and without transactions on a normal DB (Lower Cost)
+X Use LevelDB in order to make token invalidation possible and without transactions on a normal DB (Lower Cost)
 - FrontEnd Group
-    - Transition to ReactJS or Angular2
-    - Tranform Welcome Screen to a Dashboard
-- Give the ability to remote users to add functionality. (With admin verification of course)
-- User groups Implementation. Bug in OrMiddleware (Cant set headers after they are sent)
+    √ Transition to ReactJS or Angular2
+    X Tranform Welcome Screen to a Dashboard
+√ Give the ability to remote users to add functionality. (With admin verification of course) 
+X User groups Implementation.
 
 
 
 NEW:
-- Add optional fields (external-URL, header, param, external-token(key: value))
+- collect operations button
+- optional params (namedParams)
+- create a route where all users can make requests through a gui to the jsonrpc api but only to the authorized operations (ask supervisor)

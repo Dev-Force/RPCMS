@@ -25,6 +25,42 @@
                     </span>
                 </div>
             </div>
+            <div class="item">
+                <div class="content">
+                    <div class="header">Request Method</div>
+                    {{ operation.requestMethod }}
+                </div>
+            </div>
+            <div *ngIf="operation.externalUrl" class="item">
+                <div class="content">
+                    <div class="header">External URL</div>
+                    {{ operation.externalUrl }}
+                </div>
+            </div>
+            <div *ngIf="operation.tokenInHeaders" class="item">
+                <div class="content">
+                    <div class="header">Token in Headers</div>
+                    {{ operation.tokenInHeaders }}
+                </div>
+            </div>
+            <div *ngIf="operation.tokenInParams" class="item">
+                <div class="content">
+                    <div class="header">Token in Parameters</div>
+                    {{ operation.tokenInParams }}
+                </div>
+            </div>
+            <div *ngIf="operation.tokenKey" class="item">
+                <div class="content">
+                    <div class="header">Token Key</div>
+                    {{ operation.tokenKey }}
+                </div>
+            </div>
+            <div *ngIf="operation.tokenValue" class="item">
+                <div class="content">
+                    <div class="header">Token Value</div>
+                    {{ operation.tokenValue }}
+                </div>
+            </div>
         </div>
     </div>
 </div>
