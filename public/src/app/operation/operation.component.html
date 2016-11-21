@@ -43,20 +43,30 @@
         <td>
           {{ operation.requestMethod }}
         </td>
-        <td *ngIf="operation.externalUrl">
-          {{ operation.externalUrl }}
+        <td>
+          <span *ngIf="operation.externalUrl">
+            {{ operation.externalUrl }}
+          </span>
         </td>
-        <td *ngIf="operation.externalUrl">
-          {{ operation.tokenInHeaders }}
+        <td>
+          <span *ngIf="operation.externalUrl">
+            {{ operation.tokenInHeaders }}
+          </span>
         </td>
-        <td *ngIf="operation.externalUrl">
-          {{ operation.tokenInParams }}
+        <td>
+          <span *ngIf="operation.externalUrl">
+            {{ operation.tokenInParams }}
+          </span>
         </td>
-        <td *ngIf="operation.externalUrl">
-          {{ operation.tokenKey }}
+        <td>
+           <span *ngIf="operation.externalUrl">
+             {{ operation.tokenKey }}
+           </span>
         </td>
-        <td *ngIf="operation.externalUrl">
-          {{ operation.tokenValue }}
+        <td>
+          <span *ngIf="operation.externalUrl">
+            {{ operation.tokenValue }}
+          </span>
         </td>
       </tr>
     </tbody>
