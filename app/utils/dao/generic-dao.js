@@ -10,7 +10,7 @@ import mongoose from 'mongoose';
  * @param {any} [opts=[]]
  * @returns {Class}
  */
-module.exports = function(mdl, mdl_plural, opts = []) {
+export default function(mdl, mdl_plural, opts = []) {
 
     mdl_plural = mdl_plural.toLowerCase();
 

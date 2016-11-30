@@ -10,7 +10,7 @@ import compress from 'compression';
 import methodOverride from 'method-override';
 import exphbs from 'express-handlebars';
 
-module.exports = function (app, config) {
+export default function(app, config) {
     let env = process.env.NODE_ENV || 'development';
     app.locals.ENV = env;
     app.locals.ENV_DEVELOPMENT = env == 'development';
@@ -63,7 +63,7 @@ module.exports = function (app, config) {
     // Use only API routes.
     let routers = glob.sync(config.root + '/app/routers/api/**/*.js');
     routers.forEach(function (router) {
-        require(router)(app);
+        require(router).default(app);
     });
     
     // Catch all Route (Angular2)

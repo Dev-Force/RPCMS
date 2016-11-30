@@ -6,7 +6,7 @@ import express from 'express';
  * 
  * @class ExpressApplication
  */
-class ExpressApplication {
+export default class ExpressApplication {
 
     _app;
     _config;
@@ -58,7 +58,7 @@ class ExpressApplication {
     init() {
         this._app = express();
 
-        require('../config/express')(this._app, this._config);
+        require('../config/express').default(this._app, this._config);
 
         this._app.listen(this._config.port, this._server_ip, () => {
             console.log('Express server listening on port ' + this._config.port);
@@ -66,5 +66,3 @@ class ExpressApplication {
     }
 
 }
-
-module.exports = ExpressApplication;

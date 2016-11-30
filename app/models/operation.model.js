@@ -8,6 +8,9 @@ let operationSchema = new Schema({
         unique: true, 
         index: true
     },
+    description: {
+        type: String
+    },
     positionalNumOfParams: { // This is the number of the positional parameters
         type: Number,
         default: 0
@@ -33,7 +36,11 @@ let operationSchema = new Schema({
     },
     tokenInParams: { // Whether or not the token must be provided in the json-rpc parameters
         type: Boolean
-    }    
+    },
+    owner: { // The owner of the operation if it was submitted using token authentication
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }   
 });
 
 mongoose.model('Operation', operationSchema);

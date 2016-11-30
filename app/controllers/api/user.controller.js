@@ -8,7 +8,7 @@ let User = mongoose.model('User');
  * 
  * @class UserController
  */
-class UserController {
+export default class UserController {
 
     /**
      * Creates an instance of UserController.
@@ -121,5 +121,3 @@ class UserController {
     }
 
 }
-
-module.exports = UserController;

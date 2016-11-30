@@ -4,7 +4,7 @@
  * 
  * @class JsonRPCResponse
  */
-class JsonRPCResponse {
+export default class JsonRPCResponse {
     
     _jsonrpc;
     _err;
@@ -67,6 +67,3 @@ class JsonRPCResponse {
     }
 
 }
-
-module.exports = JsonRPCResponse;
-

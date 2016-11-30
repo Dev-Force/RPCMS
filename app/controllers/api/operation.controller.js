@@ -11,7 +11,7 @@ let Operation = mongoose.model('Operation');
  * 
  * @class OperationController
  */
-class OperationController {
+export default class OperationController {
 
     _operationDao;
 
@@ -23,7 +23,7 @@ class OperationController {
      */
     constructor() {
         this._operationDao = new OperationDao();
-    }
+     }
 
     /**
      * Default callback for promise Failure
@@ -50,7 +50,7 @@ class OperationController {
      * @memberOf OperationController
      */
     store = (req, res) => {
-        this._operationDao.save(req.body).then(function(operation) {
+        this._operationDao.save(req.body, req.decoded).then(function(operation) {
             res.json(operation);
         }).catch(this.catchFunction(res));
     }
@@ -64,10 +64,19 @@ class OperationController {
      * @memberOf OperationController
      */
     index = (req, res) => {
-        this._operationDao.getAll().then(function(operations) {
+        this._operationDao.getAll(req.decoded).then(function(operations) {
             res.json(operations);
         }).catch(this.catchFunction(res));
     }
+
+    indexAuthorized = (req, res) => {
+        if("decoded" in req) this._operationDao.getAuthorizedCRUD(req.decoded).then(function(operations) {
+                res.json(operations);
+            }).catch(this.catchFunction(res));
+        else this._operationDao.getAll().then(function(operations) {
+                res.json(operations);
+            }).catch(this.catchFunction(res));
+    } 
 
     /**
      * Shows a single Operation
@@ -78,7 +87,7 @@ class OperationController {
      * @memberOf OperationController
      */
     show = (req, res) => {
-        this._operationDao.getById(req.params.id).then(function(operation) {
+        this._operationDao.getById(req.params.id, req.decoded).then(function(operation) {
             res.json(operation);
         }).catch(this.catchFunction(res));
     }
@@ -92,7 +101,7 @@ class OperationController {
      * @memberOf OperationController
      */
     update = (req, res) => {
-        this._operationDao.updateById(req.params.id, req.body).then(function(operation) {
+        this._operationDao.updateById(req.params.id, req.body, req.decoded).then(function(operation) {
             res.json(operation);
         }).catch(this.catchFunction(res));
     }
@@ -106,7 +115,7 @@ class OperationController {
      * @memberOf OperationController
      */
     destroy = (req, res) => { 
-        this._operationDao.deleteById(req.params.id).then(function(operation) {
+        this._operationDao.deleteById(req.params.id, req.decoded).then(function(operation) {
             res.json(operation);
         }).catch(this.catchFunction(res));
     }
@@ -122,7 +131,7 @@ class OperationController {
     destroyMass = (req, res) => {
         let idArray = req.body['operations'].map(function(o){ return mongoose.Types.ObjectId(o); });
 
-        this._operationDao.deleteMultiple(idArray).then(function(result) {
+        this._operationDao.deleteMultiple(idArray, req.decoded).then(function(result) {
             res.json(result);
         })
         .catch(function(err) {
@@ -137,6 +146,12 @@ class OperationController {
      * @memberOf OperationController
      */
     collect = (req, res) => {
+        if(req.decoded != null) 
+            return res.json({
+                'success': false,
+                'message': "Unauthorized"
+            });
+
         new Promise((resolve, reject) => {
             needle.request(config.central_system.collectOperations.requestMethod, config.central_system.collectOperations.URL, {}, function(err, resp, body) {
                 if(err) return reject('Something Went Wrong.');
@@ -162,5 +177,3 @@ class OperationController {
     }
 
 }
-
-module.exports = OperationController;

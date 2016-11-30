@@ -2,7 +2,7 @@ import express from 'express';
 import UserController from '../../controllers/api/user.controller';
 import {IPLimitMiddleware} from '../../middleware/ip-limit.middleware';
 
-module.exports = function(app) {
+export default function(app) {
 
     let userRouter = express.Router();
     let userController = new UserController();

@@ -1,7 +1,7 @@
 import express from 'express';
 import AuthController from '../../controllers/api/auth.controller';
 
-module.exports = function (app) {
+export default function (app) {
 
     AuthController.appSecret = app.get('secret');
     AuthController.allowedIPs = app.get('allowedIPs');

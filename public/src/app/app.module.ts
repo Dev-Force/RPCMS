@@ -11,6 +11,9 @@ import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
+// Client 
+import { ClientComponent } from './client/client.component';
+
   // Users
 import { UserComponent } from './user/user.component';
 import { UserAddComponent } from './user/user-add.component';
@@ -51,7 +54,8 @@ import { AlreadyLoggedInGuard } from './auth/already-logged-in.guard';
     OperationComponent,
     OperationAddComponent,
     OperationEditComponent,
-    OperationViewComponent
+    OperationViewComponent,
+    ClientComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +63,7 @@ import { AlreadyLoggedInGuard } from './auth/already-logged-in.guard';
     HttpModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+      { path: 'client', component: ClientComponent, canActivate: [AuthGuard] },
       { path: 'users', component: UserComponent, canActivate: [AuthGuard] },
       { path: 'users/add', component: UserAddComponent, canActivate: [AuthGuard] },
       { path: 'users/edit/:id', component: UserEditComponent, canActivate: [AuthGuard] },

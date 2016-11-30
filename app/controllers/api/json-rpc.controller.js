@@ -6,7 +6,7 @@ import JsonRPCFacade from '../../utils/json-rpc/json-rpc-facade';
  * 
  * @class JsonRPCController
  */
-class JsonRPCController {
+export default class JsonRPCController {
 
     /**
      * Handles any JsonRPC request
@@ -38,5 +38,3 @@ class JsonRPCController {
     }
     
 }
-
-module.exports = JsonRPCController;

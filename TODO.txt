@@ -48,4 +48,10 @@ X User groups Implementation.
 NEW:
 - collect operations button
 - optional params (namedParams)
-- create a route where all users can make requests through a gui to the jsonrpc api but only to the authorized operations (ask supervisor)
+- create a route where all users can make requests through a gui to the jsonrpc api but only to the authorized operations 
+- Duplicate named param Fix [DONE, Not tested] NOT WORKING
+- ignore password if its empty [DONE]
+- Finish operationDao for token based auth (homepage must contain the available operations, 
+    operations table must contain only operations created by the specific admin) Fix angular2 templates (*ngIfs)
+    [DONE]
+- Code refactoring, includes mongoose promise using exec(), turn controller methods to higher order that return the corresponding functions 

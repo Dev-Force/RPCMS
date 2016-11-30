@@ -16,6 +16,10 @@
                 <input [(ngModel)]="operation.name" name="name" type="text" placeholder="Name">
             </div>
             <div class="field">
+                <label>Description</label>
+                <textarea [(ngModel)]="operation.description" name="description" type="text" placeholder="description"></textarea>
+            </div>
+            <div class="field">
                 <label>Positional Number of Parameters</label>
                 <input [(ngModel)]="operation.positionalNumOfParams" name="positionalNumOfParams" type="number" placeholder="Positional Number of Parameters">
             </div>

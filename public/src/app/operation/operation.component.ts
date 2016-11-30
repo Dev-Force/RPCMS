@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { OperationService } from './operation.service';
-import { AuthService } from '../auth/auth.service';
  
 @Component({
   selector: 'app-operation',
@@ -16,12 +15,11 @@ export class OperationComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private operationService: OperationService,
-    private authService: AuthService
+    private operationService: OperationService
   ) { }
 
   ngOnInit() {
-    this.operationService.getOperations()
+    this.operationService.getAuthorizedCRUDOperations()
       .map(response => response.json())
       .subscribe(response => {
         this.operations = response;

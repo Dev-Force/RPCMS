@@ -2,6 +2,7 @@ export class Operation {
 
     public _id: string;
     public name: string;
+    public description: string;
     public positionalNumOfParams: number;
     public namedParams: string[] = [];
     public externalUrl: string;

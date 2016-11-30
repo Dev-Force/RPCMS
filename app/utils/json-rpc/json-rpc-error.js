@@ -4,7 +4,7 @@
  * 
  * @class JsonRPCError
  */
-class JsonRPCError {
+export default class JsonRPCError {
 
     _err;
 
@@ -88,5 +88,3 @@ class JsonRPCError {
     }
 
 }
-
-module.exports = JsonRPCError;

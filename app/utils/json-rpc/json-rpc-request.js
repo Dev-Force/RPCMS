@@ -6,7 +6,7 @@ import OperationDao from '../../dao/operation.dao';
  * 
  * @class JsonRPCRequest
  */
-class JsonRPCRequest {
+export default class JsonRPCRequest {
 
     _req;
     _jsonrpc;
@@ -156,5 +156,3 @@ class JsonRPCRequest {
     }
     
 }
-
-module.exports = JsonRPCRequest;

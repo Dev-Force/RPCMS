@@ -1,1 +1,13 @@
-This is home!
+<div class="ui container">
+    <h3>A Description For Every Operation Available to You</h3>
+    <div class="ui fluid styled accordion">
+        <div *ngFor="let op of operations" class="operation">
+            <div class="title">
+                <i class="dropdown icon"></i> {{ op.name }}
+            </div>
+            <div class="content">
+                <pre>{{ op.description }}</pre>
+            </div>
+        </div>
+    </div>
+</div>

@@ -9,7 +9,7 @@ import needle from 'needle';
 import OperationDao from '../../dao/operation.dao';
 
 
-class JsonRPCFacade {
+export default class JsonRPCFacade {
 
     _request;
     _operationDao;
@@ -110,5 +110,3 @@ class JsonRPCFacade {
     }
     
 }
-
-module.exports = JsonRPCFacade;

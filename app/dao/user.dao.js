@@ -5,7 +5,7 @@ import genericDao from '../utils/dao/generic-dao';
 let GenericDao = genericDao('User', 'users');
 let User = mongoose.model('User');
 
-class UserDao extends GenericDao {
+export default class UserDao extends GenericDao {
 
     getAll() {
         return super.getAll().then(result => {
@@ -58,7 +58,8 @@ class UserDao extends GenericDao {
         data.operations = data.operations.map(o => mongoose.Types.ObjectId(o));
 
         let user = new User(data);
-        user.password = user.generateHash(data.password);
+        if('password' in data && data.password !== "") user.password = user.generateHash(data.password);
+        else user.password = undefined;
 
         return new Promise(function(resolve, reject) {
                 User.findOneAndUpdate({ _id: id }, user, {'new': true}, function(err, user) {
@@ -84,5 +85,3 @@ class UserDao extends GenericDao {
     }
 
 }
-
-module.exports = UserDao;

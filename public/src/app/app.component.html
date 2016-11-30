@@ -6,7 +6,7 @@
     <a *ngIf="auth.isLoggedInIp()" class="item" routerLink="/users" routerLinkActive="active">
       Users
     </a>
-    <a class="item" routerLink="/operations" routerLinkActive="active">
+    <a *ngIf="auth.isAdmin()" class="item" routerLink="/operations" routerLinkActive="active">
       Operations
     </a>
     <a *ngIf="!auth.isLoggedInIp()" class="item right" (click)="logout()">

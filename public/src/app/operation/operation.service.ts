@@ -1,3 +1,5 @@
+import { Http } from '@angular/http';
+import { AuthService } from '../auth/auth.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '../http-client';
 import { Urls } from '../remote-urls';
@@ -6,14 +8,19 @@ import { Operation } from './operation';
 @Injectable()
 export class OperationService {
 
-  private operationsUrl: string;
+  private operationsUrl: string = Urls.operations;
 
-  constructor(private http: HttpClient) { 
-    this.operationsUrl = Urls.operations;
-  }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) { }
 
   public getOperations() {
     return this.http.get(this.operationsUrl);
+  }
+
+  public getAuthorizedCRUDOperations() {
+    return this.http.get(this.operationsUrl + '/authorizedCRUD');
   }
 
   public getOperation(op_id) {

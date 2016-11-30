@@ -2,23 +2,23 @@ import express from 'express';
 import OperationController from '../../controllers/api/operation.controller';
 import {IPLimitMiddlewareNode} from '../../middleware/ip-limit.middleware';
 import {TokenVerificationMiddlewareNode} from '../../middleware/token-verification.middleware';
-import {AdminMiddlewareNode} from  '../../middleware/admin.middleware'
-import OrMiddlewareStrategy from '../../utils/middleware/or-middleware-strategy';
-import AndMiddlewareStrategy from '../../utils/middleware/and-middleware-strategy';
-import MiddlewareChainer from '../../utils/middleware/middleware-chainer';
-import conditionalMiddleware from '../../utils/middleware/conditional-middleware';
+import {AdminMiddleware, AdminMiddlewareNode} from  '../../middleware/admin.middleware';
+import {conditionalMiddleware, AndMiddlewareStrategy, OrMiddlewareStrategy, MiddlewareChainer} from 'express-conditional-tree-middleware';
 
-module.exports = function(app) {
+export default function(app) {
 
     let operationRouter = express.Router();
     let operationController = new OperationController();
 
+    let adminMiddleware = new AdminMiddleware();
+
     let orChainer = new MiddlewareChainer(new OrMiddlewareStrategy());
     let andChainer = new MiddlewareChainer(new AndMiddlewareStrategy());
 
-    andChainer.add(new TokenVerificationMiddlewareNode());
-    andChainer.add(new AdminMiddlewareNode());
-    orChainer.add(andChainer);
+    // andChainer.add(new TokenVerificationMiddlewareNode());
+    // andChainer.add(new AdminMiddlewareNode());
+    // orChainer.add(andChainer);
+    orChainer.add(new TokenVerificationMiddlewareNode()); // new
     orChainer.add(new IPLimitMiddlewareNode());
 
     operationRouter.use(
@@ -26,8 +26,13 @@ module.exports = function(app) {
             res.status(401).json({status: 'Unauthorized'});
         })
     );
-
+    
     operationRouter.get('/', operationController.index);
+    operationRouter.get('/authorizedCRUD', operationController.indexAuthorized);
+
+    // CRUD
+    operationRouter.use(adminMiddleware.applyMiddleware(app));
+
     operationRouter.get('/collect', operationController.collect);
     operationRouter.get('/:id', operationController.show);
     operationRouter.post('/', operationController.store);

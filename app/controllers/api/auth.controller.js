@@ -8,7 +8,7 @@ let User = mongoose.model('User');
  * 
  * @class AuthController
  */
-class AuthController {
+export default class AuthController {
 
     /**
      * The app secret
@@ -40,7 +40,7 @@ class AuthController {
                 } else {
                     // if user is found and password is right
                     // create a token
-                    var token = jwt.sign({ username: user.username, operations: user.operations, admin: user.admin }, AuthController.appSecret, {
+                    var token = jwt.sign({ user_id: user._id, username: user.username, operations: user.operations, admin: user.admin }, AuthController.appSecret, {
                         expiresIn: '1440m' // expires in 24 hours
                     });
                     // return the information including token as JSON
@@ -60,5 +60,3 @@ class AuthController {
     }
     
 }
-
-module.exports = AuthController;

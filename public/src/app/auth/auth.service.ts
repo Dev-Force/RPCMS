@@ -59,7 +59,7 @@ export class AuthService {
           this.loggedInIp = true;
         }
         return response;
-      }).catch(err => {
+      }).catch(err => { // Forward error
         return Observable.of(err);
       });
   }
