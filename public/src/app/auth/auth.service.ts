@@ -54,6 +54,9 @@ export class AuthService {
       .map(response => response.json())
       .map(response => {
         if(response.success) {
+          localStorage.removeItem('admin');
+          localStorage.removeItem('access-token');
+
           localStorage.setItem('admin', 'true');
           this.admin = true;
           this.loggedInIp = true;

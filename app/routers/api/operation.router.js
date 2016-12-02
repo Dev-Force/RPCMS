@@ -31,7 +31,11 @@ export default function(app) {
     operationRouter.get('/authorizedCRUD', operationController.indexAuthorized);
 
     // CRUD
-    operationRouter.use(adminMiddleware.applyMiddleware(app));
+    operationRouter.use((req, res, next) => {
+        if("decoded" in req)
+            adminMiddleware.applyMiddleware(app)
+        next();
+    }); //error if logged in via ip (Fixed)
 
     operationRouter.get('/collect', operationController.collect);
     operationRouter.get('/:id', operationController.show);
