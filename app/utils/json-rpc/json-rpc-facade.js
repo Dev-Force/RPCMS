@@ -60,38 +60,55 @@ export default class JsonRPCFacade {
      * @returns {Promise}
      */
     _handleJsonRPC(req, rpc_body) {
+
         rpc_body['req'] = req;
         let response = {};
         let jsonRPCRequest = new JsonRPCRequest(rpc_body);
         delete rpc_body['req']; // If we dont delete, it throws RangeError cause req object is too big
 
-        return jsonRPCRequest.validate().then(function(operation) {
+        let url = config.central_system.methodInvocation.URL;
+        let requestMethod = config.central_system.methodInvocation.requestMethod;
+        let options = config.central_system.methodInvocation.options;
+
+        return jsonRPCRequest.validate().then(operation => {
             return new Promise((resolve, reject) => {
-                let url = config.central_system.methodInvocation.URL;
-                let requestMethod = config.central_system.methodInvocation.requestMethod;
                 
                 if(jsonRPCRequest.externalUrl) url = jsonRPCRequest.externalUrl;
                 if(jsonRPCRequest.requestMethod) requestMethod = jsonRPCRequest.requestMethod;
 
-                needle.request(requestMethod, url, JSON.stringify(rpc_body), config.central_system.methodInvocation.options, function(err, resp) { 
-                    if(err) return reject(Error('Something Went Wrong. Possibly Wrong URL is Provided.'));
+                return resolve(this._operationDao.getByName(jsonRPCRequest.method));
+            }).then(operation => {
+                // Inject token if exists
+                if("tokenKey" in operation) {
+                    if(operation.tokenInParams) rpc_body.params[operation.tokenKey] = operation.tokenValue;
+                    else if(operation.tokenInHeaders) {
+                        if(!"headers" in options) options.headers = {};
+                        options.headers[operation.tokenKey] = operation.tokenValue;
+                    }
+                }
 
-                    if(jsonRPCRequest.externalUrl) response = new JsonRPCResponse(resp.body);
-                    else response = new JsonRPCResponse({
-                        "jsonrpc": "2.0",
-                        "result": resp.body,
-                        "id": jsonRPCRequest.id
+                return new Promise((resolve, reject) => {
+                    needle.request(requestMethod, url, JSON.stringify(rpc_body), options, function(err, resp) { 
+                        if(err) return reject(Error('Something Went Wrong. Possibly Wrong URL is Provided.'));
+
+                        if(jsonRPCRequest.externalUrl) response = new JsonRPCResponse(resp.body);
+                        else response = new JsonRPCResponse({
+                            "jsonrpc": "2.0",
+                            "result": resp.body,
+                            "id": jsonRPCRequest.id
+                        });
+
+                        // send request using JsonRPCResponse.toJson();
+                        // if its notification dont send response
+                        if(!jsonRPCRequest.notification) return resolve(response.toJson());
+                        else return resolve(undefined);
                     });
-
-                    // send request using JsonRPCResponse.toJson();
-                    // if its notification dont send response
-                    if(!jsonRPCRequest.notification) return resolve(response.toJson());
-                    else return resolve(undefined);
                 });
             });
         }).catch(function(err) {
 
-            // console.log(err.stack); // For debugging
+            console.log(err);
+            console.log(err.stack); // For debugging
 
             // operationDao can reject with the response 'No Documents Found'
             // we should return a jsonRPCError instead

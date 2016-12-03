@@ -119,12 +119,16 @@ export default class JsonRPCRequest {
                 return operation._id.equals(op);
             })) return Promise.reject(new JsonRPCError(JsonRPCError.INTERNAL_ERROR));
           
+            // If there is a token in the operation and is located inside the params then decrease the param number by one
+            let namedParamsKeys = operation.namedParams.length;
+            if(operation.tokenInParams) namedParamsKeys--;
+
             // Check if parameters match remote procedure's. Error METHOD_NOT_FOUND
             if(
                 (
                     Object.prototype.toString.call(this._params) === '[object Object]'
                     &&
-                    operation.namedParams.length !== Object.keys(this._params).length
+                    namedParamsKeys !== Object.keys(this._params).length
                 )
                 ||
                 (
@@ -136,7 +140,7 @@ export default class JsonRPCRequest {
 
             // Resolve the above problem when namedParams are set on the operation but the request doesnt contain any params
             if(
-                operation.namedParams.length !== 0 
+                namedParamsKeys !== 0 
                 &&
                 (
                     this._params == null

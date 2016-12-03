@@ -82,6 +82,17 @@ export default class OperationDao extends GenericDao {
         return super.save(data);
     }
 
+    // Used By JsonRPCRequest
+    getByName(name) {
+        return new Promise((resolve, reject) => {
+            Operation.findOne({'name': name}, function(err, docs) {
+                if(err) return reject(err);
+                if(!docs) return reject('No Documents Found');
+                return resolve(docs);
+            })
+        });
+    }
+
     /**
      * Updates an Operation
      * 

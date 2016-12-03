@@ -46,6 +46,7 @@ X User groups Implementation.
 
 
 NEW:
+- fix token invalidation (when operations change etc)
 - collect operations button
 - optional params (namedParams) 
 - create a route where all users can make requests through a gui to the jsonrpc api but only to the authorized operations 

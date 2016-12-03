@@ -3,7 +3,12 @@ import OperationController from '../../controllers/api/operation.controller';
 import {IPLimitMiddlewareNode} from '../../middleware/ip-limit.middleware';
 import {TokenVerificationMiddlewareNode} from '../../middleware/token-verification.middleware';
 import {AdminMiddleware, AdminMiddlewareNode} from  '../../middleware/admin.middleware';
-import {conditionalMiddleware, AndMiddlewareStrategy, OrMiddlewareStrategy, MiddlewareChainer} from 'express-conditional-tree-middleware';
+import {
+    conditionalMiddleware,
+    AndMiddlewareStrategy, 
+    OrMiddlewareStrategy, 
+    MiddlewareChainer
+} from 'express-conditional-tree-middleware';
 
 export default function(app) {
 
