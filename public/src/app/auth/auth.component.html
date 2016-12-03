@@ -19,29 +19,31 @@
 
 <div class="ui middle aligned center aligned grid login">
   <div class="column">
-    <h2 class="ui teal image header">
-      <img src="/assets/images/rpcms_logo.png" class="image">
-      <!--<div class="content">
-        Log-in to your account
-      </div>-->
-    </h2>
-    <form (ngSubmit)="onSubmit()" class="ui large form">
-      <div class="ui basic very padded segment">
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="user icon"></i>
-            <input [(ngModel)]="credentials.username" type="text" name="username" placeholder="username">
+    <div class="ui stacked padded segment"> 
+      <h2 class="ui teal image header">
+        <img src="/assets/images/rpcms_logo.png" class="image">
+        <!--<div class="content">
+          Log-in to your account
+        </div>-->
+      </h2>
+      <form (ngSubmit)="onSubmit()" class="ui large form">
+        <div class="ui basic very padded segment">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input [(ngModel)]="credentials.username" type="text" name="username" placeholder="username">
+            </div>
           </div>
-        </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="lock icon"></i>
-            <input [(ngModel)]="credentials.password" type="password" name="password" placeholder="Password">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input [(ngModel)]="credentials.password" type="password" name="password" placeholder="Password">
+            </div>
           </div>
+          <button class="ui fluid large basic submit button">Login</button>
         </div>
-        <button class="ui fluid large basic submit button">Login</button>
-      </div>
-      <div class="ui error message"></div>
-    </form>
+        <div class="ui error message"></div>
+      </form>
+    </div>
   </div>
 </div>

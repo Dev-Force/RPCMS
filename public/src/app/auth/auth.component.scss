@@ -14,6 +14,10 @@ body > .grid {
     max-width: 450px;
 }
 
+.ui.image.header {
+    margin-top: 30px;
+}
+
 .ui.header > .image, .ui.header > img {
     width: 9.5em;
 }
@@ -36,4 +40,8 @@ body > .grid {
 .ui.form input[type=url]:focus, 
 .ui.form input[type=number]:focus {
     border-color: #c5d8e0;
+}
+
+.ui.basic.button:focus, .ui.basic.button:hover, .ui.basic.buttons .button:focus, .ui.basic.buttons .button:hover {
+    color: rgba(0, 0, 0, 0.6) !important;
 }
