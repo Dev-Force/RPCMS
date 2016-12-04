@@ -34,6 +34,9 @@ export default class AuthController {
             if (!user) {
                 res.json({ success: false, message: 'Authentication failed. User not found.' });
             } else if (user) {
+                // Check if there is any password sent
+                if(!("password" in req.body)) req.body.password = '';
+                
                 // check if password matches
                 if (!user.validPassword(req.body.password)) {
                     res.json({ success: false, message: 'Authentication failed. Wrong password.' });

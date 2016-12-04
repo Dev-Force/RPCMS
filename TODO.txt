@@ -46,11 +46,14 @@ X User groups Implementation.
 
 
 NEW:
+- Fix empty operation success
+- fix remote-urls.ts
 - fix token invalidation (when operations change etc)
 - collect operations button
 - optional params (namedParams) 
 - create a route where all users can make requests through a gui to the jsonrpc api but only to the authorized operations 
 
+- empty password crashes application [DONE]
 - bug: delete access-token from storage before login in(when using ip if token is persisted the system is not working right) [DONE]
 - Duplicate named param Fix [DONE, Not tested]
 - ignore password if its empty [DONE]

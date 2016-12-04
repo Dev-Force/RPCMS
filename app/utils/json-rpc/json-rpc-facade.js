@@ -82,7 +82,7 @@ export default class JsonRPCFacade {
                 if("tokenKey" in operation) {
                     if(operation.tokenInParams) rpc_body.params[operation.tokenKey] = operation.tokenValue;
                     else if(operation.tokenInHeaders) {
-                        if(!"headers" in options) options.headers = {};
+                        if(!("headers" in options)) options.headers = {};
                         options.headers[operation.tokenKey] = operation.tokenValue;
                     }
                 }
