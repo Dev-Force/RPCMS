@@ -29,7 +29,9 @@ export class AuthComponent implements OnInit {
   ngOnInit() {
     this.authService.checkIpAuth()
       .subscribe(response => {
-        if(response.success) this.router.navigateByUrl(this.authService.redirectUrl);
+        if(response.success) 
+          if(this.authService.redirectUrl != null) this.router.navigateByUrl(this.authService.redirectUrl);
+          else this.router.navigate(['']);
       }, err => {
         console.log(err);
       });

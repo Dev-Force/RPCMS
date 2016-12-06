@@ -66,7 +66,7 @@ export class OperationAddComponent implements OnInit {
     this.operationService.addOperation(this.operation)
       .map(response => response.json())
       .subscribe(response => {
-        if(response.errmsg || response.errmsg) {
+        if(response.errmsg || response.errors) {
           this.error = true;
           this.success = false;
         } else {

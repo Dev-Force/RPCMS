@@ -62,7 +62,7 @@ import { AlreadyLoggedInGuard } from './auth/already-logged-in.guard';
     FormsModule,
     HttpModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+      { path: '', component: HomeComponent, canActivate: [AuthGuard], pathMatch: 'full' },
       { path: 'client', component: ClientComponent, canActivate: [AuthGuard] },
       { path: 'users', component: UserComponent, canActivate: [AuthGuard] },
       { path: 'users/add', component: UserAddComponent, canActivate: [AuthGuard] },

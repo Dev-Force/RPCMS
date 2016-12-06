@@ -135,6 +135,7 @@ export default class OperationController {
             res.json(result);
         })
         .catch(function(err) {
+            console.log(err);
             res.json(err);
         });
     }

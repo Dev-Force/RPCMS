@@ -59,7 +59,7 @@ export default class UserDao extends GenericDao {
 
         let user = new User(data);
         if('password' in data && data.password !== "") user.password = user.generateHash(data.password);
-        else user.password = undefined;
+        else user.password = undefined; // Possible bug here
 
         return new Promise(function(resolve, reject) {
                 User.findOneAndUpdate({ _id: id }, user, {'new': true}, function(err, user) {

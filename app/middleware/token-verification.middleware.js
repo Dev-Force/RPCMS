@@ -40,6 +40,25 @@ export class TokenVerificationMiddlewareNode {
                             if(user === null) return reject({
                                 status: 'Unauthorized'
                             });
+
+                            // Check if the token payload matches the user model
+                            if(
+                                ( // same length and same values
+                                    decoded.operations.length === user.operations.length
+                                    && 
+                                    user.operations.every((op_id, i) => op_id.equals(decoded.operations[i].user_id))
+                                )
+                                ||
+                                decoded.username != user.username
+                                ||
+                                decoded.admin != user.admin
+                                ||
+                                decoded.user_id != user._id
+                            ) return reject({
+                                status: 'Unauthorized'
+                            });
+
+
                             if((decoded.operations.length == user.operations.length) && decoded.operations.every(function(element, index) {
                                     return element === user.operations[index]; 
                                 })

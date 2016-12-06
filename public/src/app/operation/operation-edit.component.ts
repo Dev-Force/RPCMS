@@ -64,14 +64,16 @@ export class OperationEditComponent implements OnInit {
     this.operationService.editOperation(this.operation)
       .map(response => response.json())
       .subscribe(response => {
-        if(!response.errors && !response.errmsg) {
-          this.error = false; 
+        if(response.errmsg || response.errors) {
+          this.error = true;
+          this.success = false;
+        } else {
+          this.error = false;
           this.success = true;
         }
-        else return Promise.reject(true);
       }, err => {
-        this.success = false;
-        this.error = true;
+        this.error = false;
+        this.success = true;
       });
   }
 

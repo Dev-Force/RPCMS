@@ -1,12 +1,20 @@
 import Promise from 'bluebird';
 import mongoose from 'mongoose';
 import genericDao from '../utils/dao/generic-dao';
+import UserDao from './user.dao';
 import OperationController from '../controllers/api/operation.controller';
 
 let GenericDao = genericDao('Operation', 'operations');
 let Operation = mongoose.model('Operation');
 
 export default class OperationDao extends GenericDao {
+
+    _userDao;
+
+    constructor() {
+        super();
+        this._userDao = new UserDao();
+    }
 
     getById(id, decoded_info) {
         if(decoded_info != null)
@@ -79,7 +87,16 @@ export default class OperationDao extends GenericDao {
                 errmsg: "If there is a token, there must be a key-value pair"
             });
 
-        return super.save(data);
+        let retrievedOpId = null;
+
+        return super.save(data).then(op => {
+            retrievedOpId = op._id;
+            return this._userDao.getById(decoded_info.user_id);
+        }).then(user => {
+            user.operations.push(mongoose.Types.ObjectId(retrievedOpId));
+            user.password = undefined;
+            return this._userDao.updateById(user._id, user); // Possible bug here
+        });
     }
 
     // Used By JsonRPCRequest
@@ -132,14 +149,41 @@ export default class OperationDao extends GenericDao {
         else return super.updateById(id, data);
     }
 
+    _deleteByIdHelper(id, decoded_info) {
+        let retrievedOpId = null;
+
+        return super.deleteById(id).then(op => {
+            retrievedOpId = op._id;
+            return this._userDao.getById(decoded_info.user_id);
+        }).then(user => {
+            user.operations.splice(user.operations.indexOf(mongoose.Types.ObjectId(retrievedOpId)), 1);
+            user.password = undefined;
+            return this._userDao.updateById(user._id, user);
+        });
+    }
+
     deleteById(id, decoded_info) {
         if(decoded_info != null)
             return this.getAuthorizedCRUD(decoded_info).then(ops => {
                 if(!ops.some(op => op._id.equals(id))) 
                     return Promise.reject({ "errmsg": "Not Authorized to Delete this Operation" });
-                return super.deleteById(id);
+                return this._deleteByIdHelper(id, decoded_info);
             })
-        else return super.deleteById(id);
+        else return this._deleteByIdHelper(id, decoded_info);
+    }
+
+    _deleteMultipleHelper(idArray, decoded_info) {
+        return super.deleteMultiple(idArray).then(
+            ops => this._userDao.getById(decoded_info.user_id)
+        ).then(user => {
+            idArray.forEach(id => {
+                user.operations.splice(user.operations.indexOf(mongoose.Types.ObjectId(id)), 1);
+            });
+            user.password = undefined;
+            return this._userDao.updateById(user._id, user);
+        }).catch(err => {
+            console.log(err);
+        });
     }
 
     deleteMultiple(idArray, decoded_info) {
@@ -147,11 +191,25 @@ export default class OperationDao extends GenericDao {
         
         if(decoded_info != null) {
             return this.getAuthorizedCRUD(decoded_info).then(ops => {
-                if(!ops.map(op => op._id.toString()).every(op_id => idStringArray.indexOf(op_id) > -1))
-                    return Promise.reject({ "errmsg": "Not Authorized to Delete One of Those Operations" });
-                return super.deleteMultiple(idArray);
+                // console.log(idStringArray);
+                // console.log(ops.map(op => op._id.toString()));
+                // console.log(idArray[].indexOf(ops.map(op => op._id.toString())) > -1);
+                // console.log(!idStringArray.every(id => {
+                //     console.log(id + ": " + id.indexOf(ops.map(op => 
+                //         op._id.toString()
+                //     )) > -1);
+                //     return id.indexOf(ops.map(op => op._id.toString())) > -1
+                // }));
+                if(
+                    !idStringArray.every(id => 
+                        ops.map(op => 
+                            op._id.toString()
+                        ).indexOf(id) > -1
+                    )
+                ) return Promise.reject({ "errmsg": "Not Authorized to Delete One of Those Operations" });
+                return this._deleteMultipleHelper(idArray, decoded_info);
             })
-        } else return super.deleteMultiple(idArray);
+        } else return this._deleteMultipleHelper(idArray, decoded_info);
     }
 
     batchInsert(data) {
