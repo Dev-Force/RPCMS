@@ -1,4 +1,5 @@
 import Promise from 'bluebird';
+import mongoose from 'mongoose';
 import http from 'http';
 import jwt from 'jsonwebtoken';
 import JsonRPCRequest from './json-rpc-request';
@@ -7,7 +8,7 @@ import JsonRPCError from './json-rpc-error';
 import config from '../../../config/config';
 import needle from 'needle';
 import OperationDao from '../../dao/operation.dao';
-
+import LogsDao from '../../dao/logs.dao';
 
 export default class JsonRPCFacade {
 
@@ -21,6 +22,7 @@ export default class JsonRPCFacade {
      */
     constructor(req) {
         this._request = req;
+        this._logsDao = new LogsDao();
         this._operationDao = new OperationDao();
     }
     
@@ -86,6 +88,12 @@ export default class JsonRPCFacade {
                         options.headers[operation.tokenKey] = operation.tokenValue;
                     }
                 }
+
+                // Push to log
+                this._logsDao.save({
+                    user_id: mongoose.Types.ObjectId(req.decoded.user_id),
+                    operation_id: operation._id
+                });
 
                 return new Promise((resolve, reject) => {
                     needle.request(requestMethod, url, JSON.stringify(rpc_body), options, function(err, resp) { 

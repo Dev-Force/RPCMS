@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 
 
 export class TokenVerificationMiddlewareNode {
+
     applyMiddleware(app) {
         return (req, res, next) => {
             return new Promise((resolve, reject) => {
@@ -54,7 +55,7 @@ export class TokenVerificationMiddlewareNode {
                                 decoded.admin != user.admin
                                 ||
                                 decoded.user_id != user._id
-                            ) return reject({
+                            ) return reject({ // If it doesnt return unauthorized (close to token invalidation)
                                 status: 'Unauthorized'
                             });
 
@@ -72,6 +73,7 @@ export class TokenVerificationMiddlewareNode {
             });
         }
     }
+    
 }
 
 export class TokenVerificationMiddleware {
