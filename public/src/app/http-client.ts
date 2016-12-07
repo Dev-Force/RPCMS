@@ -12,7 +12,7 @@ export class HttpClient {
   constructor(private http: Http, private authService: AuthService, private router: Router) { }
 
   appendToken(headers: Headers) {
-    headers.append('x-access-token', localStorage.getItem('access-token')); 
+    headers.append('Authorization', 'Bearer ' + localStorage.getItem('access-token')); 
   }
 
   setRequestOptions(headers: Headers, requestOptions) {

@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 import UserDao from '../../dao/user.dao';
 
-let User = mongoose.model('User');
-
 /**
  * 
  * 

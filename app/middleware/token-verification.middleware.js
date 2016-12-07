@@ -11,7 +11,10 @@ export class TokenVerificationMiddlewareNode {
         return (req, res, next) => {
             return new Promise((resolve, reject) => {
                 // check header or url parameters or post parameters for token
-                var token = req.body.token || req.query.token || req.headers['x-access-token'];
+                // var token = req.body.token || req.query.token || req.headers['x-access-token'];
+                console.log(req.headers);
+                console.log(req.headers['authorization']);
+                var token = req.headers['authorization'].split(' ')[1];
                     
                 if(!token) {
                     // if there is no token
@@ -81,7 +84,8 @@ export class TokenVerificationMiddleware {
     applyMiddleware(app) {
         return (req, res, next) => {
             // check header or url parameters or post parameters for token
-            var token = req.body.token || req.query.token || req.headers['x-access-token'];
+            // var token = req.body.token || req.query.token || req.headers['x-access-token'];
+            var token = req.headers['authorization'].split(' ')[1];
 
             // decode token
             if (token) {
