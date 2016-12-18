@@ -10,14 +10,12 @@ export default function(app) {
 
     userRouter.use(ipLimitMiddleware.applyMiddleware(app));
 
-    userRouter.get('/', userController.index);
-    userRouter.get('/:id', userController.show);
-    userRouter.post('/', userController.store);
-    userRouter.put('/:id', userController.update);
-    userRouter.post('/destroyMass', userController.destroyMass);
-    userRouter.delete('/:id', userController.destroy);
-    
-    
+    userRouter.get('/', userController.index());
+    userRouter.get('/:id', userController.show());
+    userRouter.post('/', userController.store());
+    userRouter.put('/:id', userController.update());
+    userRouter.post('/destroyMass', userController.destroyMass());
+    userRouter.delete('/:id', userController.destroy());
 
     app.use('/api/v1/users', userRouter);
 

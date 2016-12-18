@@ -65,4 +65,4 @@ NEW:
 - Finish operationDao for token based auth (homepage must contain the available operations, 
     operations table must contain only operations created by the specific admin) Fix angular2 templates (*ngIfs)
     [DONE]
-- Code refactoring, includes mongoose promise using exec(), turn controller methods to higher order that return the corresponding functions 
+- Code refactoring, includes mongoose promise using exec(), turn controller methods to higher order that return the corresponding functions [DONE] 

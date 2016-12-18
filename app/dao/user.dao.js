@@ -2,6 +2,8 @@ import Promise from 'bluebird';
 import mongoose from 'mongoose';
 import genericDao from '../utils/dao/generic-dao';
 
+mongoose.Promise = Promise;
+
 let GenericDao = genericDao('User', 'users');
 let User = mongoose.model('User');
 
@@ -34,12 +36,13 @@ export default class UserDao extends GenericDao {
         let user = new User(data);
         user.password = user.generateHash(data.password);
         
-        return new Promise(function(resolve, reject) {
-            user.save(function (err) {
-                if (err) return reject(err);
-                return resolve(user);
-            });
-        });
+        // return new Promise(function(resolve, reject) {
+        //     user.save(function (err) {
+        //         if (err) return reject(err);
+        //         return resolve(user);
+        //     });
+        // });
+        return user.save();
     }
 
     /**
@@ -61,26 +64,41 @@ export default class UserDao extends GenericDao {
         if('password' in data && data.password !== "") user.password = user.generateHash(data.password);
         else user.password = undefined; // Possible bug here
 
-        return new Promise(function(resolve, reject) {
-                User.findOneAndUpdate({ _id: id }, user, {'new': true}, function(err, user) {
-                    if(err) return reject(err);
-                    if(user === null) return reject({
-                        "message": "ObjectID was not found",
-                        "name": "NotFoundError",
-                        "kind": "ObjectId",
-                        "value": id,
-                        "path": "_id"
-                    });
-                    return resolve(user);
-                }); 
-            });
+        // return new Promise(function(resolve, reject) {
+        //         User.findOneAndUpdate({ _id: id }, user, {'new': true}, function(err, user) {
+        //             if(err) return reject(err);
+        //             if(user === null) return reject({
+        //                 "message": "ObjectID was not found",
+        //                 "name": "NotFoundError",
+        //                 "kind": "ObjectId",
+        //                 "value": id,
+        //                 "path": "_id"
+        //             });
+        //             return resolve(user);
+        //         }); 
+        //     });
+
+        return User.findOneAndUpdate({ _id: id }, user, {'new': true}).exec().then(user => {
+            if(user === null) return Promise.reject({
+                    "message": "ObjectID was not found",
+                    "name": "NotFoundError",
+                    "kind": "ObjectId",
+                    "value": id,
+                    "path": "_id"
+                });
+            return user;
+        })
     }
 
     hasOperation(method) {
-        return new Promise((resolve, reject) => {
-            User.findOne({ 'operations': method }, function(err, user) {
-                if(user == null) return reject('No user Found'); 
-            });
+        // return new Promise((resolve, reject) => {
+        //     User.findOne({ 'operations': method }, function(err, user) {
+        //         if(user == null) return reject('No user Found'); 
+        //     });
+        // });
+        return User.findOne({ 'operations': method}).exec().then(user => {
+            if(user === null) return Promise.reject('No User Found');
+            return user;
         });
     }
 

@@ -49,10 +49,12 @@ export default class OperationController {
      * 
      * @memberOf OperationController
      */
-    store = (req, res) => {
-        this._operationDao.save(req.body, req.decoded).then(function(operation) {
-            res.json(operation);
-        }).catch(this.catchFunction(res));
+    store() {
+        return (req, res) => {
+            this._operationDao.save(req.body, req.decoded).then(function(operation) {
+                res.json(operation);
+            }).catch(this.catchFunction(res));
+        };
     }
 
     /**
@@ -63,19 +65,23 @@ export default class OperationController {
      * 
      * @memberOf OperationController
      */
-    index = (req, res) => {
-        this._operationDao.getAll(req.decoded).then(function(operations) {
-            res.json(operations);
-        }).catch(this.catchFunction(res));
+    index() {
+        return (req, res) => {
+            this._operationDao.getAll(req.decoded).then(function(operations) {
+                res.json(operations);
+            }).catch(this.catchFunction(res));
+        };
     }
 
-    indexAuthorized = (req, res) => {
-        if("decoded" in req) this._operationDao.getAuthorizedCRUD(req.decoded).then(function(operations) {
-                res.json(operations);
-            }).catch(this.catchFunction(res));
-        else this._operationDao.getAll().then(function(operations) {
-                res.json(operations);
-            }).catch(this.catchFunction(res));
+    indexAuthorized() {
+        return (req, res) => {
+            if("decoded" in req) this._operationDao.getAuthorizedCRUD(req.decoded).then(function(operations) {
+                    res.json(operations);
+                }).catch(this.catchFunction(res));
+            else this._operationDao.getAll().then(function(operations) {
+                    res.json(operations);
+                }).catch(this.catchFunction(res));
+        };
     } 
 
     /**
@@ -86,10 +92,12 @@ export default class OperationController {
      * 
      * @memberOf OperationController
      */
-    show = (req, res) => {
-        this._operationDao.getById(req.params.id, req.decoded).then(function(operation) {
-            res.json(operation);
-        }).catch(this.catchFunction(res));
+    show() {
+        return (req, res) => {
+            this._operationDao.getById(req.params.id, req.decoded).then(function(operation) {
+                res.json(operation);
+            }).catch(this.catchFunction(res));
+        };
     }
 
     /**
@@ -100,10 +108,12 @@ export default class OperationController {
      * 
      * @memberOf OperationController
      */
-    update = (req, res) => {
-        this._operationDao.updateById(req.params.id, req.body, req.decoded).then(function(operation) {
-            res.json(operation);
-        }).catch(this.catchFunction(res));
+    update() {
+        return (req, res) => {
+            this._operationDao.updateById(req.params.id, req.body, req.decoded).then(function(operation) {
+                res.json(operation);
+            }).catch(this.catchFunction(res));
+        };
     }
 
     /**
@@ -114,10 +124,12 @@ export default class OperationController {
      * 
      * @memberOf OperationController
      */
-    destroy = (req, res) => { 
-        this._operationDao.deleteById(req.params.id, req.decoded).then(function(operation) {
-            res.json(operation);
-        }).catch(this.catchFunction(res));
+    destroy() { 
+        return (req, res) => {
+            this._operationDao.deleteById(req.params.id, req.decoded).then(function(operation) {
+                res.json(operation);
+            }).catch(this.catchFunction(res));
+        };
     }
 
     /**
@@ -128,16 +140,18 @@ export default class OperationController {
      * 
      * @memberOf OperationController
      */
-    destroyMass = (req, res) => {
-        let idArray = req.body['operations'].map(function(o){ return mongoose.Types.ObjectId(o); });
+    destroyMass() {
+        return (req, res) => {
+            let idArray = req.body['operations'].map(function(o){ return mongoose.Types.ObjectId(o); });
 
-        this._operationDao.deleteMultiple(idArray, req.decoded).then(function(result) {
-            res.json(result);
-        })
-        .catch(function(err) {
-            console.log(err);
-            res.json(err);
-        });
+            this._operationDao.deleteMultiple(idArray, req.decoded).then(function(result) {
+                res.json(result);
+            })
+            .catch(function(err) {
+                console.log(err);
+                res.json(err);
+            });
+        };
     }
 
     /**
@@ -146,35 +160,37 @@ export default class OperationController {
      * 
      * @memberOf OperationController
      */
-    collect = (req, res) => {
-        if(req.decoded != null) 
-            return res.json({
-                'success': false,
-                'message': "Unauthorized"
-            });
+    collect() {
+        return (req, res) => {
+            if(req.decoded != null) 
+                return res.json({
+                    'success': false,
+                    'message': "Unauthorized"
+                });
 
-        new Promise((resolve, reject) => {
-            needle.request(config.central_system.collectOperations.requestMethod, config.central_system.collectOperations.URL, {}, function(err, resp, body) {
-                if(err) return reject('Something Went Wrong.');
-                if(!body.success) return reject('Something Went Wrong');
-                // if(body.error) return reject('Something Went Wrong. Possibly Wrong URL is Provided.');
-                if(body.length === 0) return reject('There Are no Operations');
-                resolve(body);
+            new Promise((resolve, reject) => {
+                needle.request(config.central_system.collectOperations.requestMethod, config.central_system.collectOperations.URL, {}, function(err, resp, body) {
+                    if(err) return reject('Something Went Wrong.');
+                    if(!body.success) return reject('Something Went Wrong');
+                    // if(body.error) return reject('Something Went Wrong. Possibly Wrong URL is Provided.');
+                    if(body.length === 0) return reject('There Are no Operations');
+                    resolve(body);
+                });
+            }).then(body => {
+                // let o = { 'body': body }; // Wrap results in an object with 'body' key cause request can come also from a normal request
+                return this._operationDao.batchInsert(body);
+            }).then(docs => {
+                res.json({ 
+                    'success': true,
+                    'documents': docs
+                });
+            }).catch(err => {
+                res.json({ 
+                    'success': false,
+                    'message': err
+                });
             });
-        }).then(body => {
-            // let o = { 'body': body }; // Wrap results in an object with 'body' key cause request can come also from a normal request
-            return this._operationDao.batchInsert(body);
-        }).then(docs => {
-            res.json({ 
-                'success': true,
-                'documents': docs
-            });
-        }).catch(err => {
-            res.json({ 
-                'success': false,
-                'message': err
-            });
-        });
+        };
     }
 
 }

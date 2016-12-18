@@ -12,8 +12,6 @@ export class TokenVerificationMiddlewareNode {
             return new Promise((resolve, reject) => {
                 // check header or url parameters or post parameters for token
                 // var token = req.body.token || req.query.token || req.headers['x-access-token'];
-                console.log(req.headers);
-                console.log(req.headers['authorization']);
                 var token = req.headers['authorization'].split(' ')[1];
                     
                 if(!token) {

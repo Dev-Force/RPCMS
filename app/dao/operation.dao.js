@@ -4,6 +4,8 @@ import genericDao from '../utils/dao/generic-dao';
 import UserDao from './user.dao';
 import OperationController from '../controllers/api/operation.controller';
 
+mongoose.Promise = Promise;
+
 let GenericDao = genericDao('Operation', 'operations');
 let Operation = mongoose.model('Operation');
 
@@ -28,20 +30,36 @@ export default class OperationDao extends GenericDao {
     }
 
     getAuthorizedCRUD(decoded_info) {
-        return new Promise((resolve, reject) => {
-            Operation.find({
+        // return new Promise((resolve, reject) => {
+        //     Operation.find({
+        //         "owner": decoded_info.user_id 
+        //     }, function(err, ops) {
+        //         if(err) return reject(err);
+        //         return resolve(ops);
+        //     });
+        // });
+        return Operation.find({
                 "owner": decoded_info.user_id 
-            }, function(err, ops) {
-                if(err) return reject(err);
-                return resolve(ops);
-            });
-        });
+            }).exec();
     }
 
     getAll(decoded_info) {
         if(decoded_info != null) 
-            return new Promise(function(resolve, reject) {
-                Operation.find({
+            // return new Promise(function(resolve, reject) {
+            //     Operation.find({
+            //         $or:[{
+            //             "_id": {
+            //                     $in: decoded_info.operations
+            //                 }
+            //             },
+            //             { "owner": decoded_info.user_id }
+            //         ]
+            //     }, function(err, op) {
+            //         if(err) return reject(err);
+            //         return resolve(op);
+            //     });
+            // });
+            return Operation.find({
                     $or:[{
                         "_id": {
                                 $in: decoded_info.operations
@@ -49,11 +67,7 @@ export default class OperationDao extends GenericDao {
                         },
                         { "owner": decoded_info.user_id }
                     ]
-                }, function(err, op) {
-                    if(err) return reject(err);
-                    return resolve(op);
-                });
-            });
+                }).exec();
         else return super.getAll();
     }
 
@@ -101,12 +115,16 @@ export default class OperationDao extends GenericDao {
 
     // Used By JsonRPCRequest
     getByName(name) {
-        return new Promise((resolve, reject) => {
-            Operation.findOne({'name': name}, function(err, docs) {
-                if(err) return reject(err);
-                if(!docs) return reject('No Documents Found');
-                return resolve(docs);
-            })
+        // return new Promise((resolve, reject) => {
+        //     Operation.findOne({'name': name}, function(err, docs) {
+        //         if(err) return reject(err);
+        //         if(!docs) return reject('No Documents Found');
+        //         return resolve(docs);
+        //     })
+        // });
+        return Operation.findOne({'name': name}).exec().then(op => {
+            if(!op) return Promise.reject('No Documents Found');
+            return op;
         });
     }
 
@@ -181,8 +199,6 @@ export default class OperationDao extends GenericDao {
             });
             user.password = undefined;
             return this._userDao.updateById(user._id, user);
-        }).catch(err => {
-            console.log(err);
         });
     }
 

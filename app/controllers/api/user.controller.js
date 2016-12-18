@@ -40,10 +40,12 @@ export default class UserController {
      * 
      * @memberOf UserController
      */
-    store = (req, res) => {
-        this._userDao.save(req.body).then(function(result) {
-            res.json(result);
-        }).catch(this.catchFunction(res))
+    store() {
+        return (req, res) => {
+            this._userDao.save(req.body).then(function(result) {
+                res.json(result);
+            }).catch(this.catchFunction(res));
+        };
     }
 
     /**
@@ -54,10 +56,12 @@ export default class UserController {
      * 
      * @memberOf UserController
      */
-    index = (req, res) => {
-        this._userDao.getAll().then(function(result) {
-            res.json(result);
-        }).catch(this.catchFunction(res))
+    index() {
+        return (req, res) => {
+            this._userDao.getAll().then(function(result) {
+                res.json(result);
+            }).catch(this.catchFunction(res));
+        };
     }
 
     /**
@@ -68,10 +72,12 @@ export default class UserController {
      * 
      * @memberOf UserController
      */
-    show = (req, res) => {
-        this._userDao.getById(req.params.id).then(function(result) {
-            res.json(result);
-        }).catch(this.catchFunction(res))
+    show() {
+        return (req, res) => {
+            this._userDao.getById(req.params.id).then(function(result) {
+                res.json(result);
+            }).catch(this.catchFunction(res));
+        };
     }
 
     /**
@@ -82,10 +88,12 @@ export default class UserController {
      * 
      * @memberOf UserController
      */
-    update = (req, res) => {
-        this._userDao.updateById(req.params.id, req.body).then(function(result) {
-            res.json(result);
-        }).catch(this.catchFunction(res))
+    update() {
+        return (req, res) => {
+            this._userDao.updateById(req.params.id, req.body).then(function(result) {
+                res.json(result);
+            }).catch(this.catchFunction(res));
+        };
     }
 
     /**
@@ -96,10 +104,12 @@ export default class UserController {
      * 
      * @memberOf UserController
      */
-    destroy = (req, res) => {
-        this._userDao.deleteById(req.params.id).then(function(result) {
-            res.json(result);
-        }).catch(this.catchFunction(res))
+    destroy() {
+        return (req, res) => {
+            this._userDao.deleteById(req.params.id).then(function(result) {
+                res.json(result);
+            }).catch(this.catchFunction(res));
+        };
     }
 
     /**
@@ -110,12 +120,14 @@ export default class UserController {
      * 
      * @memberOf UserController
      */
-    destroyMass = (req, res) => {
-        let idArray = req.body['users'].map(function(o){ return mongoose.Types.ObjectId(o); });
+    destroyMass() {
+        return (req, res) => {
+            let idArray = req.body['users'].map(function(o){ return mongoose.Types.ObjectId(o); });
 
-        this._userDao.deleteMultiple(idArray).then(function(result) {
-            res.json(result);
-        }).catch(this.catchFunction(res))
+            this._userDao.deleteMultiple(idArray).then(function(result) {
+                res.json(result);
+            }).catch(this.catchFunction(res));
+        };
     }
 
 }

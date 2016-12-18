@@ -6,11 +6,12 @@ export default function(app) {
 
     let jsonRPCRouter = express.Router();
     let tokenVerificationMiddleware = new TokenVerificationMiddleware();
+    let jsonRPCController = new JsonRPCController();
 
     jsonRPCRouter.use(tokenVerificationMiddleware.applyMiddleware(app));
     
-    jsonRPCRouter.post('/', JsonRPCController.handleJsonRPC);
+    jsonRPCRouter.post('/', jsonRPCController.handleJsonRPC());
     
-
     app.use('/api/v1/json-rpc', jsonRPCRouter);
+    
 };

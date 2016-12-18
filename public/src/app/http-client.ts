@@ -11,6 +11,16 @@ export class HttpClient {
 
   constructor(private http: Http, private authService: AuthService, private router: Router) { }
 
+  notAuthorizedHandler(observable: Observable<any>) {
+    return observable.catch(err => {
+        if(err.status === 401) {
+          this.authService.logout();
+          this.router.navigate(['/auth']);
+        }
+        return Observable.throw(true);
+      });
+  }
+
   appendToken(headers: Headers) {
     headers.append('Authorization', 'Bearer ' + localStorage.getItem('access-token')); 
   }
@@ -27,45 +37,25 @@ export class HttpClient {
   get(url, requestOptions = new RequestOptions()) {
     let headers = new Headers();
     this.setParams(headers, requestOptions);
-    return this.http.get(url, requestOptions)
-      .catch(err => {
-        this.authService.logout();
-        this.router.navigate(['/auth']);
-        return Observable.throw(true);
-      });
+    return this.notAuthorizedHandler(this.http.get(url, requestOptions));
   }
 
   post(url, data, requestOptions = new RequestOptions()) {
     let headers = new Headers();
     this.setParams(headers, requestOptions);
-    return this.http.post(url, data, requestOptions)
-      .catch(err => {
-        this.authService.logout();
-        this.router.navigate(['/auth']);
-        return Observable.throw(true);
-      });
+    return this.notAuthorizedHandler(this.http.post(url, data, requestOptions));
   }
 
   delete(url, requestOptions = new RequestOptions() ) {
     let headers = new Headers();
     this.setParams(headers, requestOptions);
-    return this.http.delete(url, requestOptions)
-      .catch(err => {
-        this.authService.logout();
-        this.router.navigate(['/auth']);
-        return Observable.throw(true);
-      });
+    return this.notAuthorizedHandler(this.http.delete(url, requestOptions));
   }
 
   put(url, data, requestOptions = new RequestOptions()) {
     let headers = new Headers();
     this.setParams(headers, requestOptions);
-    return this.http.put(url, data, requestOptions)
-      .catch(err => {
-        this.authService.logout();
-        this.router.navigate(['/auth']);
-        return Observable.throw(true);
-      });
+    return this.notAuthorizedHandler(this.http.put(url, data, requestOptions));
   }
 
 }

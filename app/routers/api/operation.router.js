@@ -32,8 +32,8 @@ export default function(app) {
         })
     );
     
-    operationRouter.get('/', operationController.index);
-    operationRouter.get('/authorizedCRUD', operationController.indexAuthorized);
+    operationRouter.get('/', operationController.index());
+    operationRouter.get('/authorizedCRUD', operationController.indexAuthorized());
 
     // CRUD
     operationRouter.use((req, res, next) => {
@@ -42,12 +42,12 @@ export default function(app) {
         next();
     }); //error if logged in via ip (Fixed)
 
-    operationRouter.get('/collect', operationController.collect);
-    operationRouter.get('/:id', operationController.show);
-    operationRouter.post('/', operationController.store);
-    operationRouter.put('/:id', operationController.update);
-    operationRouter.post('/deleteMass', operationController.destroyMass);
-    operationRouter.delete('/:id', operationController.destroy);
+    operationRouter.get('/collect', operationController.collect());
+    operationRouter.get('/:id', operationController.show());
+    operationRouter.post('/', operationController.store());
+    operationRouter.put('/:id', operationController.update());
+    operationRouter.post('/deleteMass', operationController.destroyMass());
+    operationRouter.delete('/:id', operationController.destroy());
 
     app.use('/api/v1/operations', operationRouter);
     

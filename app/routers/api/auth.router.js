@@ -8,8 +8,9 @@ export default function (app) {
 
     let authRouter = express.Router();
     let authController = new AuthController();
-    authRouter.post('/token', authController.tokenAuth);
-    authRouter.post('/ip', authController.ipAuth);
+    authRouter.post('/token', authController.tokenAuth());
+    authRouter.post('/ip', authController.ipAuth());
     
     app.use('/api/v1/auth', authRouter);
+    
 };
