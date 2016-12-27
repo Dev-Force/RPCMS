@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers, RequestOptions} from '@angular/http';
 import { Router } from '@angular/router';
-import { AuthService } from './auth/auth.service';
+import { AuthService } from 'auth/auth.service';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/catch';
 

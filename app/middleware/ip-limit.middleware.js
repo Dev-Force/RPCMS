@@ -10,10 +10,10 @@ import Promise from 'bluebird';
 
 export class IPLimitMiddlewareNode {    
 
-    applyMiddleware(app) {
+    applyMiddleware() {
         return (req, res, next) => {
             return new Promise((resolve, reject) => {
-                if(app.get('allowedIPs').indexOf(req.ip) > -1) {
+                if(req.app.get('allowedIPs').indexOf(req.ip) > -1) {
                     return resolve();
                 } else return reject();
             });
@@ -24,9 +24,9 @@ export class IPLimitMiddlewareNode {
 
 export class IPLimitMiddleware {
 
-    applyMiddleware(app) {
+    applyMiddleware() {
         return (req, res, next) => {
-            if(app.get('allowedIPs').indexOf(req.ip) > -1) {
+            if(req.app.get('allowedIPs').indexOf(req.ip) > -1) {
                 next();
             } else res.status(401).json({status: 'Unauthorized'});
         };

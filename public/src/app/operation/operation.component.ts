@@ -57,15 +57,13 @@ export class OperationComponent implements OnInit {
     if(!confirm('Are you sure?')) return;
     this.operationService.deleteOperations(
       this.operations
-        .filter(el => el.selected)
-        .map(el => el._id)
-      )
-      .map(response => response.json())
-      .subscribe(response => {
-        this.operations = this.operations.filter(el => {
-          return !el.selected;
-        });
+      .filter(el => el.selected)
+    ).map(response => response.json())
+    .subscribe(response => {
+      this.operations = this.operations.filter(el => {
+        return !el.selected;
       });
+    });
   }
   
 

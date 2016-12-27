@@ -1,7 +1,7 @@
 import Promise from 'bluebird';
 import mongoose from 'mongoose';
-import OperationDao from '../../dao/operation.dao';
-import config from '../../../config/config';
+import OperationDao from '~/dao/operation.dao';
+import config from '#/config';
 import needle from 'needle';
 
 let Operation = mongoose.model('Operation');
@@ -28,7 +28,6 @@ export default class OperationController {
     /**
      * Default callback for promise Failure
      * 
-     * @param {Express.Response} res
      * @returns
      * 
      * @memberOf OperationController
@@ -43,9 +42,7 @@ export default class OperationController {
 
     /**
      * Stores an Operation
-     * 
-     * @param {Express.Request} req
-     * @param {Express.Response} res
+     *
      * 
      * @memberOf OperationController
      */
@@ -59,9 +56,7 @@ export default class OperationController {
 
     /**
      * Indexes all Operations
-     * 
-     * @param {Express.Request} req
-     * @param {Express.Response} res
+     *
      * 
      * @memberOf OperationController
      */
@@ -86,9 +81,7 @@ export default class OperationController {
 
     /**
      * Shows a single Operation
-     * 
-     * @param {Express.Request} req
-     * @param {Express.Response} res
+     *
      * 
      * @memberOf OperationController
      */
@@ -102,9 +95,7 @@ export default class OperationController {
 
     /**
      * Updates an Operation
-     * 
-     * @param {Express.Request} req
-     * @param {Express.Response} res
+     *
      * 
      * @memberOf OperationController
      */
@@ -118,9 +109,7 @@ export default class OperationController {
 
     /**
      * Deletes an Operation
-     * 
-     * @param {Express.Request} req
-     * @param {Express.Response} res
+     *
      * 
      * @memberOf OperationController
      */
@@ -134,15 +123,13 @@ export default class OperationController {
 
     /**
      * Deletes multiple Operations
-     * 
-     * @param {Express.Request} req
-     * @param {Express.Response} res
+     *
      * 
      * @memberOf OperationController
      */
     destroyMass() {
         return (req, res) => {
-            let idArray = req.body['operations'].map(function(o){ return mongoose.Types.ObjectId(o); });
+            let idArray = req.body.map(function(o){ return mongoose.Types.ObjectId(o); });
 
             this._operationDao.deleteMultiple(idArray, req.decoded).then(function(result) {
                 res.json(result);

@@ -1,5 +1,5 @@
-import { Operation } from '../operation/operation';
-import { OperationService } from './../operation/operation.service';
+import { Operation } from 'operation/operation';
+import { OperationService } from 'operation/operation.service';
 import { Component, OnInit } from '@angular/core';
 
 

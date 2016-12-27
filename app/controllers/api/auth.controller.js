@@ -17,13 +17,19 @@ export default class AuthController {
      * @memberOf AuthController
      */
     static appSecret = null;
+
+    /**
+     * The allowed ips
+     *
+     *
+     * @memberOf AuthController
+     */
     static allowedIPs = null;
+
 
     /**
      * Performs the Authentication
-     * 
-     * @param {Express.Request} req
-     * @param {Express.Response} res
+     *
      * 
      * @memberOf AuthController
      */

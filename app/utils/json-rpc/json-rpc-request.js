@@ -1,5 +1,5 @@
 import JsonRPCError from './json-rpc-error';
-import OperationDao from '../../dao/operation.dao';
+import OperationDao from '~/dao/operation.dao';
 
 /**
  * 

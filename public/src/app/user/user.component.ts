@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from './user.service';
-import { AuthService } from '../auth/auth.service';
-import { OperationService } from '../operation/operation.service';
+import { AuthService } from 'auth/auth.service';
+import { OperationService } from 'operation/operation.service';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 

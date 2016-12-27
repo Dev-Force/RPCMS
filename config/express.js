@@ -1,6 +1,7 @@
 import express from 'express';
 import glob from 'glob';
 import path from 'path';
+import RateLimit from 'express-rate-limit';
 
 import favicon from 'serve-favicon';
 import logger from 'morgan';
@@ -15,19 +16,21 @@ export default function(app, config) {
     app.locals.ENV = env;
     app.locals.ENV_DEVELOPMENT = env == 'development';
 
-    app.set('views', config.root + '/app/views');
-    app.set('view engine', 'handlebars');
-    app.engine('handlebars', exphbs({
-        extName: '.hbs',
-        partialsDir: `${config.root}/app/views/partials`,
-        layoutsDir: `${config.root}/app/views/layouts`,
-        defaultLayout: 'main'
-    }));
+    // Deprecated since we use Angular2
+    //
+    //app.set('views', config.root + '/app/views');
+    //app.set('view engine', 'handlebars');
+    //app.engine('handlebars', exphbs({
+    //    extName: '.hbs',
+    //    partialsDir: `${config.root}/app/views/partials`,
+    //    layoutsDir: `${config.root}/app/views/layouts`,
+    //    defaultLayout: 'main'
+    //}));
 
     app.set('allowedIPs', config.allowedIPs);
     app.set('secret', config.secret);
 
-    // Enable CORS globally (Not needed since we use JWT)
+    // Enable CORS globally
     app.use(function(req, res, next) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
@@ -70,11 +73,6 @@ export default function(app, config) {
     app.get('*', function(req, res) {
         res.sendFile(path.join(config.root, '/public/index.html'));
     });
-
-    // var controllers = glob.sync(config.root + '/app/controllers/*.js');
-    // controllers.forEach(function (controller) {
-    //   require(controller)(app);
-    // });
 
     app.use(function (req, res, next) {
         var err = new Error('Not Found');

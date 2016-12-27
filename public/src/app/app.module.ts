@@ -33,7 +33,7 @@ import { BackButtonComponent } from './utils/back-button/back-button.component';
 import { AuthService } from './auth/auth.service';
 import { UserService } from './user/user.service';
 import { OperationService } from './operation/operation.service';
-import { HttpClient } from './http-client';
+import { HttpClient } from 'utils/http-client';
 
 // Guards
 import { AuthGuard } from './auth/auth.guard';

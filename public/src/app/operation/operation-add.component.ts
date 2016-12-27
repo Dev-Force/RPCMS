@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { OperationService } from './operation.service';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from 'auth/auth.service';
 import { Operation } from './operation';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';

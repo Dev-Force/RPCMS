@@ -1,12 +1,10 @@
 import Promise from 'bluebird';
 import mongoose from 'mongoose';
-import genericDao from '../utils/dao/generic-dao';
+import CRUDDaoGenerator from '~/utils/dao/crud-dao-generator';
 
-let GenericDao = genericDao('Logs', 'logs', [
+let CRUDDao = CRUDDaoGenerator(mongoose.model('Logs'), [
     'save',
     'getAll'
 ]);
 
-let User = mongoose.model('Logs');
-
-export default class LogsDao extends GenericDao { }
+export default class LogsDao extends CRUDDao { }

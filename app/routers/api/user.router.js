@@ -1,6 +1,6 @@
 import express from 'express';
-import UserController from '../../controllers/api/user.controller';
-import {IPLimitMiddleware} from '../../middleware/ip-limit.middleware';
+import UserController from '~/controllers/api/user.controller';
+import {IPLimitMiddleware} from '~/middleware/ip-limit.middleware';
 
 export default function(app) {
 

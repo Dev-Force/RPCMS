@@ -49,6 +49,11 @@ NEW:
 - IMPORTANT. After every (super) save edit or delete on operation dao we must update user accessible operations. [DONE]
     (send the new token to frontend to save it) [PENDING]
 
+tserpes:
+    - logging [DONE]
+    - API calls counting [DONE]
+    - IP blacklists [BACKEND DONE]
+
 - Bug: when editing operation you can send empty name 
 - Feature: add operation to user token when operation is added edited or removed.
 - Fix: remote-urls.ts

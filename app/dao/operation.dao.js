@@ -1,15 +1,16 @@
 import Promise from 'bluebird';
 import mongoose from 'mongoose';
-import genericDao from '../utils/dao/generic-dao';
+import CRUDDaoGenerator from '~/utils/dao/crud-dao-generator';
 import UserDao from './user.dao';
-import OperationController from '../controllers/api/operation.controller';
+import OperationController from '~/controllers/api/operation.controller';
 
 mongoose.Promise = Promise;
 
-let GenericDao = genericDao('Operation', 'operations');
 let Operation = mongoose.model('Operation');
 
-export default class OperationDao extends GenericDao {
+let CRUDDao = CRUDDaoGenerator(mongoose.model('Operation'));
+
+export default class OperationDao extends CRUDDao {
 
     _userDao;
 
@@ -30,35 +31,13 @@ export default class OperationDao extends GenericDao {
     }
 
     getAuthorizedCRUD(decoded_info) {
-        // return new Promise((resolve, reject) => {
-        //     Operation.find({
-        //         "owner": decoded_info.user_id 
-        //     }, function(err, ops) {
-        //         if(err) return reject(err);
-        //         return resolve(ops);
-        //     });
-        // });
         return Operation.find({
                 "owner": decoded_info.user_id 
             }).exec();
     }
 
     getAll(decoded_info) {
-        if(decoded_info != null) 
-            // return new Promise(function(resolve, reject) {
-            //     Operation.find({
-            //         $or:[{
-            //             "_id": {
-            //                     $in: decoded_info.operations
-            //                 }
-            //             },
-            //             { "owner": decoded_info.user_id }
-            //         ]
-            //     }, function(err, op) {
-            //         if(err) return reject(err);
-            //         return resolve(op);
-            //     });
-            // });
+        if(decoded_info != null)
             return Operation.find({
                     $or:[{
                         "_id": {
@@ -115,13 +94,6 @@ export default class OperationDao extends GenericDao {
 
     // Used By JsonRPCRequest
     getByName(name) {
-        // return new Promise((resolve, reject) => {
-        //     Operation.findOne({'name': name}, function(err, docs) {
-        //         if(err) return reject(err);
-        //         if(!docs) return reject('No Documents Found');
-        //         return resolve(docs);
-        //     })
-        // });
         return Operation.findOne({'name': name}).exec().then(op => {
             if(!op) return Promise.reject('No Documents Found');
             return op;
@@ -186,7 +158,7 @@ export default class OperationDao extends GenericDao {
                 if(!ops.some(op => op._id.equals(id))) 
                     return Promise.reject({ "errmsg": "Not Authorized to Delete this Operation" });
                 return this._deleteByIdHelper(id, decoded_info);
-            })
+            });
         else return this._deleteByIdHelper(id, decoded_info);
     }
 
@@ -207,15 +179,6 @@ export default class OperationDao extends GenericDao {
         
         if(decoded_info != null) {
             return this.getAuthorizedCRUD(decoded_info).then(ops => {
-                // console.log(idStringArray);
-                // console.log(ops.map(op => op._id.toString()));
-                // console.log(idArray[].indexOf(ops.map(op => op._id.toString())) > -1);
-                // console.log(!idStringArray.every(id => {
-                //     console.log(id + ": " + id.indexOf(ops.map(op => 
-                //         op._id.toString()
-                //     )) > -1);
-                //     return id.indexOf(ops.map(op => op._id.toString())) > -1
-                // }));
                 if(
                     !idStringArray.every(id => 
                         ops.map(op => 

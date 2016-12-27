@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Urls } from '../remote-urls';
+import { Urls } from 'remote-urls';
 import { Credentials } from './credentials';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';

@@ -1,5 +1,5 @@
 import Promise from 'bluebird';
-import JsonRPCFacade from '../../utils/json-rpc/json-rpc-facade';
+import JsonRPCFacade from '~/utils/json-rpc/json-rpc-facade';
 
 /**
  * 

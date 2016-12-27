@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '../http-client';
-import { Urls } from '../remote-urls';
+import { HttpClient } from 'utils/http-client';
+import { Urls } from 'remote-urls';
 import { User } from './user';
 
 @Injectable()
@@ -33,7 +33,7 @@ export class UserService {
   }
 
   public deleteUsers(arrayOfUserIDs) {
-    return this.http.post(this.usersUrl + '/destroyMass', { users: arrayOfUserIDs });
+    return this.http.post(this.usersUrl + '/destroyMass', arrayOfUserIDs);
   }
 
 }

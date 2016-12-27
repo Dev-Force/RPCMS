@@ -1,8 +1,8 @@
 import { Http } from '@angular/http';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from 'auth/auth.service';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '../http-client';
-import { Urls } from '../remote-urls';
+import { HttpClient } from 'utils/http-client';
+import { Urls } from 'remote-urls';
 import { Operation } from './operation';
 
 @Injectable()
@@ -35,10 +35,8 @@ export class OperationService {
     return this.http.put(this.operationsUrl + '/' + operation._id, operation);
   }
 
-  public deleteOperations(arrayOfOperationIDs: Operation[]) {
-    return this.http.post(this.operationsUrl + '/deleteMass', {
-      operations: arrayOfOperationIDs
-    });
+  public deleteOperations(operations: Operation[]) {
+    return this.http.post(this.operationsUrl + '/deleteMass', operations.map(el => el._id));
   }
 
   public deleteOperation(operation: Operation) {

@@ -7,8 +7,8 @@ import JsonRPCResponse from './json-rpc-response';
 import JsonRPCError from './json-rpc-error';
 import config from '../../../config/config';
 import needle from 'needle';
-import OperationDao from '../../dao/operation.dao';
-import LogsDao from '../../dao/logs.dao';
+import OperationDao from '~/dao/operation.dao';
+import LogsDao from '~/dao/logs.dao';
 
 export default class JsonRPCFacade {
 

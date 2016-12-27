@@ -6,6 +6,9 @@ let ipBlacklistSchema = new Schema({
     ip: {
         type: String,
         required: true
+    },
+    description: {
+        type: String
     }
 });
 

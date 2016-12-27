@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 
 export class TokenVerificationMiddlewareNode {
 
-    applyMiddleware(app) {
+    applyMiddleware() {
         return (req, res, next) => {
             return new Promise((resolve, reject) => {
                 // check header or url parameters or post parameters for token
@@ -24,7 +24,7 @@ export class TokenVerificationMiddlewareNode {
                 }
 
                 // verifies secret and checks exp
-                jwt.verify(token, app.get('secret'), (err, decoded) => { 
+                jwt.verify(token, req.app.get('secret'), (err, decoded) => { 
                     if(err) return reject({ success: false, message: 'Failed to authenticate token.' });
                     else {
                         // if everything is good, save to request for use in other routes
@@ -79,7 +79,7 @@ export class TokenVerificationMiddlewareNode {
 
 export class TokenVerificationMiddleware {
 
-    applyMiddleware(app) {
+    applyMiddleware() {
         return (req, res, next) => {
             // check header or url parameters or post parameters for token
             // var token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -88,7 +88,7 @@ export class TokenVerificationMiddleware {
             // decode token
             if (token) {
                 // verifies secret and checks exp
-                jwt.verify(token, app.get('secret'), (err, decoded) => { 
+                jwt.verify(token, req.app.get('secret'), (err, decoded) => { 
                     if (err) {
                         return res.json({ success: false, message: 'Failed to authenticate token.' });
                     } else {

@@ -1,8 +1,8 @@
 import express from 'express';
-import OperationController from '../../controllers/api/operation.controller';
-import {IPLimitMiddlewareNode} from '../../middleware/ip-limit.middleware';
-import {TokenVerificationMiddlewareNode} from '../../middleware/token-verification.middleware';
-import {AdminMiddleware, AdminMiddlewareNode} from  '../../middleware/admin.middleware';
+import OperationController from '~/controllers/api/operation.controller';
+import {IPLimitMiddlewareNode} from '~/middleware/ip-limit.middleware';
+import {TokenVerificationMiddlewareNode} from '~/middleware/token-verification.middleware';
+import {AdminMiddleware, AdminMiddlewareNode} from  '~/middleware/admin.middleware';
 import {
     conditionalMiddleware,
     AndMiddlewareStrategy, 
