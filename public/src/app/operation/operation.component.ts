@@ -49,7 +49,7 @@ export class OperationComponent implements OnInit {
     if(!confirm('Are you sure?')) return;
     this.operationService.deleteOperation(operation)
       .subscribe(response => {
-        this.operations.splice([this.operations.indexOf(operation)], 1);
+        this.operations.splice(this.operations.indexOf(operation), 1);
       });
   }
 

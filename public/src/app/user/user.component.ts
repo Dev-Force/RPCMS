@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from './user.service';
+import { UserService } from 'user/user.service';
 import { AuthService } from 'auth/auth.service';
 import { OperationService } from 'operation/operation.service';
 import 'rxjs/add/operator/map';
@@ -15,6 +15,7 @@ export class UserComponent implements OnInit {
 
   public users: any = [];
   public checkboxAll: boolean;
+
 
   constructor(
     private router: Router,
@@ -70,7 +71,7 @@ export class UserComponent implements OnInit {
       .map(response => response.json())
       .subscribe(response => {
         if(response) {
-          this.users.splice([this.users.indexOf(user)], 1);
+          this.users.splice(this.users.indexOf(user), 1);
           console.log('User deleted feedback');
         }
       });

@@ -9,6 +9,9 @@
     <a *ngIf="auth.isAdmin()" class="item" routerLink="/operations" routerLinkActive="active">
       Operations
     </a>
+    <a *ngIf="auth.isLoggedInIp()" class="item" routerLink="/ip-blacklist" routerLinkActive="active">
+      IP Blacklist
+    </a>
     <a *ngIf="!auth.isLoggedInIp()" class="item right" (click)="logout()">
       Logout
     </a>

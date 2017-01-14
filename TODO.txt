@@ -52,20 +52,19 @@ NEW:
 tserpes:
     - logging [DONE]
     - API calls counting [DONE]
-    - IP blacklists [BACKEND DONE]
+    - IP blacklists [DONE]
 
 - Bug: when editing operation you can send empty name 
 - Feature: add operation to user token when operation is added edited or removed.
-- Fix: remote-urls.ts
 - Feaure: collect operations button
 - Feature: optional params (namedParams) 
-- Fearture: create a route where all users can make requests through a gui to the jsonrpc api but only to the authorized operations 
+- L A T E R :  Fearture: create a route where all users can make requests through a gui to the jsonrpc api but only to the authorized operations
 
 - Fix: token invalidation (when operations change etc) [Done]
 - Fix empty operation success [Done]
 - empty password crashes application [DONE]
 - bug: delete access-token from storage before login in(when using ip if token is persisted the system is not working right) [DONE]
-- Duplicate named param Fix [DONE, Not tested]
+- Duplicate named param Fix [DONE]
 - ignore password if its empty [DONE]
 - Finish operationDao for token based auth (homepage must contain the available operations, 
     operations table must contain only operations created by the specific admin) Fix angular2 templates (*ngIfs)

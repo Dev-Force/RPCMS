@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt-nodejs';
 
 let Schema = mongoose.Schema;
 let ipBlacklistSchema = new Schema({
-    ip: {
+    address: {
         type: String,
         required: true
     },

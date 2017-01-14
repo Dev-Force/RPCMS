@@ -26,6 +26,12 @@ import { OperationAddComponent } from './operation/operation-add.component';
 import { OperationEditComponent } from './operation/operation-edit.component';
 import { OperationViewComponent } from './operation/operation-view.component';
 
+// IPBlacklist
+import { IPBlacklistComponent } from './ip-blacklist/ip-blacklist.component';
+import { IPBlacklistAddComponent } from 'ip-blacklist/ip-blacklist-add.component';
+import { IPBlacklistEditComponent } from 'ip-blacklist/ip-blacklist-edit.component';
+import { IPBlacklistViewComponent } from 'ip-blacklist/ip-blacklist-view.component';
+
 // Utils
 import { BackButtonComponent } from './utils/back-button/back-button.component';
 
@@ -34,10 +40,12 @@ import { AuthService } from './auth/auth.service';
 import { UserService } from './user/user.service';
 import { OperationService } from './operation/operation.service';
 import { HttpClient } from 'utils/http-client';
+import { IPBlacklistService } from 'ip-blacklist/ip-blacklist.service';
 
 // Guards
 import { AuthGuard } from './auth/auth.guard';
 import { AlreadyLoggedInGuard } from './auth/already-logged-in.guard';
+
 
 
 @NgModule({
@@ -55,7 +63,11 @@ import { AlreadyLoggedInGuard } from './auth/already-logged-in.guard';
     OperationAddComponent,
     OperationEditComponent,
     OperationViewComponent,
-    ClientComponent
+    ClientComponent,
+    IPBlacklistComponent,
+    IPBlacklistAddComponent,
+    IPBlacklistEditComponent,
+     IPBlacklistViewComponent
   ],
   imports: [
     BrowserModule,
@@ -72,11 +84,15 @@ import { AlreadyLoggedInGuard } from './auth/already-logged-in.guard';
       { path: 'operations/add', component: OperationAddComponent, canActivate: [AuthGuard] },
       { path: 'operations/edit/:id', component: OperationEditComponent, canActivate: [AuthGuard] },
       { path: 'operations/view/:id', component: OperationViewComponent, canActivate: [AuthGuard] },
+      { path: 'ip-blacklist', component: IPBlacklistComponent, canActivate: [AuthGuard] },
+      { path: 'ip-blacklist/add', component: IPBlacklistAddComponent, canActivate: [AuthGuard] },
+      { path: 'ip-blacklist/edit/:id', component: IPBlacklistEditComponent, canActivate: [AuthGuard] },
+      { path: 'ip-blacklist/view/:id', component: IPBlacklistViewComponent, canActivate: [AuthGuard] },
       { path: 'auth', component: AuthComponent , canActivate: [AlreadyLoggedInGuard] },
       { path: '**', redirectTo: '' }
     ])
   ],
-  providers: [HttpClient, OperationService, UserService, AlreadyLoggedInGuard, AuthGuard, AuthService],
+  providers: [HttpClient, OperationService, UserService, IPBlacklistService, AlreadyLoggedInGuard, AuthGuard, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

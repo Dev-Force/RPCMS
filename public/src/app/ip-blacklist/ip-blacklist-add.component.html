@@ -1,0 +1,25 @@
+<div class="ui text container">
+    <div class="ui top attached secondary segment clearing">
+        <h4 class="ui left floated header">Create IP</h4>
+        <back-button></back-button>
+    </div>
+    <div class="ui bottom attached segment">
+        <form (ngSubmit)="onSubmit()" [ngClass]="{'success': success, 'error': error }" class="ui form">
+            <div class="ui success message">
+                <div class="header">IP Added Succesfully</div>
+            </div>
+            <div class="ui error message">
+                <div class="header">There was an error adding the Operation</div>
+            </div>
+            <div class="field">
+                <label>IP Address</label>
+                <input [(ngModel)]="ip.address" name="address" type="text" placeholder="IP Address">
+            </div>
+            <div class="field">
+                <label>Description</label>
+                <textarea [(ngModel)]="ip.description" name="description" type="text" placeholder="description"></textarea>
+            </div>
+            <button class="ui button" type="submit">Submit</button>
+        </form>
+    </div>
+</div>

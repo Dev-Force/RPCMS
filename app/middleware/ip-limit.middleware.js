@@ -1,8 +1,8 @@
 import Promise from 'bluebird';
 
 /**
- * Restricts Access to the specified router or application if no
- * router is specified, to the IPs that are only allowed from config
+ * Restricts Access to the specified router (or application if no
+ * router is specified) to the IPs that are only allowed from config
  * 
  * @param {any} app
  * @param {any} [router]

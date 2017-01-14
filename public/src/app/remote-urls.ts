@@ -5,6 +5,7 @@ const prefixDev = 'http://localhost:3000';
 let Urls = {
     users: '/api/v1/users',
     operations: '/api/v1/operations',
+    ipblacklist: '/api/v1/ipblacklist',
     ipAuth: '/api/v1/auth/ip',
     tokenAuth: '/api/v1/auth/token'
 };
