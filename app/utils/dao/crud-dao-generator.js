@@ -40,7 +40,7 @@ export default function(Generic, opts = []) {
             return g.save();
         },
         'updateById': function(id, data) {
-            return Generic.findOneAndUpdate({ _id: id }, data, {'new': true}).exec().then(generic => {
+            return Generic.findOneAndUpdate({ _id: id }, data, {'new': true, runValidators: true}).exec().then(generic => {
                 if(generic === null) return Promise.reject({
                         "message": "ObjectID was not found",
                         "name": "NotFoundError",

@@ -80,15 +80,23 @@ export default class OperationDao extends CRUDDao {
                 errmsg: "If there is a token, there must be a key-value pair"
             });
 
-        let retrievedOpId = null;
+        let retrievedOp = null;
 
         return super.save(data).then(op => {
-            retrievedOpId = op._id;
-            return this._userDao.getById(decoded_info.user_id);
+            retrievedOp = op;
+            if(decoded_info != null) return this._userDao.getById(decoded_info.user_id);
+            return Promise.resolve();
         }).then(user => {
-            user.operations.push(mongoose.Types.ObjectId(retrievedOpId));
-            user.password = undefined;
-            return this._userDao.updateById(user._id, user); // Possible bug here
+            if(user != null) {
+                user.operations.push(mongoose.Types.ObjectId(retrievedOp._id));
+                user.password = undefined;
+                return this._userDao.updateById(user._id, user); // Possible bug here
+            } else return Promise.resolve(retrievedOp);
+        }).then(dataa => {
+            if(dataa.name != null) // if it is an operation
+                return dataa;
+            else // if it is a user
+                return retrievedOp;
         });
     }
 

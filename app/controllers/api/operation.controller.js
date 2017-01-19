@@ -1,6 +1,7 @@
 import Promise from 'bluebird';
 import mongoose from 'mongoose';
 import OperationDao from '~/dao/operation.dao';
+import jwt from 'jsonwebtoken';
 import config from '#/config';
 import needle from 'needle';
 
@@ -36,6 +37,7 @@ export default class OperationController {
      */
     catchFunction(res) {
         return function(err) {
+            console.log("ERROR: " + err.stack);
             res.json(err);
         };
     }
@@ -49,7 +51,16 @@ export default class OperationController {
     store() {
         return (req, res) => {
             this._operationDao.save(req.body, req.decoded).then(function(operation) {
-                res.json(operation);
+                //let token = req.decoded;
+                //if(token != null) {
+                //    token.operations.push(operation._id);
+                //    jwt.sign()
+                //}
+                //console.log(token);
+                res.json({
+                    //"token": token,
+                    "operation": operation
+                });
             }).catch(this.catchFunction(res));
         };
     }

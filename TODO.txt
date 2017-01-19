@@ -46,20 +46,20 @@ X User groups Implementation.
 
 
 NEW:
+- Feature: add operation to user token when operation is added edited or removed. [NOT NEEDED YET]
 - IMPORTANT. After every (super) save edit or delete on operation dao we must update user accessible operations. [DONE]
-    (send the new token to frontend to save it) [PENDING]
+    (send the new token to frontend to save it) [PENDING, NOT NEEDED YET]
 
 tserpes:
     - logging [DONE]
     - API calls counting [DONE]
     - IP blacklists [DONE]
 
-- Bug: when editing operation you can send empty name 
-- Feature: add operation to user token when operation is added edited or removed.
 - Feaure: collect operations button
-- Feature: optional params (namedParams) 
-- L A T E R :  Fearture: create a route where all users can make requests through a gui to the jsonrpc api but only to the authorized operations
+- Feature: optional params (namedParams) [PENDING]
+- L A T E R :  Feature: create a route where all users can make requests through a gui to the jsonrpc api but only to the authorized operations
 
+- Bug: when editing operation you can send empty name [DONE]
 - Fix: token invalidation (when operations change etc) [Done]
 - Fix empty operation success [Done]
 - empty password crashes application [DONE]

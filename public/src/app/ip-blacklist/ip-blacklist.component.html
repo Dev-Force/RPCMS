@@ -1,0 +1,48 @@
+<div class="ui container table-container">
+  <table class="ui compact celled unstackable table">
+    <thead>
+    <tr>
+      <th class="collapsing">
+        <div class="ui fitted checkbox">
+          <input type="checkbox" [(ngModel)]="checkboxAll" (click)="checkboxSelectAll()"> <label></label>
+        </div>
+      </th>
+      <th>Actions</th>
+      <th>IP</th>
+      <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let ip of ips">
+      <td class="collapsing">
+        <div class="ui fitted checkbox">
+          <input type="checkbox" [ngModel]="ip.selected" (change)="checkboxSelect(ip)"> <label></label>
+        </div>
+      </td>
+      <td class="collapsing">
+        <div class="ui vertical buttons mini">
+          <button class="ui black button" [routerLink]="['edit', ip._id]"><i class="icon edit large"></i>Edit</button>
+          <button class="ui blue button" [routerLink]="['view', ip._id]"><i class="icon unhide large"></i>View</button>
+          <button class="ui red button" (click)="deleteIP(ip)"><i class="icon trash outline large"></i>Delete</button>
+        </div>
+      </td>
+      <td>{{ ip.address }}</td>
+      <td>{{ ip.description }}</td>
+    </tr>
+    </tbody>
+    <tfoot class="full-width">
+      <tr>
+        <th></th>
+        <th colspan="4">
+          <button [routerLink]="['add']" class="ui right floated small primary labeled icon button">
+            <i class="plus icon"></i> Add IP
+          </button>
+          <button class="ui small red button" (click)="deleteIPs()">
+            Delete Selected
+          </button>
+        </th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+

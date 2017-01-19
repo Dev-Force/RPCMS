@@ -63,9 +63,12 @@ export class OperationAddComponent implements OnInit {
         this.operation.tokenInHeaders = true;
     }
 
+    console.log(JSON.stringify(this.operation));
+
     this.operationService.addOperation(this.operation)
       .map(response => response.json())
       .subscribe(response => {
+        console.log(JSON.stringify(response));
         if(response.errmsg || response.errors) {
           this.error = true;
           this.success = false;
