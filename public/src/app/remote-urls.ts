@@ -1,7 +1,7 @@
 import { isDevMode } from '@angular/core';
 
-// const prefixDev = 'http://83.212.122.31:3000';
-const prefixDev = 'http://localhost:3000';
+ const prefixDev = 'http://83.212.122.31:3000';
+//const prefixDev = 'http://localhost:3000';
 let Urls = {
     users: '/api/v1/users',
     operations: '/api/v1/operations',
