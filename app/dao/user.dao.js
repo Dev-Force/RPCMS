@@ -55,15 +55,12 @@ export default class UserDao extends CRUDDao {
      * 
      * @returns {Promise} 
      */
-    updateById(id, data) {
+    updateById(id, data, isHash = false) {
         if(data.operations == null) data.operations = [];
         data.operations = data.operations.map(o => mongoose.Types.ObjectId(o));
 
         let user = new User(data);
-        if('password' in data && data.password !== "") user.password = this._generateHash(data.password);
-        else Promise.reject({
-            message: "No password Specified"
-        });
+        if('password' in data && data.password !== "" && !isHash) user.password = this._generateHash(data.password);
         // else user.password = undefined; // Possible bug here
 
         return User.findOneAndUpdate({ _id: id }, user, {'new': true}).exec().then(user => {

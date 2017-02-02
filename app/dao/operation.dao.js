@@ -89,8 +89,7 @@ export default class OperationDao extends CRUDDao {
         }).then(user => {
             if(user != null) {
                 user.operations.push(mongoose.Types.ObjectId(retrievedOp._id));
-                user.password = undefined;
-                return this._userDao.updateById(user._id, user); // Possible bug here
+                return this._userDao.updateById(user._id, user, true); // Possible bug here
             } else return Promise.resolve(retrievedOp);
         }).then(dataa => {
             if(dataa.name != null) // if it is an operation
