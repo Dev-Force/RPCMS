@@ -1,4 +1,5 @@
 import Promise from 'bluebird';
+import bcrypt from 'bcrypt-nodejs';
 import mongoose from 'mongoose';
 import CRUDDaoGenerator from '../utils/dao/crud-dao-generator';
 
@@ -8,6 +9,10 @@ let CRUDDao = CRUDDaoGenerator(mongoose.model('User'));
 let User = mongoose.model('User');
 
 export default class UserDao extends CRUDDao {
+
+    _generateHash(password) {
+        return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
+    }
 
     getAll() {
         return super.getAll().then(result => {
@@ -34,7 +39,7 @@ export default class UserDao extends CRUDDao {
         data.operations = data.operations.map(o => mongoose.Types.ObjectId(o));
         
         let user = new User(data);
-        user.password = user.generateHash(data.password);
+        user.password = this._generateHash(data.password);
 
         return user.save();
     }
@@ -55,8 +60,11 @@ export default class UserDao extends CRUDDao {
         data.operations = data.operations.map(o => mongoose.Types.ObjectId(o));
 
         let user = new User(data);
-        if('password' in data && data.password !== "") user.password = user.generateHash(data.password);
-        else user.password = undefined; // Possible bug here
+        if('password' in data && data.password !== "") user.password = this._generateHash(data.password);
+        else Promise.reject({
+            message: "No password Specified"
+        });
+        // else user.password = undefined; // Possible bug here
 
         return User.findOneAndUpdate({ _id: id }, user, {'new': true}).exec().then(user => {
             if(user === null) return Promise.reject({

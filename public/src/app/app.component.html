@@ -1,8 +1,11 @@
 <div *ngIf="auth.isLoggedIn()" class="ui segment">
   <div class="ui secondary pointing menu container">
-    <a class="item" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-      Home
+    <a class="header item" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <img class="logo" src="assets/images/rpcms_logo_dark.png">
     </a>
+    <!--<a class="item" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">-->
+      <!--Home-->
+    <!--</a>-->
     <a *ngIf="auth.isLoggedInIp()" class="item" routerLink="/users" routerLinkActive="active">
       Users
     </a>
