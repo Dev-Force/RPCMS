@@ -154,8 +154,8 @@ export default class OperationDao extends CRUDDao {
             return this._userDao.getById(decoded_info.user_id);
         }).then(user => {
             user.operations.splice(user.operations.indexOf(mongoose.Types.ObjectId(retrievedOpId)), 1);
-            user.password = undefined;
-            return this._userDao.updateById(user._id, user);
+            // user.password = undefined;
+            return this._userDao.updateById(user._id, user, true);
         });
     }
 
@@ -176,8 +176,8 @@ export default class OperationDao extends CRUDDao {
             idArray.forEach(id => {
                 user.operations.splice(user.operations.indexOf(mongoose.Types.ObjectId(id)), 1);
             });
-            user.password = undefined;
-            return this._userDao.updateById(user._id, user);
+            // user.password = undefined;
+            return this._userDao.updateById(user._id, user, true);
         });
     }
 
