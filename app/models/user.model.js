@@ -14,7 +14,7 @@ let userSchema = new Schema({
     },
     admin: {
         type: Boolean,
-        required: true
+        default: false
     },
     operations: [{
         type: [Schema.Types.ObjectId],
